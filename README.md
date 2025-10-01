@@ -1,0 +1,1 @@
+This is the repository that contains all work from Fall 2025 onwards involving the development of a G4Beamline simulation and madX analysis of modeling wedge-based 4D final cooling channel devised as the baseline by the International Muon Collider Collaboration. The progress over 2025-2026 for this project is logged daily at: https://tinyurl.com/incisweeklyupdates.
