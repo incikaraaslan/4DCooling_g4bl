@@ -8,7 +8,7 @@ beamline: sequence, l=1;
 endsequence;
 
 ! Define muon + the beam
-BEAM, PARTICLE=POSMUON, ENERGY=64.219;  ! P0=64.219 MeV/c in G4BL
+BEAM, PARTICLE=POSMUON, ENERGY=64.219, EX=0.106E-6, EY=0.208E-6;;  ! P0=64.219 MeV/c in G4BL
 
 ! Tell MAD-X to use this lattice
 USE, SEQUENCE=beamline;
@@ -22,6 +22,6 @@ PTC_START, X=0, PX=0, Y=0, PY=0, T=0, PT=0;
 PTC_TRACK, FILE="g4bl2madx.dat", NPL=1000;
 
 ! Compute Twiss parameters from the particle distribution
-PTC_TWISS, FILE="madx_twiss.out";
+PTC_TWISS, FILE="madx_twissex.out";
 
 PTC_END;
