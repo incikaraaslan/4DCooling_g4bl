@@ -3,17 +3,17 @@ import pickle
 
 import pandas
 import scipy
-import winsound
+# import winsound
 
 import numpy as np
 from tqdm import tqdm
 
 
-def beep():
-    """Produces a pleasing beep"""
+"""def beep():
+    Produces a pleasing beep
     for x in range(3):
         winsound.Beep(2000 + 100 * x, 100)
-    winsound.Beep(2300, 700)
+    winsound.Beep(2300, 700)"""
 
 
 def run_scan(fun, var_axes, filename=None, trials=1, beep_on_done=True):
@@ -25,8 +25,8 @@ def run_scan(fun, var_axes, filename=None, trials=1, beep_on_done=True):
     if filename is not None:
         with open(filename, "wb+") as file:
             pickle.dump(results, file)
-    if beep_on_done:
-        beep()
+    """if beep_on_done:
+        beep()"""
     return results
 
 

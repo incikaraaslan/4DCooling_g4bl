@@ -1,0 +1,8 @@
+# z betax betay
+19.000000 1.756824e+01 1.515212e+01
+
+# Summary:
+betax_min 1.756824e+01
+betax_max 1.756824e+01
+betay_min 1.515212e+01
+betay_max 1.515212e+01

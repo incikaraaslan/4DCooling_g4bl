@@ -1,0 +1,34 @@
+! Define a minimal "dummy" lattice to test TWISS calculation
+qf: quadrupole, l=0.025, k1=0.1;
+
+beamline: sequence, l=1;
+  drift, l=0.01;
+  qf, at=0.45;
+  drift, l=0.45;
+endsequence;
+
+! Define muon + the beam
+BEAM, PARTICLE=POSMUON, ENERGY=64.218501;  ! P0=64.219 MeV/c in G4BL
+
+! Automatically generated SIGMA from G4BL
+USE, SEQUENCE=beamline;
+
+SIGMA = MATRIX(6,6, [2.927107670308e+00, 1.169927034674e-01, -1.858227449081e-02, -1.123220476552e-03, 1.422203564793e-01, 0, 
+1.169927034674e-01, 1.798355885117e-02, -8.607431557374e-04, -2.026605584427e-04, -3.747452472619e-03, 0, 
+-1.858227449081e-02, -8.607431557374e-04, 3.155179633938e+00, 1.194653395270e-01, 1.013580224962e-03, 0, 
+-1.123220476552e-03, -2.026605584427e-04, 1.194653395270e-01, 1.826868265771e-02, 2.659106800575e-04, 0, 
+1.422203564793e-01, -3.747452472619e-03, 1.013580224962e-03, 2.659106800575e-04, 1.920353246373e-02, 0, 
+0, 0, 0, 0, 0, 1e-12]);
+
+! Start PTC
+PTC_CREATE_UNIVERSE;
+PTC_CREATE_LAYOUT, MODEL=1, METHOD=6D, NST=1;
+PTC_START, X=0, PX=0, Y=0, PY=0, T=0, PT=0;
+
+! Import your particle distribution
+PTC_TRACK, FILE="g4bl2madx.dat", NPL=1000;
+
+! Compute Twiss parameters from the particle distribution
+PTC_TWISS, SIGMA=SIGMA, METHOD=6D, FILE="madx_twiss.out";
+
+PTC_END;
