@@ -8,7 +8,7 @@ beamline: sequence, l=1;
 endsequence;
 
 ! Define muon + the beam
-BEAM, PARTICLE=POSMUON, ENERGY=64.219, EX=0.106E-6, EY=0.208E-6;;  ! P0=64.219 MeV/c in G4BL
+BEAM, PARTICLE=POSMUON, ENERGY=64.219, EX=0.106E-6, EY=0.208E-6, SIGE=0.001;  ! P0=64.219 MeV/c in G4BL
 
 ! Tell MAD-X to use this lattice
 USE, SEQUENCE=beamline;
