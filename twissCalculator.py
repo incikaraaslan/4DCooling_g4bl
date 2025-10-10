@@ -137,12 +137,29 @@ def g4bl_to_madx_ptc(infile, outfile, P0=None):
     # Here we just use z/c ~ z, since MAD-X uses length units for t
     ct = np.zeros_like(z)  # simple choice, ignore longitudinal spread
 
-    # Stack columns into MAD-X format
-    madx_data = np.column_stack([x, px_madx, y, py_madx, ct, delta])
-
     # Save to file
-    header = "x[m] px[GeV/c] y[m] py[GeV/c] ct[m] pt[dp/p]"
-    np.savetxt(outfile, madx_data, header=header)
+    # Stack into MAD-X PTC format
+    madx_data = np.column_stack([x, px_madx, y, py_madx, ct, delta])
+    header = "x[m] px[GeV/c] y[m] py[GeV/c] ct[m] delta[dp/p]"
+    np.savetxt(outfile, madx_data, header=header, comments='')
+
+    # Compute reference particle coordinates (mean of distribution)
+    D_x = analyze_g4bl_trackfile(g4blfilename+".txt")["twiss_x"]["D"]
+    D_y = analyze_g4bl_trackfile(g4blfilename+".txt")["twiss_y"]["D"]
+    delta_ref = np.mean(delta[0])
+    x_ref = np.mean(x) + D_x * delta_ref
+    px_ref = np.mean(px_madx)
+    y_ref = np.mean(y) + D_y * delta_ref
+    py_ref = np.mean(py_madx)
+    ct_ref = np.mean(ct)
+
+    print(f"Converted {len(madx_data)} particles to '{outfile}', using P0={P0:.3f} MeV/c")
+    print("\nReference particle coordinates for PTC_START:")
+    print(f"X={x_ref:.6f} m, PX={px_ref:.6f} GeV/c")
+    print(f"Y={y_ref:.6f} m, PY={py_ref:.6f} GeV/c")
+    print(f"CT={ct_ref:.6f} m, PT={delta_ref:.6f}")
+    print(f"Delta_ref={delta_ref:.17f}, D_x={D_x:.6f}, D_y={D_y:.6f}")
+    # return x_ref, px_ref, y_ref, py_ref, ct_ref, delta_ref
 
     print(f"Converted {len(madx_data)} particles to {outfile}, using P0={P0:.3f} MeV/c")
     

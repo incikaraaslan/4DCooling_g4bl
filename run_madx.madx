@@ -16,10 +16,10 @@ USE, SEQUENCE=beamline;
 ! Start PTC
 PTC_CREATE_UNIVERSE;
 PTC_CREATE_LAYOUT, MODEL=1, METHOD=6, NST=1;
-PTC_START, X=0, PX=0, Y=0, PY=0, T=0, PT=0;
+PTC_START, X=0.000066, PX=-0.000288, Y=-0.000010, PY=-0.000048, T=0, PT=0;
 
 ! Import your particle distribution
-PTC_TRACK, FILE="g4bl2madx.dat", NPL=1000;
+PTC_TRACK, FILE="particles_after_2madx.dat", NPL=50000;
 
 ! Compute Twiss parameters from the particle distribution
 PTC_TWISS, FILE="madx_twissex.out";

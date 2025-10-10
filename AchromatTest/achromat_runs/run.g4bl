@@ -1,0 +1,57 @@
+# Simulates Dispersion Correction
+
+# Created by: I. Karaaslan
+# Updated: October 9, 2025
+
+# Made from D. Fu's g4bl template codes
+
+# PARAMETERS:
+
+######################### DEFINE PHYSICS MODEL
+  
+  param zbegin=0.0
+  start initialZ=$zbegin  y=0.000   x=0.00   z=0.00    radiusCut=300
+  param steppingFormat=N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
+  param fieldVoxels=400,400,400 
+  param maxStep=0.5
+
+  physics QGSP_BERT doStochastics=1 spinTracking=1 synchrotronRadiation=1 # disable=Decay
+
+  trackcuts keep=mu-,mu+
+
+  particlecolor proton=1,1,1 
+  particlecolor pi+=0,1,0 
+  particlecolor mu+=1,0.5,0   # orange
+  particlecolor e+=1,0,0      # red
+  particlecolor gamma=0,0,1   # blue
+  particlecolor e-=1,0.5,0    # orange
+  
+######################### DEFINE INPUT BEAM
+
+  param -unset nparticles=5000
+  param -unset beamfile=particles_before.txt
+  param -unset beamZ=0
+
+  beam ascii filename=$beamfile nEvents=$nparticles beamZ=$beamZ
+
+######################### DEFINE ELEMENTS
+
+# --- World visualization (optional)
+# box WorldVis width=100 height=100 length=1 material=Vacuum
+# place WorldVis z=0
+
+# --- First Dipole (bending magnet)
+multipole B1 fieldLength=200.0 apertureRadius=50 dipole=1.0 ironLength=200.0 ironRadius=60 ironMaterial=Fe ironColor=0,0,1
+place B1 z=100.0
+
+# --- Quadrupole between bends
+multipole Q1 fieldLength=230.0 apertureRadius=50 quadrupole=50 ironLength=230.0 ironRadius=60 ironMaterial=Fe ironColor=0,1,0
+place Q1 z=100.0+200.0+250.0
+
+# --- Second Dipole (opposite polarity for achromat)
+multipole B2 fieldLength=200.0 apertureRadius=50 dipole=1.0 ironLength=200.0 ironRadius=60 ironMaterial=Fe ironColor=0,0,1
+place B2 z=100.0+200.0+250.0+230.0+240.0
+
+# --- Detector (zntuple for x,xp,y,yp,delta) ---
+zntuple VD z=100.0+200.0+250.0+230.0+240.0+200.0+250.0 file=vd_achromat.txt
+
