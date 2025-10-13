@@ -4,7 +4,7 @@ G4ENSDFSTATEDATA=/home/incik/Geant4Data/G4ENSDFSTATE2.3
 G4PARTICLEXSDATA=/home/incik/Geant4Data/G4PARTICLEXS4.0
 G4LEVELGAMMADATA=/home/incik/Geant4Data/PhotonEvaporation5.7
 G4RADIOACTIVEDATA=/home/incik/Geant4Data/RadioactiveDecay5.6
-G4beamline Process ID 22173
+G4beamline Process ID 9223
 
 *************************************************************
  g4beamline version: 3.08                        (Aug 11 2022)
@@ -58,39 +58,44 @@ param        beamZ         0
 beam    ASCII   nEvents=5000 firstEvent=-1 lastEvent=2147483647 beamZ=0.0 maxR=1000000.0 renumber=0 weight=1.000000 
 		filename=particles_before.txt format=BLTrackFile 
 		
-box          WorldVis      height=100 width=100 length=1 maxStep=0.5
-                           material=Vacuum color=1,1,1 kill=0
-place   WorldVis copies=1 x=0.0 y=0.0 z=0.0 
-multipole    B1            fieldLength=200 ironLength=200 ironRadius=60
-                           apertureRadius=50 ironMaterial=Fe
-                           fieldMaterial=Vacuum dipole=1 quadrupole=0
-                           sextupole=0 octopole=0 decapole=0 dodecapole=0
-                           ironColor=0,0,1 kill=0 maxStep=0.5 fringe=
-                           fringeFactor=1 openAperture=0
-place   B1      copies=1 x=0.0 y=0.0 z=100.0 
-multipole    Q1            fieldLength=230 ironLength=230 ironRadius=60
-                           apertureRadius=50 ironMaterial=Fe
-                           fieldMaterial=Vacuum dipole=0 quadrupole=50
-                           sextupole=0 octopole=0 decapole=0 dodecapole=0
-                           ironColor=0,1,0 kill=0 maxStep=0.5 fringe=
-                           fringeFactor=1 openAperture=0
-place   Q1      copies=1 x=0.0 y=0.0 z=550.0 
-multipole    B2            fieldLength=200 ironLength=200 ironRadius=60
-                           apertureRadius=50 ironMaterial=Fe
-                           fieldMaterial=Vacuum dipole=1 quadrupole=0
-                           sextupole=0 octopole=0 decapole=0 dodecapole=0
-                           ironColor=0,0,1 kill=0 maxStep=0.5 fringe=
-                           fringeFactor=1 openAperture=0
-place   B2      copies=1 x=0.0 y=0.0 z=1020.0 
-zntuple                    z=100.0+200.0+250.0+230.0+240.0+200.0+250.0 zloop=
-                           noSingles=0 format= file=vd_achromat.txt
+genericbend  B1            fieldWidth=100 fieldHeight=100 fieldLength=30
+                           ironWidth=110 ironHeight=110 ironLength=30 By=1
+                           maxStep=0.5 fieldMaterial=Vacuum fieldColor=0,0,1
+                           ironMaterial=Fe ironColor=0.6,0.6,0.6 kill=0
+                           fringe= fringeFactor=1 openAperture=0
+place   B1      copies=1 x=0.0 y=0.0 z=50.0 
+box          Drift1        height=100 width=100 length=250 maxStep=0.5
+                           material=Vacuum color=0.6,0.6,0.6 kill=0
+place   Drift1  copies=1 x=0.0 y=0.0 z=190.1 
+genericquad  Q1            fieldLength=250 ironLength=250 ironRadius=20
+                           apertureRadius=10 poleTipRadius=0 coilRadius=0
+                           coilHalfwidth=0 coilHalfWidth=0 gradient=12
+                           maxStep=0.5 ironMaterial=Fe fieldMaterial=Vacuum
+                           ironColor=0.4,0.8,0.4 kill=0 fringe= fringeFactor=1
+                           openAperture=0
+place   Q1      copies=1 x=0.0 y=0.0 z=440.2 
+box          Drift2        height=100 width=100 length=250 maxStep=0.5
+                           material=Vacuum color=0.6,0.6,0.6 kill=0
+place   Drift2  copies=1 x=0.0 y=0.0 z=690.3 
+genericbend  B2            fieldWidth=100 fieldHeight=100 fieldLength=200
+                           ironWidth=110 ironHeight=110 ironLength=200 By=4
+                           maxStep=0.5 fieldMaterial=Vacuum fieldColor=0,0,1
+                           ironMaterial=Fe ironColor=0.6,0.6,0.6 kill=0
+                           fringe= fringeFactor=1 openAperture=0
+place   B2      copies=1 x=0.0 y=0.0 z=915.4 
+virtualdetector VD         radius=100 innerRadius=0 height=200 width=200
+                           length=1 maxStep=0.5 material= color=1,0,1
+                           noSingles=0 format= filename= file= require=
+                           referenceParticle=0 coordinates=Centerline kill=0
+place   VD      copies=1 x=0.0 y=0.0 z=1025.5 rename='VD'
+zntuple                    z= zloop= noSingles=0 format= file=vd_achromat.txt
                            filename=vd_achromat.txt require=
                            referenceParticle=0 coordinates=Centerline
 
-World size (before incrementing by 201.357 mm): 120.0 H  120.0 W  2240.0 L
+World size (before incrementing by 201.357 mm): 200.0 H  200.0 W  2052.0 L
 
 PARAMETERS:
-            Zcl=1120
+            Zcl=1026
           beamZ=0
        beamfile=particles_before.txt
      deltaChord=3.0
@@ -112,51 +117,30 @@ steppingVerbose=0
   worldMaterial=Vacuum
      zTolerance=2.0
          zbegin=0.0
-Checking overlaps for volume WorldVis:0 (G4Box) ... OK! 
-BLCMDbox::Construct WorldVis parent= relZ=0.0 globZ=0.0
-	zmin=-0.5 zmax=0.5
-**************************************************************************
-*** G4Exception: GeomVol1002
-***    severity: Warning
-***   issued by: G4PVPlacement::CheckOverlaps()
-*** description: Overlap with volume already placed !
-          Overlap is detected for volume B1:0 (G4Tubs) with WorldVis:0 (G4Box)
-          overlap at local point (42.6123,-27.8924,0) by 500 um  (max of 9 cases)
-NOTE: Reached maximum fixed number -1- of overlaps reports for this volume !
-**************************************************************************
-**************************************************************************
-*** G4Exception: GeomVol1002
-***    severity: Warning
-***   issued by: G4PVPlacement::CheckOverlaps()
-*** description: Overlap with volume already placed !
-          Overlap is detected for volume B1:0 (G4Tubs) with WorldVis:0 (G4Box)
-          overlap at local point (21.1389,-34.7604,0) by 500 um  (max of 101 cases)
-NOTE: Reached maximum fixed number -1- of overlaps reports for this volume !
-**************************************************************************
-BLCMDmultipole::Construct B1 parent= relZ=100.0 globZ=100.0
-Checking overlaps for volume B1:0 (G4Tubs) ... Checking overlaps for volume B1:0 (G4Tubs) ... Checking overlaps for volume Q1:0 (G4Tubs) ... OK! 
+Checking overlaps for volume B1:0 (G4Box) ... OK! 
+Checking overlaps for volume B1:0 (G4SubtractionSolid) ... OK! 
+BLCMDgenericbend::Construct B1 parent= relZ=50.0 globZ=50.0
+	zmin=35.0 zmax=65.0
+Checking overlaps for volume Drift1:0 (G4Box) ... OK! 
+BLCMDbox::Construct Drift1 parent= relZ=190.1 globZ=190.1
+	zmin=65.1 zmax=315.1
 Checking overlaps for volume Q1:0 (G4Tubs) ... OK! 
-BLCMDmultipole::Construct Q1 parent= relZ=550.0 globZ=550.0
-Checking overlaps for volume B2:0 (G4Tubs) ... OK! 
-Checking overlaps for volume B2:0 (G4Tubs) ... OK! 
-BLCMDmultipole::Construct B2 parent= relZ=1020.0 globZ=1020.0
+Checking overlaps for volume Q1:0 (G4Tubs) ... OK! 
+BLCMDgenericquad::Construct Q1 parent= relZ=440.2 globZ=440.2
+Checking overlaps for volume Drift2:0 (G4Box) ... OK! 
+BLCMDbox::Construct Drift2 parent= relZ=690.3 globZ=690.3
+	zmin=565.3 zmax=815.3
+Checking overlaps for volume B2:0 (G4Box) ... OK! 
+Checking overlaps for volume B2:0 (G4SubtractionSolid) ... OK! 
+BLCMDgenericbend::Construct B2 parent= relZ=915.4 globZ=915.4
+	zmin=815.4 zmax=1015.4
+Checking overlaps for volume VD:0 (G4Tubs) ... OK! 
+BLCMDvirtualdetector::Construct VD parent= relZ=1025.5 globZ=1025.5
 ### Adding tracking cuts for neutron  TimeCut(ns)= 10000  KinEnergyCut(MeV)= 0
 BLTrackFile: cannot open 'particles_before.txt' in mode 'r'
 Geometry test nPoints=100 tolerance=0.002 mm:
 Testing geometry for children of group 'World':
-**************************************************************************
-*** G4Exception: Geometry Error
-***    severity: Warning
-***   issued by: geometry
-*** description: box 'WorldVis' intersects multipole 'B1'
-**************************************************************************
-**************************************************************************
-*** G4Exception: Geometry Error
-***    severity: Warning
-***   issued by: geometry
-*** description: multipole 'B1' intersects box 'WorldVis'
-**************************************************************************
-Total geometry errors = 2  0 seconds
+Total geometry errors = 0  0 seconds
 
 ================== Prepare Visualization ==================
 Stochastic processes are enabled.
@@ -254,7 +238,5 @@ WARNING: User Vis Action "DrawMarkers" extent is null.
 Graphics systems deleted.
 Visualization Manager deleting...
 
-Exceptions: 0 Fatal, 0 Events Aborted, 0 Stuck Tracks (stopped), 4 Warnings
-      2 times: GeomVol1002
-      2 times: Geometry Error
+Exceptions: 0 Fatal, 0 Events Aborted, 0 Stuck Tracks (stopped), 0 Warnings
 g4beamline: simulation complete

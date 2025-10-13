@@ -36,22 +36,60 @@
 
 ######################### DEFINE ELEMENTS
 
-# --- World visualization (optional)
-# box WorldVis width=100 height=100 length=1 material=Vacuum
-# place WorldVis z=0
+#-------------------------------
+# MAGNETS (ACHROMAT SETUP)
+#-------------------------------
+# placeholders will be replaced by Python:
+# B1_field: {B1_field}, B1_width: {B1_width}, B1_height: {B1_height}, B1_length: {B1_length}, B1_z: {B1_z}, 
+# Q1_gradient: {Q1_gradient}, Q1_length: {Q1_length}, radius_q: {radius_q}
+# B2_field: {B2_field}, B2_width: {B2_width}, B2_height: {B2_height}, B2_length: {B2_length}
+# Drift1_width: {Drift1_width}, Drift1_height: {Drift1_height}, Drift1_length: {Drift1_length}, 
+# Drift2_width: {Drift2_width}, Drift2_height: {Drift2_height}, Drift2_length: {Drift2_length}
 
-# --- First Dipole (bending magnet)
-multipole B1 fieldLength={LB1} apertureRadius=50 dipole={B1} ironLength={LB1} ironRadius=60 ironMaterial=Fe ironColor=0,0,1
-place B1 z={Z1}
+# --- First dipole (B1)
+genericbend B1 \
+    By={B1_field} \
+    fieldWidth={B1_width} fieldHeight={B1_height} fieldLength={B1_length} \
+    ironWidth={B1_width}+10 ironHeight={B1_height}+10 ironLength={B1_length} \
+    maxStep=0.5 \
+    fieldMaterial=Vacuum fieldColor=0,0,1 \
+    ironMaterial=Fe ironColor=0.6,0.6,0.6
+place B1 z={B1_z}
 
-# --- Quadrupole between bends
-multipole Q1 fieldLength={LQ} apertureRadius=50 quadrupole={G1} ironLength={LQ} ironRadius=60 ironMaterial=Fe ironColor=0,1,0
-place Q1 z={Z1}+{LB1}+{L1}
+# --- Drift 1 between B1 and Q1
+box Drift1 width={Drift1_width} height={Drift1_height} length={Drift1_length} material=Vacuum color=0.6,0.6,0.6
+place Drift1 z={Drift1_z}
 
-# --- Second Dipole (opposite polarity for achromat)
-multipole B2 fieldLength={LB2} apertureRadius=50 dipole={B2} ironLength={LB2} ironRadius=60 ironMaterial=Fe ironColor=0,0,1
-place B2 z={Z1}+{LB1}+{L1}+{LQ}+{L2}
+# --- Quadrupole (Q1)
+genericquad Q1 \
+    gradient={Q1_gradient} \
+    fieldLength={Q1_length} \
+    ironLength={Q1_length} \
+    ironRadius={radius_q}+10 \
+    apertureRadius={radius_q} \
+    maxStep=0.5 \
+    ironMaterial=Fe fieldMaterial=Vacuum \
+    ironColor=0.4,0.8,0.4
 
-# --- Detector (zntuple for x,xp,y,yp,delta) ---
-zntuple VD z={Z1}+{LB1}+{L1}+{LQ}+{L2}+{LB2}+{L3} file={VD_FILENAME}
+place Q1 z={Q1_z}
 
+# --- Drift 2 between Q1 and B2
+box Drift2 width={Drift2_width} height={Drift2_height} length={Drift2_length} material=Vacuum color=0.6,0.6,0.6
+place Drift2 z={Drift2_z}
+
+# --- Second dipole (B2)
+genericbend B2 \
+    By={B2_field} \
+    fieldWidth={B2_width} fieldHeight={B2_height} fieldLength={B2_length} \
+    ironWidth={B2_width}+10 ironHeight={B2_height}+10 ironLength={B2_length} \
+    maxStep=0.5 \
+    fieldMaterial=Vacuum fieldColor=0,0,1 \
+    ironMaterial=Fe ironColor=0.6,0.6,0.6
+place B2 z={B2_z}
+
+#-------------------------------
+# DETECTOR
+#-------------------------------
+# virtualdetector VD radius=100 color=1,0,1
+# place VD  rename=VD
+zntuple VD z={VD_z} file={VD_FILENAME} format=ascii require=PDGid==-13  
