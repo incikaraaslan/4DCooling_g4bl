@@ -4,7 +4,7 @@ G4ENSDFSTATEDATA=/home/incik/Geant4Data/G4ENSDFSTATE2.3
 G4PARTICLEXSDATA=/home/incik/Geant4Data/G4PARTICLEXS4.0
 G4LEVELGAMMADATA=/home/incik/Geant4Data/PhotonEvaporation5.7
 G4RADIOACTIVEDATA=/home/incik/Geant4Data/RadioactiveDecay5.6
-G4beamline Process ID 12297
+G4beamline Process ID 4725
 
 *************************************************************
  g4beamline version: 3.08                        (Aug 11 2022)
@@ -26,7 +26,6 @@ G4beamline Process ID 12297
                              WWW : http://geant4.org/
 **************************************************************
 
-param        viewer        best,1
 geometry                   nPoints=100 printGeometry=0 visual=0
                            tolerance=0.002
 param        zbegin        0.0
@@ -58,42 +57,62 @@ param        beamZ         0
 beam    ASCII   nEvents=5000 firstEvent=-1 lastEvent=2147483647 beamZ=0.0 maxR=1000000.0 renumber=0 weight=1.000000 
 		filename=particles_before.txt format=BLTrackFile 
 		
-genericbend  B1            fieldWidth=63.37 fieldHeight=156.9 fieldLength=224
-                           ironWidth=73.37 ironHeight=166.9 ironLength=224
-                           By=-0.6719 maxStep=0.5 fieldMaterial=Vacuum
-                           fieldColor=0,0,1 ironMaterial=Fe
-                           ironColor=0.6,0.6,0.6 kill=0 fringe= fringeFactor=1
-                           openAperture=0
-place   B1      copies=1 x=0.0 y=0.0 z=63.4 
-box          Drift1        height=100.2 width=175.8 length=71.6 maxStep=0.5
+genericbend  B1            fieldWidth=123.9 fieldHeight=76.55
+                           fieldLength=184.6 ironWidth=133.9 ironHeight=86.55
+                           ironLength=184.6 By=-0.0157 maxStep=0.5
+                           fieldMaterial=Vacuum fieldColor=0,0,1
+                           ironMaterial=Fe ironColor=0.6,0.6,0.6 kill=0
+                           fringe= fringeFactor=1 openAperture=0
+place   B1      copies=1 x=0.0 y=0.0 z=84.8 
+zntuple                    z=177.1076 zloop= noSingles=0 format=ascii
+                           file=vd_B1_achromat.txt filename=vd_B1_achromat.txt
+                           require=PDGid==-13 referenceParticle=0
+                           coordinates=Centerline
+box          Drift1        height=166.1 width=181.7 length=157.8 maxStep=0.5
                            material=Vacuum color=0.6,0.6,0.6 kill=0
-place   Drift1  copies=1 x=0.0 y=0.0 z=211.3 
-genericquad  Q1            fieldLength=156.1 ironLength=156.1 ironRadius=24.63
-                           apertureRadius=14.63 poleTipRadius=0 coilRadius=0
-                           coilHalfwidth=0 coilHalfWidth=0 gradient=-91.11
+place   Drift1  copies=1 x=0.0 y=0.0 z=256.1 
+zntuple                    z=335.02300000000005 zloop= noSingles=0
+                           format=ascii file=vd_D1_achromat.txt
+                           filename=vd_D1_achromat.txt require=PDGid==-13
+                           referenceParticle=0 coordinates=Centerline
+genericquad  Q1            fieldLength=244.3 ironLength=244.3 ironRadius=28.18
+                           apertureRadius=18.18 poleTipRadius=0 coilRadius=0
+                           coilHalfwidth=0 coilHalfWidth=0 gradient=-2.707
                            maxStep=0.5 ironMaterial=Fe fieldMaterial=Vacuum
                            ironColor=0.4,0.8,0.4 kill=0 fringe= fringeFactor=1
                            openAperture=0
-place   Q1      copies=1 x=0.0 y=0.0 z=325.3 
-box          Drift2        height=73.14 width=76.02 length=725.6 maxStep=0.5
+place   Q1      copies=1 x=0.0 y=0.0 z=457.3 
+zntuple                    z=579.43190000000004 zloop= noSingles=0
+                           format=ascii file=vd_Q1_achromat.txt
+                           filename=vd_Q1_achromat.txt require=PDGid==-13
+                           referenceParticle=0 coordinates=Centerline
+box          Drift2        height=133.2 width=182 length=468.2 maxStep=0.5
                            material=Vacuum color=0.6,0.6,0.6 kill=0
-place   Drift2  copies=1 x=0.0 y=0.0 z=766.2 
-genericbend  B2            fieldWidth=109.7 fieldHeight=197.3 fieldLength=274
-                           ironWidth=119.7 ironHeight=207.3 ironLength=274
-                           By=-1.41 maxStep=0.5 fieldMaterial=Vacuum
+place   Drift2  copies=1 x=0.0 y=0.0 z=813.6 
+zntuple                    z=1047.7322 zloop= noSingles=0 format=ascii
+                           file=vd_D2_achromat.txt filename=vd_D2_achromat.txt
+                           require=PDGid==-13 referenceParticle=0
+                           coordinates=Centerline
+genericbend  B2            fieldWidth=158.2 fieldHeight=57.54 fieldLength=359
+                           ironWidth=168.2 ironHeight=67.54 ironLength=359
+                           By=-1.422 maxStep=0.5 fieldMaterial=Vacuum
                            fieldColor=0,0,1 ironMaterial=Fe
                            ironColor=0.6,0.6,0.6 kill=0 fringe= fringeFactor=1
                            openAperture=0
-place   B2      copies=1 x=0.0 y=0.0 z=1266.1 
-zntuple                    z=1413.2069499999998 zloop= noSingles=0
-                           format=ascii file=vd_achromat.txt
-                           filename=vd_achromat.txt require=PDGid==-13
+place   B2      copies=1 x=0.0 y=0.0 z=1227.3 
+zntuple                    z=1406.8604000000002 zloop= noSingles=0
+                           format=ascii file=vd_B2_achromat.txt
+                           filename=vd_B2_achromat.txt require=PDGid==-13
+                           referenceParticle=0 coordinates=Centerline
+zntuple                    z=1416.9604000000002 zloop= noSingles=0
+                           format=ascii file=vd_last_achromat.txt
+                           filename=vd_last_achromat.txt require=PDGid==-13
                            referenceParticle=0 coordinates=Centerline
 
-World size (before incrementing by 201.357 mm): 207.3 H  175.8 W  2806.2 L
+World size (before incrementing by 201.357 mm): 166.1 H  182.0 W  2813.7 L
 
 PARAMETERS:
-            Zcl=1403.11
+            Zcl=1406.86
           beamZ=0
        beamfile=particles_before.txt
      deltaChord=3.0
@@ -110,131 +129,88 @@ deltaIntersection=0.1
      nparticles=5000
  steppingFormat=N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
 steppingVerbose=0
-         viewer=best,1
+         viewer=none
  wallClockLimit=-1
   worldMaterial=Vacuum
      zTolerance=2.0
          zbegin=0.0
 Checking overlaps for volume B1:0 (G4Box) ... OK! 
 Checking overlaps for volume B1:0 (G4SubtractionSolid) ... OK! 
-BLCMDgenericbend::Construct B1 parent= relZ=63.4 globZ=63.4
-	zmin=-48.6 zmax=175.4
+BLCMDgenericbend::Construct B1 parent= relZ=84.8 globZ=84.8
+	zmin=-7.5 zmax=177.1
 Checking overlaps for volume Drift1:0 (G4Box) ... OK! 
-BLCMDbox::Construct Drift1 parent= relZ=211.3 globZ=211.3
-	zmin=175.5 zmax=247.1
+BLCMDbox::Construct Drift1 parent= relZ=256.1 globZ=256.1
+	zmin=177.2 zmax=335.0
 Checking overlaps for volume Q1:0 (G4Tubs) ... OK! 
 Checking overlaps for volume Q1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct Q1 parent= relZ=325.3 globZ=325.3
+BLCMDgenericquad::Construct Q1 parent= relZ=457.3 globZ=457.3
 Checking overlaps for volume Drift2:0 (G4Box) ... OK! 
-BLCMDbox::Construct Drift2 parent= relZ=766.2 globZ=766.2
-	zmin=403.4 zmax=1129.0
+BLCMDbox::Construct Drift2 parent= relZ=813.6 globZ=813.6
+	zmin=579.5 zmax=1047.7
 Checking overlaps for volume B2:0 (G4Box) ... OK! 
 Checking overlaps for volume B2:0 (G4SubtractionSolid) ... OK! 
-BLCMDgenericbend::Construct B2 parent= relZ=1266.1 globZ=1266.1
-	zmin=1129.1 zmax=1403.1
+BLCMDgenericbend::Construct B2 parent= relZ=1227.3 globZ=1227.3
+	zmin=1047.8 zmax=1406.9
 ### Adding tracking cuts for neutron  TimeCut(ns)= 10000  KinEnergyCut(MeV)= 0
 
 Geometry test nPoints=100 tolerance=0.002 mm:
 Testing geometry for children of group 'World':
 Total geometry errors = 0  0 seconds
 
-================== Prepare Visualization ==================
+================== Prepare Tracking Beam ==================
 Stochastic processes are enabled.
-Available UI session types: [ Qt, tcsh, csh ]
-QStandardPaths: wrong permissions on runtime directory /mnt/wslg/runtime-dir, 0777 instead of 0700
-Visualization Manager instantiating with verbosity "warnings (3)"...
-Visualization Manager initialising...
-Registering graphics systems...
+================== Begin Tracking Beam ===============
+**************************************************************************
+*** G4Exception: EM Field Extends Outside World
+***    severity: Warning
+***   issued by: BLGlobalField
+*** description: May give inaccurate tracking near world boundary.
+***     EventID: 1     TrackID: 1   mu+  KE=26.67 MeV
+**************************************************************************
+fieldVoxels: nx=1 ny=1 nz=5, 5 voxels, 3 fields
+fieldVoxels: max field count is 2 fields, # voxels >5: 0, >10: 0, >20: 0
+Event 1 Completed  1 events  realTime=1 sec  1.0 ev/sec
+Event 2 Completed  2 events  realTime=1 sec  2.0 ev/sec
+Event 3 Completed  3 events  realTime=1 sec  3.0 ev/sec
+Event 4 Completed  4 events  realTime=1 sec  4.0 ev/sec
+Event 5 Completed  5 events  realTime=1 sec  5.0 ev/sec
+Event 6 Completed  6 events  realTime=1 sec  6.0 ev/sec
+Event 7 Completed  7 events  realTime=1 sec  7.0 ev/sec
+Event 8 Completed  8 events  realTime=1 sec  8.0 ev/sec
+Event 9 Completed  9 events  realTime=1 sec  9.0 ev/sec
+Event 10 Completed  10 events  realTime=1 sec  10.0 ev/sec
+Event 20 Completed  20 events  realTime=1 sec  20.0 ev/sec
+Event 30 Completed  30 events  realTime=1 sec  30.0 ev/sec
+Event 40 Completed  40 events  realTime=1 sec  40.0 ev/sec
+Event 50 Completed  50 events  realTime=1 sec  50.0 ev/sec
+Event 60 Completed  60 events  realTime=1 sec  60.0 ev/sec
+Event 70 Completed  70 events  realTime=1 sec  70.0 ev/sec
+Event 80 Completed  80 events  realTime=1 sec  80.0 ev/sec
+Event 90 Completed  90 events  realTime=1 sec  90.0 ev/sec
+Event 100 Completed  100 events  realTime=1 sec  100.0 ev/sec
+Event 200 Completed  200 events  realTime=1 sec  200.0 ev/sec
+Event 300 Completed  300 events  realTime=1 sec  300.0 ev/sec
+Event 400 Completed  400 events  realTime=1 sec  400.0 ev/sec
+Event 500 Completed  500 events  realTime=1 sec  500.0 ev/sec
+Event 600 Completed  600 events  realTime=1 sec  600.0 ev/sec
+Event 700 Completed  700 events  realTime=2 sec  350.0 ev/sec
+Event 800 Completed  800 events  realTime=2 sec  400.0 ev/sec
+Event 900 Completed  900 events  realTime=2 sec  450.0 ev/sec
+Event 1000 Completed  1000 events  realTime=3 sec  333.3 ev/sec
+Event 2000 Completed  2000 events  realTime=5 sec  400.0 ev/sec
+Event 3000 Completed  3000 events  realTime=8 sec  375.0 ev/sec
+Event 4000 Completed  4000 events  realTime=11 sec  363.6 ev/sec
+Event 5000 Completed  5000 events  realTime=14 sec  357.1 ev/sec
+Run complete  5000 Events  14 seconds
+NTuple Z177                4923 entries
+NTuple Z335                4921 entries
+NTuple Z579                3769 entries
+NTuple Z1048               3124 entries
+NTuple Z1407               1809 entries
+NTuple Z1417               1782 entries
 
-You have successfully registered the following graphics systems.
-Registered graphics systems are:
-  ASCIITree (ATree)
-  DAWNFILE (DAWNFILE)
-  G4HepRepFile (HepRepFile)
-  RayTracer (RayTracer)
-  VRML2FILE (VRML2FILE)
-  gMocrenFile (gMocrenFile)
-  OpenGLImmediateQt (OGLIQt, OGLI)
-  OpenGLStoredQt (OGLSQt, OGL, OGLS)
-  OpenGLImmediateX (OGLIX, OGLIQt_FALLBACK)
-  OpenGLStoredX (OGLSX, OGLSQt_FALLBACK)
-  RayTracerX (RayTracerX)
-
-Registering model factories...
-
-You have successfully registered the following model factories.
-Registered model factories:
-  generic
-  drawByAttribute
-  drawByCharge
-  drawByOriginVolume
-  drawByParticleID
-  drawByEncounteredVolume
-
-Registered models:
-  None
-
-Registered filter factories:
-  attributeFilter
-  chargeFilter
-  originVolumeFilter
-  particleFilter
-  encounteredVolumeFilter
-
-Registered filters:
-  None
-
-You have successfully registered the following user vis actions.
-Run Duration User Vis Actions: none
-End of Event User Vis Actions: none
-End of Run User Vis Actions: none
-
-Some /vis commands (optionally) take a string to specify colour.
-"/vis/list" to see available colours.
-
-Selected visualization viewer: Qt
-BLVisManager init: /vis/open OGLSQt
-BLVisManager init: /vis/viewer/set/auxiliaryEdge true
-BLVisManager init: /vis/viewer/set/style surface
-BLVisManager init: /vis/viewer/set/viewpointThetaPhi 0 0 deg
-BLVisManager init: /vis/drawVolume
-BLVisManager init: /tracking/storeTrajectory 1
-BLVisManager init: /vis/scene/add/trajectories
-/tracking/storeTrajectory 1
-Attributes available for modeling and filtering with
-  "/vis/modeling/trajectories/create/drawByAttribute" and
-  "/vis/filtering/trajectories/create/attributeFilter" commands:
-G4TrajectoriesModel:
-  Event ID (EventID): G4int
-  Run ID (RunID): G4int
-G4Trajectory:
-  Charge (Ch): unit: e+ (G4double)
-  Track ID (ID): G4int
-  Initial kinetic energy (IKE): G4BestUnit (G4double)
-  Initial momentum magnitude (IMag): G4BestUnit (G4double)
-  Initial momentum (IMom): G4BestUnit (G4ThreeVector)
-  No. of points (NTP): G4int
-  PDG Encoding (PDG): G4int
-  Parent ID (PID): G4int
-  Particle Name (PN): G4String
-G4TrajectoryPoint:
-  Position (Pos): G4BestUnit (G4ThreeVector)
-WARNING: Trajectory storing has been requested.  This action may be
-  reversed with "/tracking/storeTrajectory 0".
-BLVisManager init: /vis/scene/endOfEventAction accumulate -1
-WARNING: The vis manager will keep an unlimited number of events.
-  This may use a lot of memory.
-  It may be changed with, e.g., "/vis/scene/endOfEventAction accumulate 10".
-BLVisManager init: /vis/viewer/set/hiddenMarker true
-
-WARNING: No extent set for user vis action "DrawMarkers".
-WARNING: User Vis Action "DrawMarkers" extent is null.
- Changing export format to "jpg"
-WARNING: Viewpoint direction is very close to the up vector direction.
-  Change the up vector or "/vis/viewer/set/rotationStyle freeRotation".
-
-Graphics systems deleted.
-Visualization Manager deleting...
-
-Exceptions: 0 Fatal, 0 Events Aborted, 0 Stuck Tracks (stopped), 0 Warnings
+Exceptions: 0 Fatal, 0 Events Aborted, 0 Stuck Tracks (stopped), 1 Warnings
+      1 times: EM Field Extends Outside World
 g4beamline: simulation complete
+SynRad:  Incoherent Synchrotron Radiation
+Good description for long magnets at all energies.

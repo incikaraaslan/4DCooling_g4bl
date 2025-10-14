@@ -68,7 +68,7 @@ def read_tfs(filepath):
     return df
 
 # Example usage (use your real path here)
-twiss = read_tfs("./RyanMichaud_Work/whole.tfs")   # <-- adjust path to your file
+twiss = read_tfs("./RyanMichaud_Work/whole.tfs")  
 
 # Check columns and datatypes
 print(twiss.columns.tolist())
