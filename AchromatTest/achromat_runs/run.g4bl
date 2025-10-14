@@ -40,56 +40,56 @@
 # MAGNETS (ACHROMAT SETUP)
 #-------------------------------
 # placeholders will be replaced by Python:
-# B1_field: 0.9946541334314309, B1_width: 60.09738555836451, B1_height: 71.73460198336878, B1_length: 328.6610953057458, B1_z: 168.11684539404376, 
-# Q1_gradient: -45.27354087689449, Q1_length: 229.59189664648477, radius_q: 18.700217282323514
-# B2_field: -1.5831969791972407, B2_width: 103.32152819141322, B2_height: 62.89909222275396, B2_length: 205.96337660643917
-# Drift1_width: 170.10588703821304, Drift1_height: 138.42020507015326, Drift1_length: 176.98877503895977, 
-# Drift2_width: 133.34831841814108, Drift2_height: 149.15699288223385, Drift2_length: 509.3117636895202
+# B1_field: 0.7949665005429378, B1_width: 91.07654833074021, B1_height: 99.10910108760025, B1_length: 121.59124817946491, B1_z: 129.8239860454593, 
+# Q1_gradient: -85.21706622090632, Q1_length: 372.24302381159634, radius_q: 21.58077804997516
+# B2_field: -0.7082859251522999, B2_width: 176.1814333012832, B2_height: 85.89845466616691, B2_length: 258.19972394083106
+# Drift1_width: 174.02335117279, Drift1_height: 96.06341081489005, Drift1_length: 343.03943393441875, 
+# Drift2_width: 183.00550180314914, Drift2_height: 152.02779495166544, Drift2_length: 455.73156251069724
 
 # --- First dipole (B1)
 genericbend B1 \
-    By=0.9946541334314309 \
-    fieldWidth=60.09738555836451 fieldHeight=71.73460198336878 fieldLength=328.6610953057458 \
-    ironWidth=60.09738555836451+10 ironHeight=71.73460198336878+10 ironLength=328.6610953057458 \
+    By=0.7949665005429378 \
+    fieldWidth=91.07654833074021 fieldHeight=99.10910108760025 fieldLength=121.59124817946491 \
+    ironWidth=91.07654833074021+10 ironHeight=99.10910108760025+10 ironLength=121.59124817946491 \
     maxStep=0.5 \
     fieldMaterial=Vacuum fieldColor=0,0,1 \
     ironMaterial=Fe ironColor=0.6,0.6,0.6
-place B1 z=168.11684539404376
+place B1 z=129.8239860454593
 
 # --- Drift 1 between B1 and Q1
-box Drift1 width=170.10588703821304 height=138.42020507015326 length=176.98877503895977 material=Vacuum color=0.6,0.6,0.6
-place Drift1 z=421.0417805663966
+box Drift1 width=174.02335117279 height=96.06341081489005 length=343.03943393441875 material=Vacuum color=0.6,0.6,0.6
+place Drift1 z=362.23932710240115
 
 # --- Quadrupole (Q1)
 genericquad Q1 \
-    gradient=-45.27354087689449 \
-    fieldLength=229.59189664648477 \
-    ironLength=229.59189664648477 \
-    ironRadius=18.700217282323514+10 \
-    apertureRadius=18.700217282323514 \
+    gradient=-85.21706622090632 \
+    fieldLength=372.24302381159634 \
+    ironLength=372.24302381159634 \
+    ironRadius=21.58077804997516+10 \
+    apertureRadius=21.58077804997516 \
     maxStep=0.5 \
     ironMaterial=Fe fieldMaterial=Vacuum \
     ironColor=0.4,0.8,0.4
 
-place Q1 z=624.432116409119
+place Q1 z=719.9805559754087
 
 # --- Drift 2 between Q1 and B2
-box Drift2 width=133.34831841814108 height=149.15699288223385 length=509.3117636895202 material=Vacuum color=0.6,0.6,0.6
-place Drift2 z=993.9839465771215
+box Drift2 width=183.00550180314914 height=152.02779495166544 length=455.73156251069724 material=Vacuum color=0.6,0.6,0.6
+place Drift2 z=1134.0678491365554
 
 # --- Second dipole (B2)
 genericbend B2 \
-    By=-1.5831969791972407 \
-    fieldWidth=103.32152819141322 fieldHeight=62.89909222275396 fieldLength=205.96337660643917 \
-    ironWidth=103.32152819141322+10 ironHeight=62.89909222275396+10 ironLength=205.96337660643917 \
+    By=-0.7082859251522999 \
+    fieldWidth=176.1814333012832 fieldHeight=85.89845466616691 fieldLength=258.19972394083106 \
+    ironWidth=176.1814333012832+10 ironHeight=85.89845466616691+10 ironLength=258.19972394083106 \
     maxStep=0.5 \
     fieldMaterial=Vacuum fieldColor=0,0,1 \
     ironMaterial=Fe ironColor=0.6,0.6,0.6
-place B2 z=1351.721516725101
+place B2 z=1491.1334923623194
 
 #-------------------------------
 # DETECTOR
 #-------------------------------
 # virtualdetector VD radius=100 color=1,0,1
 # place VD  rename=VD
-zntuple VD z=1464.8032050283205 file=vd_achromat.txt format=ascii require=PDGid==-13  
+zntuple VD z=1630.3333543327349 file=vd_achromat.txt format=ascii require=PDGid==-13  

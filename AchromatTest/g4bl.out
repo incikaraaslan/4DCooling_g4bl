@@ -1,0 +1,240 @@
+G4BL_DIR=/home/incik/G4beamline-3.08
+G4LEDATA=/home/incik/Geant4Data/G4EMLOW8.0
+G4ENSDFSTATEDATA=/home/incik/Geant4Data/G4ENSDFSTATE2.3
+G4PARTICLEXSDATA=/home/incik/Geant4Data/G4PARTICLEXS4.0
+G4LEVELGAMMADATA=/home/incik/Geant4Data/PhotonEvaporation5.7
+G4RADIOACTIVEDATA=/home/incik/Geant4Data/RadioactiveDecay5.6
+G4beamline Process ID 12297
+
+*************************************************************
+ g4beamline version: 3.08                        (Aug 11 2022)
+                      Copyright : Tom Roberts, Muons, Inc.
+                        License : Gnu Public License
+                            WWW : http://g4beamline.muonsinc.com
+
+          ################################
+          !!! G4Backtrace is activated !!!
+          ################################
+
+
+**************************************************************
+ Geant4 version Name: geant4-11-00-patch-02 [MT]   (25-May-2022)
+                       Copyright : Geant4 Collaboration
+                      References : NIM A 506 (2003), 250-303
+                                 : IEEE-TNS 53 (2006), 270-278
+                                 : NIM A 835 (2016), 186-225
+                             WWW : http://geant4.org/
+**************************************************************
+
+param        viewer        best,1
+geometry                   nPoints=100 printGeometry=0 visual=0
+                           tolerance=0.002
+param        zbegin        0.0
+start                      x=0 y=0 z=0 initialZ=0 rotation= radiusCut=300
+                           ring=0
+param        steppingFormat N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
+param        fieldVoxels   400,400,400
+param        maxStep       0.5
+G4PhysListFactory::GetReferencePhysList <QGSP_BERT>  EMoption= 0
+<<< Geant4 Physics List simulation engine: QGSP_BERT
+
+
+physics      QGSP_BERT     disable= inactivate= deactivate= doStochastics=1
+                           fluct=1 minRangeCut=1 list=0 gammaToMuPair=0
+                           spinTracking=1 synchrotronRadiation=1
+                           synchrotronRadiationMuon=0 maxTime=1e+06
+trackcuts                  kill= keep=mu-,mu+ killSecondaries=0
+                           kineticEnergyCut=0 kineticEnergyMax=1.798e+308
+                           maxTime=1e+06 keepPrimaries=0 steppingVerbose=0
+particlecolor              proton=1,1,1
+particlecolor              pi+=0,1,0
+particlecolor              mu+=1,0.5,0
+particlecolor              e+=1,0,0
+particlecolor              gamma=0,0,1
+particlecolor              e-=1,0.5,0
+param        nparticles    5000
+param        beamfile      particles_before.txt
+param        beamZ         0
+beam    ASCII   nEvents=5000 firstEvent=-1 lastEvent=2147483647 beamZ=0.0 maxR=1000000.0 renumber=0 weight=1.000000 
+		filename=particles_before.txt format=BLTrackFile 
+		
+genericbend  B1            fieldWidth=63.37 fieldHeight=156.9 fieldLength=224
+                           ironWidth=73.37 ironHeight=166.9 ironLength=224
+                           By=-0.6719 maxStep=0.5 fieldMaterial=Vacuum
+                           fieldColor=0,0,1 ironMaterial=Fe
+                           ironColor=0.6,0.6,0.6 kill=0 fringe= fringeFactor=1
+                           openAperture=0
+place   B1      copies=1 x=0.0 y=0.0 z=63.4 
+box          Drift1        height=100.2 width=175.8 length=71.6 maxStep=0.5
+                           material=Vacuum color=0.6,0.6,0.6 kill=0
+place   Drift1  copies=1 x=0.0 y=0.0 z=211.3 
+genericquad  Q1            fieldLength=156.1 ironLength=156.1 ironRadius=24.63
+                           apertureRadius=14.63 poleTipRadius=0 coilRadius=0
+                           coilHalfwidth=0 coilHalfWidth=0 gradient=-91.11
+                           maxStep=0.5 ironMaterial=Fe fieldMaterial=Vacuum
+                           ironColor=0.4,0.8,0.4 kill=0 fringe= fringeFactor=1
+                           openAperture=0
+place   Q1      copies=1 x=0.0 y=0.0 z=325.3 
+box          Drift2        height=73.14 width=76.02 length=725.6 maxStep=0.5
+                           material=Vacuum color=0.6,0.6,0.6 kill=0
+place   Drift2  copies=1 x=0.0 y=0.0 z=766.2 
+genericbend  B2            fieldWidth=109.7 fieldHeight=197.3 fieldLength=274
+                           ironWidth=119.7 ironHeight=207.3 ironLength=274
+                           By=-1.41 maxStep=0.5 fieldMaterial=Vacuum
+                           fieldColor=0,0,1 ironMaterial=Fe
+                           ironColor=0.6,0.6,0.6 kill=0 fringe= fringeFactor=1
+                           openAperture=0
+place   B2      copies=1 x=0.0 y=0.0 z=1266.1 
+zntuple                    z=1413.2069499999998 zloop= noSingles=0
+                           format=ascii file=vd_achromat.txt
+                           filename=vd_achromat.txt require=PDGid==-13
+                           referenceParticle=0 coordinates=Centerline
+
+World size (before incrementing by 201.357 mm): 207.3 H  175.8 W  2806.2 L
+
+PARAMETERS:
+            Zcl=1403.11
+          beamZ=0
+       beamfile=particles_before.txt
+     deltaChord=3.0
+deltaIntersection=0.1
+   deltaOneStep=0.01
+         epsMax=0.05
+         epsMin=2.5e-7
+ eventTimeLimit=30
+    fieldVoxels=400,400,400
+      histoFile=g4beamline
+    histoUpdate=0
+        maxStep=0.5
+        minStep=0.01
+     nparticles=5000
+ steppingFormat=N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
+steppingVerbose=0
+         viewer=best,1
+ wallClockLimit=-1
+  worldMaterial=Vacuum
+     zTolerance=2.0
+         zbegin=0.0
+Checking overlaps for volume B1:0 (G4Box) ... OK! 
+Checking overlaps for volume B1:0 (G4SubtractionSolid) ... OK! 
+BLCMDgenericbend::Construct B1 parent= relZ=63.4 globZ=63.4
+	zmin=-48.6 zmax=175.4
+Checking overlaps for volume Drift1:0 (G4Box) ... OK! 
+BLCMDbox::Construct Drift1 parent= relZ=211.3 globZ=211.3
+	zmin=175.5 zmax=247.1
+Checking overlaps for volume Q1:0 (G4Tubs) ... OK! 
+Checking overlaps for volume Q1:0 (G4Tubs) ... OK! 
+BLCMDgenericquad::Construct Q1 parent= relZ=325.3 globZ=325.3
+Checking overlaps for volume Drift2:0 (G4Box) ... OK! 
+BLCMDbox::Construct Drift2 parent= relZ=766.2 globZ=766.2
+	zmin=403.4 zmax=1129.0
+Checking overlaps for volume B2:0 (G4Box) ... OK! 
+Checking overlaps for volume B2:0 (G4SubtractionSolid) ... OK! 
+BLCMDgenericbend::Construct B2 parent= relZ=1266.1 globZ=1266.1
+	zmin=1129.1 zmax=1403.1
+### Adding tracking cuts for neutron  TimeCut(ns)= 10000  KinEnergyCut(MeV)= 0
+
+Geometry test nPoints=100 tolerance=0.002 mm:
+Testing geometry for children of group 'World':
+Total geometry errors = 0  0 seconds
+
+================== Prepare Visualization ==================
+Stochastic processes are enabled.
+Available UI session types: [ Qt, tcsh, csh ]
+QStandardPaths: wrong permissions on runtime directory /mnt/wslg/runtime-dir, 0777 instead of 0700
+Visualization Manager instantiating with verbosity "warnings (3)"...
+Visualization Manager initialising...
+Registering graphics systems...
+
+You have successfully registered the following graphics systems.
+Registered graphics systems are:
+  ASCIITree (ATree)
+  DAWNFILE (DAWNFILE)
+  G4HepRepFile (HepRepFile)
+  RayTracer (RayTracer)
+  VRML2FILE (VRML2FILE)
+  gMocrenFile (gMocrenFile)
+  OpenGLImmediateQt (OGLIQt, OGLI)
+  OpenGLStoredQt (OGLSQt, OGL, OGLS)
+  OpenGLImmediateX (OGLIX, OGLIQt_FALLBACK)
+  OpenGLStoredX (OGLSX, OGLSQt_FALLBACK)
+  RayTracerX (RayTracerX)
+
+Registering model factories...
+
+You have successfully registered the following model factories.
+Registered model factories:
+  generic
+  drawByAttribute
+  drawByCharge
+  drawByOriginVolume
+  drawByParticleID
+  drawByEncounteredVolume
+
+Registered models:
+  None
+
+Registered filter factories:
+  attributeFilter
+  chargeFilter
+  originVolumeFilter
+  particleFilter
+  encounteredVolumeFilter
+
+Registered filters:
+  None
+
+You have successfully registered the following user vis actions.
+Run Duration User Vis Actions: none
+End of Event User Vis Actions: none
+End of Run User Vis Actions: none
+
+Some /vis commands (optionally) take a string to specify colour.
+"/vis/list" to see available colours.
+
+Selected visualization viewer: Qt
+BLVisManager init: /vis/open OGLSQt
+BLVisManager init: /vis/viewer/set/auxiliaryEdge true
+BLVisManager init: /vis/viewer/set/style surface
+BLVisManager init: /vis/viewer/set/viewpointThetaPhi 0 0 deg
+BLVisManager init: /vis/drawVolume
+BLVisManager init: /tracking/storeTrajectory 1
+BLVisManager init: /vis/scene/add/trajectories
+/tracking/storeTrajectory 1
+Attributes available for modeling and filtering with
+  "/vis/modeling/trajectories/create/drawByAttribute" and
+  "/vis/filtering/trajectories/create/attributeFilter" commands:
+G4TrajectoriesModel:
+  Event ID (EventID): G4int
+  Run ID (RunID): G4int
+G4Trajectory:
+  Charge (Ch): unit: e+ (G4double)
+  Track ID (ID): G4int
+  Initial kinetic energy (IKE): G4BestUnit (G4double)
+  Initial momentum magnitude (IMag): G4BestUnit (G4double)
+  Initial momentum (IMom): G4BestUnit (G4ThreeVector)
+  No. of points (NTP): G4int
+  PDG Encoding (PDG): G4int
+  Parent ID (PID): G4int
+  Particle Name (PN): G4String
+G4TrajectoryPoint:
+  Position (Pos): G4BestUnit (G4ThreeVector)
+WARNING: Trajectory storing has been requested.  This action may be
+  reversed with "/tracking/storeTrajectory 0".
+BLVisManager init: /vis/scene/endOfEventAction accumulate -1
+WARNING: The vis manager will keep an unlimited number of events.
+  This may use a lot of memory.
+  It may be changed with, e.g., "/vis/scene/endOfEventAction accumulate 10".
+BLVisManager init: /vis/viewer/set/hiddenMarker true
+
+WARNING: No extent set for user vis action "DrawMarkers".
+WARNING: User Vis Action "DrawMarkers" extent is null.
+ Changing export format to "jpg"
+WARNING: Viewpoint direction is very close to the up vector direction.
+  Change the up vector or "/vis/viewer/set/rotationStyle freeRotation".
+
+Graphics systems deleted.
+Visualization Manager deleting...
+
+Exceptions: 0 Fatal, 0 Events Aborted, 0 Stuck Tracks (stopped), 0 Warnings
+g4beamline: simulation complete
