@@ -78,6 +78,21 @@ opt_bounds = [
 # BASIC FILE UTILITIES
 # ------------------------------------------------------------
 def write_input_from_template(template_path, out_path, replacements):
+    
+    """
+    Takes a g4bl template with parameters that will be changed denoted with {} around them, and
+    changes those parameter values in the template, outputting a functioning .g4bl file.
+
+    Args:
+        template_path (str): Location of the template .g4bl file.
+        out_path (str): Where the output .g4bl file will be.
+        replacements (dict): Label and name of the replaced params. The label should be the same as the parameter names
+        specified in g4bl.
+
+    Raises:
+        RuntimeError: If there is a missing value for a parameter substitution, this will raise an error.
+    """
+    
     with open(template_path, 'r') as f:
         txt = f.read()
     try:
@@ -91,7 +106,21 @@ def write_input_from_template(template_path, out_path, replacements):
 # PARAMETER BUILDING FUNCTIONS
 # ------------------------------------------------------------
 def make_params_for_g4bl(achromat_params):
+    """
+    Calculates lattice element positions to be put in .g4bl.
+
+    Args:
+        achromat_params (dict): The parameters optimized for/variable parameters in g4bl.
+
+    Returns:
+        dict: Adds the calculated positions to the parameters that will be substituted into the .g4bl parameter
+        to run it.
+    """
+    
+    # This gap is needed to get rid of any geometry errors in .g4bl to prevent an overlap between elements.
     GAP = 0.1
+    
+    # Take in relevant values to calculate lattice element positions.
     B1_z = float(achromat_params["B1_z"])
     L_B1 = float(achromat_params["B1_length"])
     L_D1 = float(achromat_params["Drift1_length"])
@@ -105,6 +134,7 @@ def make_params_for_g4bl(achromat_params):
     B2_z     = Drift2_z + (L_D2 / 2) + (L_B2 / 2) + GAP
     VD_z     = B2_z + (L_B2 / 2) + 10.0 + GAP
 
+    # Make a dictionary out of calculated parameters.
     add_params = {
         "Drift1_z": Drift1_z,
         "Q1_z": Q1_z,
@@ -120,14 +150,24 @@ def make_params_for_g4bl(achromat_params):
 # SIMULATION RUNNERS
 # ------------------------------------------------------------
 def run_g4beamline(achromat_params):
-    """Run g4bl safely, catching runtime errors and deleting stale outputs."""
+    
+    """
+    Run g4bl safely, catching runtime errors and deleting stale outputs.
+    
+    Args:
+        achromat_params (dict): The parameters optimized for/variable parameters in g4bl.
+    
+    """
+    
+    # 18 Parameters + 4 Calculated + 2 String filenames etc = 26 Parameters
     merged_params = make_params_for_g4bl(achromat_params)
     write_input_from_template(TEMPLATE_FILE, G4BLFILE, merged_params)
 
-    # remove previous detector file to avoid reusing old data
+    # Remove previous detector file to avoid reusing old data
     if os.path.exists(G4BLOUTPUT):
         os.remove(G4BLOUTPUT)
 
+    # Run g4bl for the run.g4bl file
     try:
         result = subprocess.run(
             [G4BEAMLINE_CMD, G4BLFILE],
@@ -136,7 +176,6 @@ def run_g4beamline(achromat_params):
     except Exception as e:
         print("[ERROR] Failed to launch G4beamline:", e)
         return False
-
     if result.returncode != 0:
         print("[WARN] G4beamline exited with nonzero code:", result.returncode)
         print(result.stderr[:300])
@@ -145,6 +184,18 @@ def run_g4beamline(achromat_params):
     return True
 
 def calculate_D_for_df(output=G4BLOUTPUT):
+    """
+    Extracts dispersion for the pandas dataframe file generated from Daniel Fu's read_trackfile() function, which
+    reads the run.g4bl particle distribution output gathered from the run_g4beamline() function. Daniel Fu's 
+    calc_all_params() then takes this data frame and gives x_params and y_params in the form of 
+    (emittance, beta, gamma, alpha, dispersion, derivative of dispersion), which we then extract.
+
+    Args:
+        output (_type_, optional): Output file created from run.g4bl. Defaults to G4BLOUTPUT.
+
+    Returns:
+        dict: dispersion, derivative of dispersion values for x and y.
+    """
     df = read_trackfile(output)
     x_params, y_params, z_emit = calc_all_params(df)
     return {
@@ -156,10 +207,35 @@ def calculate_D_for_df(output=G4BLOUTPUT):
 # OPTIMIZATION MAPPING
 # ------------------------------------------------------------
 def xvec_to_achromat_params(xvec):
+    """
+    Combines values generated/optimized for each of the parameters with globally defined parameter names
+    under the array opt_var_names.
+
+    Args:
+        xvec (array): Optimized parameter values.
+
+    Returns:
+        dict: Optimized dict of values for each lattice object.
+    """
     return {name: float(val) for name, val in zip(opt_var_names, xvec)}
 
 def cost_fn_from_xvec(xvec):
-    """Objective: run simulation and compute dispersion cost robustly."""
+    """
+    Objective: run simulation and compute dispersion cost robustly. This will be the optimized function. 
+    The parameters tried by the optimization algorithm will first be combined with names for each parameter using
+    xvec_to_achromat_params(). Then the 4 calculated parameters will be calculated, added to a dictionary, 
+    run in new g4bl file created from this dictionary for these values within run_g4beamline(). Any weird value with 
+    huge blowup or nans will be indicative of bad geometry and will be penalized by returning a huge cost, disincentivizing
+    the algorithm to go further in that direction.
+    
+    The cost is calculated as (Dx ** 2 + Dpx ** 2) + (Dy ** 2 + Dpy ** 2).
+    
+    Args:
+        xvec (array): Parameter values we'd like to optimize for.
+
+    Returns:
+        cost
+    """
     achromat_params = xvec_to_achromat_params(xvec)
     PENALTY = 1e10
 
@@ -201,6 +277,31 @@ def cost_fn_from_xvec(xvec):
 # MAIN OPTIMIZER
 # ------------------------------------------------------------
 def differentialOptimizer():
+    """
+    Function that allows differential_evolution() to directly call cost_fn_from_xvec(xvec) many times with 
+    different xvec values, and uses those return values to guide the optimization.
+    
+    Internally differential_evolution() handles the following:
+    - Initializes a population of random vectors xvec within the bounds. 
+    (So there will be e.g. 3*(number of parameters) random guesses at first.)
+    - Evaluates cost_fn_from_xvec(xvec) for each of them.
+    - Then, it repeatedly mutates, crosses over, and selects new xvecs based on the cost values returned, 
+    to minimize the objective.
+    - It continues until maxiter or convergence.
+
+    Returns:
+        result (scipy.optimize.OptimizeResult): looks sth like:
+        
+        fun: 2.348726e-05
+        message: 'Optimization terminated successfully.'
+        nfev: 93
+        nit: 6
+        success: True
+        x: [ -0.0215,  1.3051,  243.7820,  ... ]
+        and we take res.x to get the values that got us the result.
+    
+    """
+    
     print("Starting global optimization (Differential Evolution)...")
     res = differential_evolution(
         cost_fn_from_xvec,
@@ -217,13 +318,15 @@ def differentialOptimizer():
     return res
 
 # ------------------------------------------------------------
-# ENTRY POINT
+# START
 # ------------------------------------------------------------
 if __name__ == "__main__":
     print(">>> Running Achromat Dispersion Optimization <<<\n")
-    test_x = [np.mean(b) for b in opt_bounds]
     print("Testing one midpoint configuration...")
+    # Our test in the mean of these bounds
+    test_x = [np.mean(b) for b in opt_bounds]
     cost_fn_from_xvec(test_x)
+    
     print("\nLaunching optimizer...")
     result = differentialOptimizer()
     print("\nOptimization complete.")
