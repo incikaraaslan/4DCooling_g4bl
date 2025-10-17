@@ -29,7 +29,7 @@
 ######################### DEFINE INPUT BEAM
 
   param -unset nparticles=5000
-  param -unset beamfile=particles_before.txt
+  param -unset beamfile=particles_after_upt.txt
   param -unset beamZ=0
 
   beam ascii filename=$beamfile nEvents=$nparticles beamZ=$beamZ
@@ -40,56 +40,56 @@
 # MAGNETS (ACHROMAT SETUP)
 #-------------------------------
 # placeholders will be replaced by Python:
-# B1_field: 0.0068444832699881, B1_width: 129.2795489444154, B1_height: 66.75799578899134, B1_length: 158.24637291163668, B1_z: 169.81292287677303, 
-# Q1_gradient: -31.66539243552625, Q1_length: 282.1065798012227, radius_q: 20.274363637176137
-# B2_field: -0.6497387253667284, B2_width: 116.47711502996255, B2_height: 79.5001528773866, B2_length: 342.8161062564856
-# Drift1_width: 199.630214436843, Drift1_height: 84.32176324713964, Drift1_length: 95.22173970996414, 
-# Drift2_width: 147.9816590807007, Drift2_height: 164.81977885280276, Drift2_length: 643.0919871421523
+# B1_field: -0.8700793769554527, B1_width: 86.29794502295184, B1_height: 90.15210340224579, B1_length: 84.36141580938019, B1_z: 166.1073881938463, 
+# Q1_gradient: -38.38954793021456, Q1_length: 132.2493781198064, radius_q: 19.417714107436804
+# B2_field: -1.3409397265514473, B2_width: 154.08276057390117, B2_height: 83.15952001908649, B2_length: 83.99107171315566
+# Drift1_width: 148.86259465792494, Drift1_height: 178.92139585063808, Drift1_length: 591.0771708244075, 
+# Drift2_width: 154.54355231529004, Drift2_height: 73.58080114699479, Drift2_length: 559.9935363998086
 
 # --- First dipole (B1)
 genericbend B1 \
-    By=0.0068444832699881 \
-    fieldWidth=129.2795489444154 fieldHeight=66.75799578899134 fieldLength=158.24637291163668 \
-    ironWidth=129.2795489444154+10 ironHeight=66.75799578899134+10 ironLength=158.24637291163668 \
+    By=-0.8700793769554527 \
+    fieldWidth=86.29794502295184 fieldHeight=90.15210340224579 fieldLength=84.36141580938019 \
+    ironWidth=86.29794502295184+10 ironHeight=90.15210340224579+10 ironLength=84.36141580938019 \
     maxStep=0.5 \
     fieldMaterial=Vacuum fieldColor=0,0,1 \
     ironMaterial=Fe ironColor=0.6,0.6,0.6
-place B1 z=169.81292287677303
+place B1 z=166.1073881938463
 
 # --- Drift 1 between B1 and Q1
-box Drift1 width=199.630214436843 height=84.32176324713964 length=95.22173970996414 material=Vacuum color=0.6,0.6,0.6
-place Drift1 z=296.6469791875735
+box Drift1 width=148.86259465792494 height=178.92139585063808 length=591.0771708244075 material=Vacuum color=0.6,0.6,0.6
+place Drift1 z=503.9266815107402
 
 # --- Quadrupole (Q1)
 genericquad Q1 \
-    gradient=-31.66539243552625 \
-    fieldLength=282.1065798012227 \
-    ironLength=282.1065798012227 \
-    ironRadius=20.274363637176137+10 \
-    apertureRadius=20.274363637176137 \
+    gradient=-38.38954793021456 \
+    fieldLength=132.2493781198064 \
+    ironLength=132.2493781198064 \
+    ironRadius=19.417714107436804+10 \
+    apertureRadius=19.417714107436804 \
     maxStep=0.5 \
     ironMaterial=Fe fieldMaterial=Vacuum \
     ironColor=0.4,0.8,0.4
 
-place Q1 z=485.411138943167
+place Q1 z=865.6899559828472
 
 # --- Drift 2 between Q1 and B2
-box Drift2 width=147.9816590807007 height=164.81977885280276 length=643.0919871421523 material=Vacuum color=0.6,0.6,0.6
-place Drift2 z=948.1104224148545
+box Drift2 width=154.54355231529004 height=73.58080114699479 length=559.9935363998086 material=Vacuum color=0.6,0.6,0.6
+place Drift2 z=1211.9114132426546
 
 # --- Second dipole (B2)
 genericbend B2 \
-    By=-0.6497387253667284 \
-    fieldWidth=116.47711502996255 fieldHeight=79.5001528773866 fieldLength=342.8161062564856 \
-    ironWidth=116.47711502996255+10 ironHeight=79.5001528773866+10 ironLength=342.8161062564856 \
+    By=-1.3409397265514473 \
+    fieldWidth=154.08276057390117 fieldHeight=83.15952001908649 fieldLength=83.99107171315566 \
+    ironWidth=154.08276057390117+10 ironHeight=83.15952001908649+10 ironLength=83.99107171315566 \
     maxStep=0.5 \
     fieldMaterial=Vacuum fieldColor=0,0,1 \
     ironMaterial=Fe ironColor=0.6,0.6,0.6
-place B2 z=1441.1644691141732
+place B2 z=1534.0037172991367
 
 #-------------------------------
 # DETECTOR
 #-------------------------------
 # virtualdetector VD radius=100 color=1,0,1
 # place VD  rename=VD
-zntuple VD z=1622.6725222424159 file=vd_achromat.txt format=ascii require=PDGid==-13  
+zntuple VD z=1586.0992531557145 file=vd_achromat.txt format=ascii require=PDGid==-13  

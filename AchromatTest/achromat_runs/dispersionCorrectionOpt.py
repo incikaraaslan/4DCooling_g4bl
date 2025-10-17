@@ -38,7 +38,7 @@ OUTPUT_DIR = "achromat_runs"
 # Path(OUTPUT_DIR).mkdir(exist_ok=True)
 
 VD_FILENAME = "vd_achromat.txt"
-N_PARTICLES = 1000
+N_PARTICLES = 5000
 G4BLFILE = f"/home/incik/Cooling_4D/AchromatTest/{OUTPUT_DIR}/run.g4bl"
 G4BLOUTPUT = f"/home/incik/Cooling_4D/AchromatTest/{OUTPUT_DIR}/{VD_FILENAME}"
 
@@ -101,7 +101,42 @@ def write_input_from_template(template_path, out_path, replacements):
         raise RuntimeError(f"Template substitution failed; missing placeholder: {e}")
     with open(out_path, 'w') as f:
         f.write(txt)
+        
+def convertZ(input_file, output_file):
+    """
+    Ensure that the g4bl output starts from z=0.
 
+    Args:
+        input_file (str): output with non-zero z.
+        output_file (str): output file with zero z.
+
+    """
+    event_id_counter = 1
+    with open(input_file, "r") as infile, open(output_file, "w") as outfile:
+        for line in infile:
+            # Skip header lines (those starting with #)
+            if line.strip().startswith("#"):
+                outfile.write(line)
+                continue
+
+            # Split the line into columns
+            parts = line.strip().split()
+            if len(parts) >= 12:
+                if parts[2] == "0":
+                    return None
+                parts[2] = "0"  # Set the 3rd column (z) to 0
+                # Replace event ID (assuming it's the 9th column, zero-based index 8)
+                # Adjust if your event ID is in a different column
+                parts[8] = str(event_id_counter)
+                event_id_counter += 1
+                new_line = " ".join(parts)
+                outfile.write(new_line + "\n")
+            else:
+                # Handle lines that don't match expected format
+                outfile.write(line)
+    print(f"Updated file saved as '{output_file}'")
+    os.remove(input_file)
+    return None
 # ------------------------------------------------------------
 # PARAMETER BUILDING FUNCTIONS
 # ------------------------------------------------------------
@@ -162,10 +197,14 @@ def run_g4beamline(achromat_params):
     # 18 Parameters + 4 Calculated + 2 String filenames etc = 26 Parameters
     merged_params = make_params_for_g4bl(achromat_params)
     write_input_from_template(TEMPLATE_FILE, G4BLFILE, merged_params)
+    print("Parameter writing successful.")
 
     # Remove previous detector file to avoid reusing old data
     if os.path.exists(G4BLOUTPUT):
         os.remove(G4BLOUTPUT)
+    
+    if os.path.exists("field_cell.dat"):
+        os.remove("field_cell.dat")
 
     # Run g4bl for the run.g4bl file
     try:
@@ -321,6 +360,8 @@ def differentialOptimizer():
 # START
 # ------------------------------------------------------------
 if __name__ == "__main__":
+    # print("Making sure z=0 in input file (do this once)...")
+    # convertZ("particles_after.txt", "particles_after_upt.txt")
     print(">>> Running Achromat Dispersion Optimization <<<\n")
     print("Testing one midpoint configuration...")
     # Our test in the mean of these bounds

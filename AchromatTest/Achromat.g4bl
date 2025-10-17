@@ -9,30 +9,30 @@
 
 ######################### DEFINE PHYSICS MODEL
   
-  param zbegin=0.0
-  start initialZ=$zbegin  y=0.000   x=0.00   z=0.00    radiusCut=300
-  param steppingFormat=N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
-  param fieldVoxels=400,400,400 
-  param maxStep=0.5
+param zbegin=0.0
+start initialZ=$zbegin  y=0.000   x=0.00   z=0.00    radiusCut=300
+param steppingFormat=N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
+param fieldVoxels=400,400,400 
+param maxStep=0.5
 
-  physics QGSP_BERT doStochastics=1 spinTracking=1 synchrotronRadiation=1 # disable=Decay
+physics QGSP_BERT doStochastics=1 spinTracking=1 synchrotronRadiation=1 # disable=Decay
 
-  trackcuts keep=mu-,mu+
+trackcuts keep=mu-,mu+
 
-  particlecolor proton=1,1,1 
-  particlecolor pi+=0,1,0 
-  particlecolor mu+=1,0.5,0   # orange
-  particlecolor e+=1,0,0      # red
-  particlecolor gamma=0,0,1   # blue
-  particlecolor e-=1,0.5,0    # orange
+particlecolor proton=1,1,1 
+particlecolor pi+=0,1,0 
+particlecolor mu+=1,0.5,0   # orange
+particlecolor e+=1,0,0      # red
+particlecolor gamma=0,0,1   # blue
+particlecolor e-=1,0.5,0    # orange
   
 ######################### DEFINE INPUT BEAM
 
-  param -unset nparticles={N_PARTICLES}
-  param -unset beamfile=particles_before.txt
-  param -unset beamZ=0
+param -unset nparticles={N_PARTICLES}
+param -unset beamfile=particles_after.txt
+param -unset beamZ=0
 
-  beam ascii filename=$beamfile nEvents=$nparticles beamZ=$beamZ
+beam ascii filename=$beamfile nEvents=$nparticles beamZ=$beamZ
 
 ######################### DEFINE ELEMENTS
 
@@ -40,7 +40,8 @@
 # MAGNETS (ACHROMAT SETUP)
 #-------------------------------
 # placeholders will be replaced by Python:
-# B1_field: {B1_field}, B1_width: {B1_width}, B1_height: {B1_height}, B1_length: {B1_length}, B1_z: {B1_z}, 
+# B1_field: {B1_field}, B1_width: {B1_width}, B1_height: {B1_height}, B1_length: {B1_length}, B1_z: {B1_z},
+# B2_z: {B2_z}, Q1_z: {Q1_z}, Drift1_z: {Drift1_z}, Drift2_z: {Drift2_z}
 # Q1_gradient: {Q1_gradient}, Q1_length: {Q1_length}, radius_q: {radius_q}
 # B2_field: {B2_field}, B2_width: {B2_width}, B2_height: {B2_height}, B2_length: {B2_length}
 # Drift1_width: {Drift1_width}, Drift1_height: {Drift1_height}, Drift1_length: {Drift1_length}, 
@@ -93,3 +94,9 @@ place B2 z={B2_z}
 # virtualdetector VD radius=100 color=1,0,1
 # place VD  rename=VD
 zntuple VD z={VD_z} file={VD_FILENAME} format=ascii require=PDGid==-13  
+
+
+#-------------------------------
+# FIELD MAP OUTPUT
+#-------------------------------
+printfield type=grid file=field_cell.dat field=By X0=0 Y0=0 Z0=0 nX=1 dX=1 nY=1 dY=1 nZ=290 dZ=5

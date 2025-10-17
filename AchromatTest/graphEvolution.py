@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from g4beam import *
 from scan import *
 import warnings
+import re
 warnings.filterwarnings('ignore', category=DeprecationWarning)
 
 # -------------------------------------------------------------------
@@ -163,11 +164,89 @@ def twissPlot(z_positions, emit_x, emit_y, emit_z, beta_x, beta_y, alpha_x, alph
 
     print(f"All plots saved in '{output_folder}'")
 
+def fieldEvolution():
+    """ 
+    Evolution of the magnetic field across elements, plotted. 
+    
+    """
+    # Load file, skipping comment lines
+    with open("field_celloff.dat") as f:
+        lines = f.readlines()[4:]
+    
+    data = np.array([[float(x) for x in line.split()] for line in lines])
+    print(data)
+    
+    # If the file has columns: x y z Bx By Bz
+    # then we can extract:
+    z = data[:, 2]
+    by = data[:, 4]
+    
+    
+    # Draw shaded regions for magnets
+    # Read your g4bl file
+    with open("runloop.g4bl") as f:
+        text = f.read()
+
+    # Extract magnets (dipoles, quads, drifts, etc.)
+    pattern = r"\s*([A-Za-z0-9_]+):\s*([-\d\.]+)"
+    entries = dict(re.findall(pattern, text))
+    
+    # Convert numeric values
+    params = {k: float(v) for k, v in entries.items()}
+    print(entries.items(), params)
+    # Collect shading regions automatically
+    regions = []
+
+    last_value = 0
+    color = ["blue", "gray", "orange", "gray", "blue"]
+    GAP = 0.1
+    for idx, name in enumerate(["B1", "Drift1", "Q1", "Drift2", "B2"]):
+        if f"{name}_z" in params:
+            length = params[f"{name}_length"]
+            center = params[f"{name}_z"]  # sometimes z not given (assume 0)
+            z1 = center - (length / 2)
+            z2 = center + (length / 2)
+            regions.append((z1, z2, color[idx], name))
+
+    # Handle drifts (optional visualization)
+    """for name in ["Drift1", "Drift2"]:
+        if f"{name}_length" in params:
+            length = params[f"{name}_length"]
+            # You can assign z manually or stack them sequentially if no z given
+            regions.append((None, None, "gray", name))"""
+
+    print(regions)
+    plt.figure(figsize=(8, 4))
+    for z1, z2, color, label in regions:
+        if z1 is not None and z2 is not None:
+            plt.axvspan(z1, z2, color=color, alpha=0.3, label=label)
+    
+    plt.plot(z, by, '-o', markersize=2)
+    plt.xlabel("Z (mm)")
+    plt.ylabel("By (Tesla)")
+    plt.title("Off Axis (X0=2) Magnetic Field (By vs Z)")
+    plt.grid(True)
+    plt.tight_layout()
+    plt.show()
+
+
 # -------------------------------------------------------------------
 # LOOP OVER FILES AND COMPUTE PARAMETERS
 # -------------------------------------------------------------------
 if __name__ == "__main__":
-    files = sorted(glob.glob(os.path.join(data_path, file_pattern)))
+    # Enforce beamline order
+    beamline_order = ["start", "B1", "D1", "Q1", "D2", "B2", "last"]
+
+    # Get all files
+    all_files = glob.glob(os.path.join(data_path, file_pattern))
+
+    # Sort according to beamline order
+    files = []
+    for name in beamline_order:
+        for f in all_files:
+            if name in os.path.basename(f):
+                files.append(f)
+
     
     z_positions = []
     emit_x, beta_x, alpha_x, D_x, Dp_x = [], [], [], [], []
@@ -188,5 +267,7 @@ if __name__ == "__main__":
     
     # Plot TWISS parameter evolution
     twissPlot(z_positions, emit_x, emit_y, emit_z, beta_x, beta_y, alpha_x, alpha_y, D_x, Dp_x, D_y, Dp_y)
+            
+    fieldEvolution()
     
     

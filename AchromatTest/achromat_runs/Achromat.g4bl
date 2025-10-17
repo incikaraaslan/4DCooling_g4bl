@@ -29,7 +29,7 @@
 ######################### DEFINE INPUT BEAM
 
   param -unset nparticles={N_PARTICLES}
-  param -unset beamfile=particles_before.txt
+  param -unset beamfile=particles_after_upt.txt
   param -unset beamZ=0
 
   beam ascii filename=$beamfile nEvents=$nparticles beamZ=$beamZ

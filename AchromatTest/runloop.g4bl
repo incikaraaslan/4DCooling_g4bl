@@ -1,0 +1,113 @@
+# Simulates Dispersion Correction
+
+# Created by: I. Karaaslan
+# Updated: October 9, 2025
+
+# Made from D. Fu's g4bl template codes
+
+# PARAMETERS:
+
+######################### DEFINE PHYSICS MODEL
+  
+param zbegin=0.0
+start initialZ=$zbegin  y=0.000   x=0.00   z=0.00    radiusCut=300
+param steppingFormat=N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
+param fieldVoxels=400,400,400 
+param maxStep=0.5
+
+physics QGSP_BERT doStochastics=1 spinTracking=1 synchrotronRadiation=1 # disable=Decay
+
+trackcuts keep=mu-,mu+
+
+particlecolor proton=1,1,1 
+particlecolor pi+=0,1,0 
+particlecolor mu+=1,0.5,0   # orange
+particlecolor e+=1,0,0      # red
+particlecolor gamma=0,0,1   # blue
+particlecolor e-=1,0.5,0    # orange
+  
+######################### DEFINE INPUT BEAM
+
+param -unset nparticles=5000
+param -unset beamfile=particles_after.txt
+param -unset beamZ=0
+
+beam ascii filename=$beamfile nEvents=$nparticles beamZ=$beamZ
+
+######################### DEFINE ELEMENTS
+
+#-------------------------------
+# MAGNETS (ACHROMAT SETUP)
+#-------------------------------
+# placeholders will be replaced by Python:
+# B1_field: -0.133, B1_width: 74.7401, B1_height: 61.9187, B1_length: 267.6652, B1_z: 177.7786, 
+# B2_z: 1192.5071, Q1_z: 812.1834000000001, Drift1_z: 543.6164500000001, Drift2_z: 1007.2179000000001
+# Q1_gradient: -43.4531, Q1_length: 73.1234, radius_q: 20.4404
+# B2_field: -0.0126, B2_width: 167.5582, B2_height: 144.8055, B2_length: 53.6328
+# Drift1_width: 120.1356, Drift1_height: 80.1068, Drift1_length: 463.8105, 
+# Drift2_width: 102.022, Drift2_height: 129.0529, Drift2_length: 316.7456
+
+zntuple vd_start z=0.0 file=vd_start_achromat.txt format=ascii require=PDGid==-13
+
+# --- First dipole (B1)
+genericbend B1 \
+    By=-0.133 \
+    fieldWidth=74.7401 fieldHeight=61.9187 fieldLength=267.6652 \
+    ironWidth=74.7401+10 ironHeight=61.9187+10 ironLength=267.6652 \
+    maxStep=0.5 \
+    fieldMaterial=Vacuum fieldColor=0,0,1 \
+    ironMaterial=Fe ironColor=0.6,0.6,0.6
+place B1 z=177.7786
+
+zntuple vd_B1 z=311.61120000000005 file=vd_B1_achromat.txt format=ascii require=PDGid==-13
+
+# --- Drift 1 between B1 and Q1
+box Drift1 width=120.1356 height=80.1068 length=463.8105 material=Vacuum color=0.6,0.6,0.6
+place Drift1 z=543.6164500000001
+
+zntuple vd_D1 z=775.5217000000001 file=vd_D1_achromat.txt format=ascii require=PDGid==-13
+
+# --- Quadrupole (Q1)
+genericquad Q1 \
+    gradient=-43.4531 \
+    fieldLength=73.1234 \
+    ironLength=73.1234 \
+    ironRadius=20.4404+10 \
+    apertureRadius=20.4404 \
+    maxStep=0.5 \
+    ironMaterial=Fe fieldMaterial=Vacuum \
+    ironColor=0.4,0.8,0.4
+
+place Q1 z=812.1834000000001
+zntuple vd_Q1 z=848.7451000000001 file=vd_Q1_achromat.txt format=ascii require=PDGid==-13
+
+# --- Drift 2 between Q1 and B2
+box Drift2 width=102.022 height=129.0529 length=316.7456 material=Vacuum color=0.6,0.6,0.6
+place Drift2 z=1007.2179000000001
+
+zntuple vd_D2 z=1165.5907000000002 file=vd_D2_achromat.txt format=ascii require=PDGid==-13
+
+# --- Second dipole (B2)
+genericbend B2 \
+    By=-0.0126 \
+    fieldWidth=167.5582 fieldHeight=144.8055 fieldLength=53.6328 \
+    ironWidth=167.5582+10 ironHeight=144.8055+10 ironLength=53.6328 \
+    maxStep=0.5 \
+    fieldMaterial=Vacuum fieldColor=0,0,1 \
+    ironMaterial=Fe ironColor=0.6,0.6,0.6
+place B2 z=1192.5071
+
+zntuple vd_B2 z=1219.3235 file=vd_B2_achromat.txt format=ascii require=PDGid==-13
+
+#-------------------------------
+# DETECTOR
+#-------------------------------
+# virtualdetector VD radius=100 color=1,0,1
+# place VD  rename=VD
+zntuple VD z=1229.4234999999999 file=vd_achromatLoop.txt format=ascii require=PDGid==-13  
+
+
+#-------------------------------
+# FIELD MAP OUTPUT
+#-------------------------------
+printfield type=grid file=field_celloff.dat field=By X0=2 Y0=0 Z0=0 nX=1 dX=1 nY=1 dY=1 nZ=290 dZ=5

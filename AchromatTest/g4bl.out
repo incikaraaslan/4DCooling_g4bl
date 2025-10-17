@@ -4,7 +4,7 @@ G4ENSDFSTATEDATA=/home/incik/Geant4Data/G4ENSDFSTATE2.3
 G4PARTICLEXSDATA=/home/incik/Geant4Data/G4PARTICLEXS4.0
 G4LEVELGAMMADATA=/home/incik/Geant4Data/PhotonEvaporation5.7
 G4RADIOACTIVEDATA=/home/incik/Geant4Data/RadioactiveDecay5.6
-G4beamline Process ID 4725
+G4beamline Process ID 14182
 
 *************************************************************
  g4beamline version: 3.08                        (Aug 11 2022)
@@ -52,165 +52,57 @@ particlecolor              e+=1,0,0
 particlecolor              gamma=0,0,1
 particlecolor              e-=1,0.5,0
 param        nparticles    5000
-param        beamfile      particles_before.txt
+param        beamfile      particles_after.txt
 param        beamZ         0
 beam    ASCII   nEvents=5000 firstEvent=-1 lastEvent=2147483647 beamZ=0.0 maxR=1000000.0 renumber=0 weight=1.000000 
-		filename=particles_before.txt format=BLTrackFile 
+		filename=particles_after.txt format=BLTrackFile 
 		
-genericbend  B1            fieldWidth=123.9 fieldHeight=76.55
-                           fieldLength=184.6 ironWidth=133.9 ironHeight=86.55
-                           ironLength=184.6 By=-0.0157 maxStep=0.5
+**************************************************************************
+*** G4Exception: printError
+***    severity: Warning
+***   issued by: 
+*** description: place: cannot find element 'Start'
+**************************************************************************
+genericbend  B1            fieldWidth=74.74 fieldHeight=61.92
+                           fieldLength=267.7 ironWidth=84.74 ironHeight=71.92
+                           ironLength=267.7 By=-0.133 maxStep=0.5
                            fieldMaterial=Vacuum fieldColor=0,0,1
                            ironMaterial=Fe ironColor=0.6,0.6,0.6 kill=0
                            fringe= fringeFactor=1 openAperture=0
-place   B1      copies=1 x=0.0 y=0.0 z=84.8 
-zntuple                    z=177.1076 zloop= noSingles=0 format=ascii
-                           file=vd_B1_achromat.txt filename=vd_B1_achromat.txt
-                           require=PDGid==-13 referenceParticle=0
-                           coordinates=Centerline
-box          Drift1        height=166.1 width=181.7 length=157.8 maxStep=0.5
+place   B1      copies=1 x=0.0 y=0.0 z=177.8 
+box          Drift1        height=80.11 width=120.1 length=463.8 maxStep=0.5
                            material=Vacuum color=0.6,0.6,0.6 kill=0
-place   Drift1  copies=1 x=0.0 y=0.0 z=256.1 
-zntuple                    z=335.02300000000005 zloop= noSingles=0
-                           format=ascii file=vd_D1_achromat.txt
-                           filename=vd_D1_achromat.txt require=PDGid==-13
-                           referenceParticle=0 coordinates=Centerline
-genericquad  Q1            fieldLength=244.3 ironLength=244.3 ironRadius=28.18
-                           apertureRadius=18.18 poleTipRadius=0 coilRadius=0
-                           coilHalfwidth=0 coilHalfWidth=0 gradient=-2.707
+place   Drift1  copies=1 x=0.0 y=0.0 z=543.6 
+genericquad  Q1            fieldLength=73.12 ironLength=73.12 ironRadius=30.44
+                           apertureRadius=20.44 poleTipRadius=0 coilRadius=0
+                           coilHalfwidth=0 coilHalfWidth=0 gradient=-43.45
                            maxStep=0.5 ironMaterial=Fe fieldMaterial=Vacuum
                            ironColor=0.4,0.8,0.4 kill=0 fringe= fringeFactor=1
                            openAperture=0
-place   Q1      copies=1 x=0.0 y=0.0 z=457.3 
-zntuple                    z=579.43190000000004 zloop= noSingles=0
-                           format=ascii file=vd_Q1_achromat.txt
-                           filename=vd_Q1_achromat.txt require=PDGid==-13
-                           referenceParticle=0 coordinates=Centerline
-box          Drift2        height=133.2 width=182 length=468.2 maxStep=0.5
+place   Q1      copies=1 x=0.0 y=0.0 z=812.2 
+box          Drift2        height=129.1 width=102 length=316.7 maxStep=0.5
                            material=Vacuum color=0.6,0.6,0.6 kill=0
-place   Drift2  copies=1 x=0.0 y=0.0 z=813.6 
-zntuple                    z=1047.7322 zloop= noSingles=0 format=ascii
-                           file=vd_D2_achromat.txt filename=vd_D2_achromat.txt
-                           require=PDGid==-13 referenceParticle=0
-                           coordinates=Centerline
-genericbend  B2            fieldWidth=158.2 fieldHeight=57.54 fieldLength=359
-                           ironWidth=168.2 ironHeight=67.54 ironLength=359
-                           By=-1.422 maxStep=0.5 fieldMaterial=Vacuum
-                           fieldColor=0,0,1 ironMaterial=Fe
-                           ironColor=0.6,0.6,0.6 kill=0 fringe= fringeFactor=1
-                           openAperture=0
-place   B2      copies=1 x=0.0 y=0.0 z=1227.3 
-zntuple                    z=1406.8604000000002 zloop= noSingles=0
-                           format=ascii file=vd_B2_achromat.txt
-                           filename=vd_B2_achromat.txt require=PDGid==-13
+place   Drift2  copies=1 x=0.0 y=0.0 z=1007.2 
+genericbend  B2            fieldWidth=167.6 fieldHeight=144.8
+                           fieldLength=53.63 ironWidth=177.6 ironHeight=154.8
+                           ironLength=53.63 By=-0.0126 maxStep=0.5
+                           fieldMaterial=Vacuum fieldColor=0,0,1
+                           ironMaterial=Fe ironColor=0.6,0.6,0.6 kill=0
+                           fringe= fringeFactor=1 openAperture=0
+place   B2      copies=1 x=0.0 y=0.0 z=1192.5 
+zntuple                    z=1229.4234999999999 zloop= noSingles=0
+                           format=ascii file=vd_achromat.txt
+                           filename=vd_achromat.txt require=PDGid==-13
                            referenceParticle=0 coordinates=Centerline
-zntuple                    z=1416.9604000000002 zloop= noSingles=0
-                           format=ascii file=vd_last_achromat.txt
-                           filename=vd_last_achromat.txt require=PDGid==-13
-                           referenceParticle=0 coordinates=Centerline
-
-World size (before incrementing by 201.357 mm): 166.1 H  182.0 W  2813.7 L
-
-PARAMETERS:
-            Zcl=1406.86
-          beamZ=0
-       beamfile=particles_before.txt
-     deltaChord=3.0
-deltaIntersection=0.1
-   deltaOneStep=0.01
-         epsMax=0.05
-         epsMin=2.5e-7
- eventTimeLimit=30
-    fieldVoxels=400,400,400
-      histoFile=g4beamline
-    histoUpdate=0
-        maxStep=0.5
-        minStep=0.01
-     nparticles=5000
- steppingFormat=N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
-steppingVerbose=0
-         viewer=none
- wallClockLimit=-1
-  worldMaterial=Vacuum
-     zTolerance=2.0
-         zbegin=0.0
-Checking overlaps for volume B1:0 (G4Box) ... OK! 
-Checking overlaps for volume B1:0 (G4SubtractionSolid) ... OK! 
-BLCMDgenericbend::Construct B1 parent= relZ=84.8 globZ=84.8
-	zmin=-7.5 zmax=177.1
-Checking overlaps for volume Drift1:0 (G4Box) ... OK! 
-BLCMDbox::Construct Drift1 parent= relZ=256.1 globZ=256.1
-	zmin=177.2 zmax=335.0
-Checking overlaps for volume Q1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume Q1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct Q1 parent= relZ=457.3 globZ=457.3
-Checking overlaps for volume Drift2:0 (G4Box) ... OK! 
-BLCMDbox::Construct Drift2 parent= relZ=813.6 globZ=813.6
-	zmin=579.5 zmax=1047.7
-Checking overlaps for volume B2:0 (G4Box) ... OK! 
-Checking overlaps for volume B2:0 (G4SubtractionSolid) ... OK! 
-BLCMDgenericbend::Construct B2 parent= relZ=1227.3 globZ=1227.3
-	zmin=1047.8 zmax=1406.9
-### Adding tracking cuts for neutron  TimeCut(ns)= 10000  KinEnergyCut(MeV)= 0
-
-Geometry test nPoints=100 tolerance=0.002 mm:
-Testing geometry for children of group 'World':
-Total geometry errors = 0  0 seconds
-
-================== Prepare Tracking Beam ==================
-Stochastic processes are enabled.
-================== Begin Tracking Beam ===============
 **************************************************************************
-*** G4Exception: EM Field Extends Outside World
-***    severity: Warning
-***   issued by: BLGlobalField
-*** description: May give inaccurate tracking near world boundary.
-***     EventID: 1     TrackID: 1   mu+  KE=26.67 MeV
+*** G4Exception: Input Errors
+***    severity: Fatal Exception
+***   issued by: main
+*** description: There were 1 errors in the input
 **************************************************************************
-fieldVoxels: nx=1 ny=1 nz=5, 5 voxels, 3 fields
-fieldVoxels: max field count is 2 fields, # voxels >5: 0, >10: 0, >20: 0
-Event 1 Completed  1 events  realTime=1 sec  1.0 ev/sec
-Event 2 Completed  2 events  realTime=1 sec  2.0 ev/sec
-Event 3 Completed  3 events  realTime=1 sec  3.0 ev/sec
-Event 4 Completed  4 events  realTime=1 sec  4.0 ev/sec
-Event 5 Completed  5 events  realTime=1 sec  5.0 ev/sec
-Event 6 Completed  6 events  realTime=1 sec  6.0 ev/sec
-Event 7 Completed  7 events  realTime=1 sec  7.0 ev/sec
-Event 8 Completed  8 events  realTime=1 sec  8.0 ev/sec
-Event 9 Completed  9 events  realTime=1 sec  9.0 ev/sec
-Event 10 Completed  10 events  realTime=1 sec  10.0 ev/sec
-Event 20 Completed  20 events  realTime=1 sec  20.0 ev/sec
-Event 30 Completed  30 events  realTime=1 sec  30.0 ev/sec
-Event 40 Completed  40 events  realTime=1 sec  40.0 ev/sec
-Event 50 Completed  50 events  realTime=1 sec  50.0 ev/sec
-Event 60 Completed  60 events  realTime=1 sec  60.0 ev/sec
-Event 70 Completed  70 events  realTime=1 sec  70.0 ev/sec
-Event 80 Completed  80 events  realTime=1 sec  80.0 ev/sec
-Event 90 Completed  90 events  realTime=1 sec  90.0 ev/sec
-Event 100 Completed  100 events  realTime=1 sec  100.0 ev/sec
-Event 200 Completed  200 events  realTime=1 sec  200.0 ev/sec
-Event 300 Completed  300 events  realTime=1 sec  300.0 ev/sec
-Event 400 Completed  400 events  realTime=1 sec  400.0 ev/sec
-Event 500 Completed  500 events  realTime=1 sec  500.0 ev/sec
-Event 600 Completed  600 events  realTime=1 sec  600.0 ev/sec
-Event 700 Completed  700 events  realTime=2 sec  350.0 ev/sec
-Event 800 Completed  800 events  realTime=2 sec  400.0 ev/sec
-Event 900 Completed  900 events  realTime=2 sec  450.0 ev/sec
-Event 1000 Completed  1000 events  realTime=3 sec  333.3 ev/sec
-Event 2000 Completed  2000 events  realTime=5 sec  400.0 ev/sec
-Event 3000 Completed  3000 events  realTime=8 sec  375.0 ev/sec
-Event 4000 Completed  4000 events  realTime=11 sec  363.6 ev/sec
-Event 5000 Completed  5000 events  realTime=14 sec  357.1 ev/sec
-Run complete  5000 Events  14 seconds
-NTuple Z177                4923 entries
-NTuple Z335                4921 entries
-NTuple Z579                3769 entries
-NTuple Z1048               3124 entries
-NTuple Z1407               1809 entries
-NTuple Z1417               1782 entries
+g4beamline: attempting to close up after fatal G4Exception...
 
-Exceptions: 0 Fatal, 0 Events Aborted, 0 Stuck Tracks (stopped), 1 Warnings
-      1 times: EM Field Extends Outside World
-g4beamline: simulation complete
-SynRad:  Incoherent Synchrotron Radiation
-Good description for long magnets at all energies.
+Exceptions: 1 Fatal, 0 Events Aborted, 0 Stuck Tracks (stopped), 1 Warnings
+      1 times: Input Errors
+      1 times: printError
+g4beamline: simulation aborted
