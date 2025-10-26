@@ -25,7 +25,10 @@ particlecolor mu+=1,0.5,0   # orange
 particlecolor e+=1,0,0      # red
 particlecolor gamma=0,0,1   # blue
 particlecolor e-=1,0.5,0    # orange
-  
+
+# Get rid of any multiple scattering / energy loss happening by placing it all inside a vacuum
+# param worldMaterial=Vacuum
+
 ######################### DEFINE INPUT BEAM
 
 param -unset nparticles=5000
@@ -110,4 +113,4 @@ zntuple VD z=1229.4234999999999 file=vd_achromatLoop.txt format=ascii require=PD
 #-------------------------------
 # FIELD MAP OUTPUT
 #-------------------------------
-printfield type=grid file=field_celloff.dat field=By X0=2 Y0=0 Z0=0 nX=1 dX=1 nY=1 dY=1 nZ=290 dZ=5
+printfield type=grid file=field_celloff.dat field=By X0=0 Y0=0 Z0=0 nX=1 dX=1 nY=1 dY=1 nZ=246 dZ=5

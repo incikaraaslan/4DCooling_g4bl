@@ -37,7 +37,7 @@
 
 ######################### DEFINE INPUT BEAM
 
-  param -unset nparticles=50000
+  param -unset nparticles=12000
 
   param -unset beamfile=particles_before.txt
 
@@ -50,11 +50,12 @@
   param pi=3.141592654
   param degrad=$pi/180
 
-  param -unset abshgt=10
+  param -unset abshgt=9.509857116805007
   param abswidth=100
-  param -unset absLEN3=18.0
-  param -unset abshalfangle3=45.0 
-  param -unset absoffset3=3.2     
+  param -unset absLEN3=24
+  param -unset abshalfangle3=51.898062710886734    # Half of 51.898062710886734 degrees total
+  param -unset absoffset3=2.463498548957793
+    
   
   param wedge_z=0.5*$absLEN3
      

@@ -22,9 +22,9 @@ C = 299792458  # m/s
 # CONFIGURATION
 # -------------------------------------------------------------------
 data_path = "."
-file_pattern = "vd_*.txt"
-output_folder1 = "plots"
-output_folder2 = "plots_optics"
+file_pattern = "vd_*_achromat_examine.txt"
+output_folder1 = "plots_E"
+output_folder2 = "plots_optics_E"
 os.makedirs(output_folder1, exist_ok=True)
 os.makedirs(output_folder2, exist_ok=True)
 
@@ -125,6 +125,34 @@ def twissPlot(z_positions, emit_x, emit_y, emit_z, beta_x, beta_y, alpha_x, alph
 
     def make_plot(yvals, ylabel, title, filename, labels=("x", "y")):
         plt.figure(figsize=(7,5))
+        # Draw shaded regions for magnets
+        # Read your g4bl file
+        with open("runExamine.g4bl") as f:
+            text = f.read()
+
+        # Extract magnets (dipoles, quads, drifts, etc.)
+        pattern = r"\s*([A-Za-z0-9_]+):\s*([-\d\.]+)"
+        entries = dict(re.findall(pattern, text))
+        
+        # Convert numeric values
+        params = {k: float(v) for k, v in entries.items()}
+        print(entries.items(), params)
+        # Collect shading regions automatically
+        regions = []
+
+        last_value = 0
+        color = ["blue", "gray", "orange", "gray", "blue"]
+        GAP = 0.1
+        for idx, name in enumerate(["B1", "Drift1", "Q1", "Drift2", "B2"]):
+            if f"{name}_z" in params:
+                length = params[f"{name}_length"]
+                center = params[f"{name}_z"]  # sometimes z not given (assume 0)
+                z1 = center - (length / 2)
+                z2 = center + (length / 2)
+                regions.append((z1, z2, color[idx], name))
+        for z1, z2, color, label in regions:
+            if z1 is not None and z2 is not None:
+                plt.axvspan(z1, z2, color=color, alpha=0.3, label=label)
         plt.plot(z_positions, yvals[0], 'o-', label=f"{labels[0]}-plane")
         plt.plot(z_positions, yvals[1], 's--', label=f"{labels[1]}-plane")
         plt.xlabel("z [mm]")
@@ -153,36 +181,6 @@ def twissPlot(z_positions, emit_x, emit_y, emit_z, beta_x, beta_y, alpha_x, alph
 
     # Optional: longitudinal emittance
     plt.figure(figsize=(7,5))
-    plt.plot(z_positions, emit_z, 'o-', color='purple')
-    plt.xlabel("z [mm]")
-    plt.ylabel("Longitudinal Emittance [arb.]")
-    plt.title("Longitudinal Emittance Evolution")
-    plt.grid(True)
-    plt.tight_layout()
-    plt.savefig(os.path.join(output_folder, "emittance_longitudinal.png"))
-    plt.close()
-
-    print(f"All plots saved in '{output_folder}'")
-
-def fieldEvolution():
-    """ 
-    Evolution of the magnetic field across elements, plotted. 
-    
-    """
-    # Load file, skipping comment lines
-    with open("field_celloff.dat") as f:
-        lines = f.readlines()[4:]
-    
-    data = np.array([[float(x) for x in line.split()] for line in lines])
-    print(data)
-    
-    # If the file has columns: x y z Bx By Bz
-    # then we can extract:
-    z = data[:, 2]
-    by = data[:, 4]
-    
-    
-    # Draw shaded regions for magnets
     # Read your g4bl file
     with open("runloop.g4bl") as f:
         text = f.read()
@@ -207,15 +205,63 @@ def fieldEvolution():
             z1 = center - (length / 2)
             z2 = center + (length / 2)
             regions.append((z1, z2, color[idx], name))
+    for z1, z2, color, label in regions:
+        if z1 is not None and z2 is not None:
+            plt.axvspan(z1, z2, color=color, alpha=0.3, label=label)
+    plt.plot(z_positions, emit_z, 'o-', color='purple')
+    plt.xlabel("z [mm]")
+    plt.ylabel("Longitudinal Emittance [arb.]")
+    plt.title("Longitudinal Emittance Evolution")
+    plt.grid(True)
+    plt.tight_layout()
+    plt.savefig(os.path.join(output_folder, "emittance_longitudinal.png"))
+    plt.close()
 
-    # Handle drifts (optional visualization)
-    """for name in ["Drift1", "Drift2"]:
-        if f"{name}_length" in params:
+    print(f"All plots saved in '{output_folder}'")
+
+def fieldEvolution():
+    """ 
+    Evolution of the magnetic field across elements, plotted. 
+    
+    """
+    # Load file, skipping comment lines
+    with open("field_cell_examine.dat") as f:
+        lines = f.readlines()[4:]
+    
+    data = np.array([[float(x) for x in line.split()] for line in lines])
+    print(data)
+    
+    # If the file has columns: x y z Bx By Bz
+    # then we can extract:
+    z = data[:, 2]
+    by = data[:, 4]
+    
+    
+    # Draw shaded regions for magnets
+    # Read your g4bl file
+    with open("runExamine.g4bl") as f:
+        text = f.read()
+
+    # Extract magnets (dipoles, quads, drifts, etc.)
+    pattern = r"\s*([A-Za-z0-9_]+):\s*([-\d\.]+)"
+    entries = dict(re.findall(pattern, text))
+    
+    # Convert numeric values
+    params = {k: float(v) for k, v in entries.items()}
+    print(entries.items(), params)
+    # Collect shading regions automatically
+    regions = []
+
+    color = ["blue", "gray", "orange", "gray", "blue"]
+    GAP = 0.1
+    for idx, name in enumerate(["B1", "Drift1", "Q1", "Drift2", "B2"]):
+        if f"{name}_z" in params:
             length = params[f"{name}_length"]
-            # You can assign z manually or stack them sequentially if no z given
-            regions.append((None, None, "gray", name))"""
+            center = params[f"{name}_z"]  # sometimes z not given (assume 0)
+            z1 = center - (length / 2)
+            z2 = center + (length / 2)
+            regions.append((z1, z2, color[idx], name))
 
-    print(regions)
     plt.figure(figsize=(8, 4))
     for z1, z2, color, label in regions:
         if z1 is not None and z2 is not None:
@@ -224,7 +270,7 @@ def fieldEvolution():
     plt.plot(z, by, '-o', markersize=2)
     plt.xlabel("Z (mm)")
     plt.ylabel("By (Tesla)")
-    plt.title("Off Axis (X0=2) Magnetic Field (By vs Z)")
+    plt.title("On Axis (X0=0) Magnetic Field (By vs Z)")
     plt.grid(True)
     plt.tight_layout()
     plt.show()

@@ -29,8 +29,8 @@ particlecolor e-=1,0.5,0    # orange
 ######################### DEFINE INPUT BEAM
 
 param -unset nparticles=5000
-param -unset beamfile=particles_after.txt
-param -unset beamZ=0
+param beamfile=particles_after.txt
+param beamZ=0
 
 beam ascii filename=$beamfile nEvents=$nparticles beamZ=$beamZ
 
@@ -40,7 +40,8 @@ beam ascii filename=$beamfile nEvents=$nparticles beamZ=$beamZ
 # MAGNETS (ACHROMAT SETUP)
 #-------------------------------
 # placeholders will be replaced by Python:
-# B1_field: -0.133, B1_width: 74.7401, B1_height: 61.9187, B1_length: 267.6652, B1_z: 177.7786, 
+# B1_field: -0.133, B1_width: 74.7401, B1_height: 61.9187, B1_length: 267.6652, B1_z: 177.7786,
+# B2_z: 1192.5071, Q1_z: 812.1834000000001, Drift1_z: 543.6164500000001, Drift2_z: 1007.2179000000001
 # Q1_gradient: -43.4531, Q1_length: 73.1234, radius_q: 20.4404
 # B2_field: -0.0126, B2_width: 167.5582, B2_height: 144.8055, B2_length: 53.6328
 # Drift1_width: 120.1356, Drift1_height: 80.1068, Drift1_length: 463.8105, 

@@ -1,0 +1,13 @@
+# debug.g4bl: read ascii and write a zntuple immediately
+physics QGSP_BERT
+param worldMaterial=Vacuum
+
+# Add a vacuum box so Geant4 has a valid world
+box World width=1000 height=1000 length=1000 material=Vacuum color=0.8,0.8,0.8
+place World z=0
+
+# Read the beam file directly
+beam ascii filename=particles_after.txt nEvents=5000 beamZ=0 format=BLTrackFile
+
+# Write an ntuple immediately at z=0
+zntuple VD z=0.0 file=vd_debug.txt format=ascii
