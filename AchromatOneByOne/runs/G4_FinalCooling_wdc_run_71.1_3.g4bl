@@ -97,8 +97,8 @@ particlecolor e-=1,0.5,0    # orange
 # MAGNETS (ACHROMAT SETUP)
 #-------------------------------
 # placeholders will be replaced by Python:
-# B1_field: -6.5, B1_width: 74.7401, B1_height: 100.0, B1_length: 71.11111111111111, B1_z: 17.7786, 
-# B2_z: 934.2300555555556, Q1_z: 553.9063555555556, Drift1_z: 285.3394055555556, Drift2_z: 748.9408555555556
+# B1_field: -6.5, B1_width: 74.7401, B1_height: 100.0, B1_length: 71.11111111111111, B1_z: 66.01139967827127, 
+# B2_z: 982.4628552338269, Q1_z: 602.1391552338268, Drift1_z: 333.5722052338268, Drift2_z: 797.1736552338268
 # Q1_gradient: -43.4531, Q1_length: 73.1234, radius_q: 100.0
 # B2_field: -0.0126, B2_width: 167.5582, B2_height: 144.8055, B2_length: 53.6328
 # Drift1_width: 120.1356, Drift1_height: 100.0, Drift1_length: 463.8105, 
@@ -114,16 +114,16 @@ genericbend B1 \
     maxStep=0.5 \
     fieldMaterial=Vacuum fieldColor=0,0,1 \
     ironMaterial=Fe ironColor=0.6,0.6,0.6
-place B1 z=17.7786
+place B1 z=66.01139967827127
 
-zntuple vd_B1 z=53.334155555555554 file=./runs/vd_B1_end_achromat_71.1_3.txt format=ascii require=PDGid==-13
+zntuple vd_B1 z=55.995955555555554 file=./runs/vd_B1_end_achromat_71.1_3.txt format=ascii require=PDGid==-13
 #vd_B1_achromat.txt
 
 # --- Drift 1 between B1 and Q1
 # box Drift1 width=120.1356 height=100.0 length=463.8105 material=Vacuum color=0.6,0.6,0.6
-# place Drift1 z=285.3394055555556
+# place Drift1 z=333.5722052338268
 # 
-# zntuple vd_D1 z=517.2446555555556 file=vd_D1_achromat.txt format=ascii require=PDGid==-13
+# zntuple vd_D1 z=565.4774552338268 file=vd_D1_achromat.txt format=ascii require=PDGid==-13
 # 
 # # --- Quadrupole (Q1)
 # genericquad Q1 \
@@ -136,14 +136,14 @@ zntuple vd_B1 z=53.334155555555554 file=./runs/vd_B1_end_achromat_71.1_3.txt for
 #     ironMaterial=Fe fieldMaterial=Vacuum \
 #     ironColor=0.4,0.8,0.4
 # 
-# place Q1 z=553.9063555555556
-# zntuple vd_Q1 z=590.4680555555556 file=vd_Q1_achromat.txt format=ascii require=PDGid==-13
+# place Q1 z=602.1391552338268
+# zntuple vd_Q1 z=638.7008552338268 file=vd_Q1_achromat.txt format=ascii require=PDGid==-13
 # 
 # # --- Drift 2 between Q1 and B2
 # box Drift2 width=102.022 height=100.0 length=316.7456 material=Vacuum color=0.6,0.6,0.6
-# place Drift2 z=748.9408555555556
+# place Drift2 z=797.1736552338268
 # 
-# zntuple vd_D2 z=907.3136555555556 file=vd_D2_achromat.txt format=ascii require=PDGid==-13
+# zntuple vd_D2 z=955.5464552338268 file=vd_D2_achromat.txt format=ascii require=PDGid==-13
 # 
 # # --- Second dipole (B2)
 # genericbend B2 \
@@ -153,16 +153,16 @@ zntuple vd_B1 z=53.334155555555554 file=./runs/vd_B1_end_achromat_71.1_3.txt for
 #     maxStep=0.5 \
 #     fieldMaterial=Vacuum fieldColor=0,0,1 \
 #     ironMaterial=Fe ironColor=0.6,0.6,0.6
-# place B2 z=934.2300555555556
+# place B2 z=982.4628552338269
 # 
-# zntuple vd_B2 z=961.0464555555557 file=vd_B2_achromat.txt format=ascii require=PDGid==-13
+# zntuple vd_B2 z=1009.2792552338269 file=vd_B2_achromat.txt format=ascii require=PDGid==-13
 
 #-------------------------------
 # DETECTOR
 #-------------------------------
 # virtualdetector VD radius=100 color=1,0,1
 # place VD  rename=VD
-# zntuple VD z=971.1464555555557 file=./runs/vd_B1_end_achromat_71.1_3.txt format=ascii require=PDGid==-13  
+# zntuple VD z=1019.3792552338269 file=./runs/vd_B1_end_achromat_71.1_3.txt format=ascii require=PDGid==-13  
 
 
 #-------------------------------
