@@ -1,0 +1,223 @@
+G4BL_DIR=/home/incik/G4beamline-3.08
+G4LEDATA=/home/incik/Geant4Data/G4EMLOW8.0
+G4ENSDFSTATEDATA=/home/incik/Geant4Data/G4ENSDFSTATE2.3
+G4PARTICLEXSDATA=/home/incik/Geant4Data/G4PARTICLEXS4.0
+G4LEVELGAMMADATA=/home/incik/Geant4Data/PhotonEvaporation5.7
+G4RADIOACTIVEDATA=/home/incik/Geant4Data/RadioactiveDecay5.6
+G4beamline Process ID 21304
+
+*************************************************************
+ g4beamline version: 3.08                        (Aug 11 2022)
+                      Copyright : Tom Roberts, Muons, Inc.
+                        License : Gnu Public License
+                            WWW : http://g4beamline.muonsinc.com
+
+          ################################
+          !!! G4Backtrace is activated !!!
+          ################################
+
+
+**************************************************************
+ Geant4 version Name: geant4-11-00-patch-02 [MT]   (25-May-2022)
+                       Copyright : Geant4 Collaboration
+                      References : NIM A 506 (2003), 250-303
+                                 : IEEE-TNS 53 (2006), 270-278
+                                 : NIM A 835 (2016), 186-225
+                             WWW : http://geant4.org/
+**************************************************************
+
+geometry                   nPoints=100 printGeometry=0 visual=0
+                           tolerance=0.002
+param        zbegin        0.0
+start                      x=0 y=0 z=0 initialZ=0 rotation= radiusCut=300
+                           ring=0
+param        steppingFormat N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
+param        fieldVoxels   400,400,400
+param        maxStep       0.5
+param        minRangeCut   1
+G4PhysListFactory::GetReferencePhysList <QGSP_BERT>  EMoption= 0
+<<< Geant4 Physics List simulation engine: QGSP_BERT
+
+
+physics      QGSP_BERT     disable= inactivate= deactivate= doStochastics=1
+                           fluct=1 minRangeCut=1 list=0 gammaToMuPair=0
+                           spinTracking=1 synchrotronRadiation=1
+                           synchrotronRadiationMuon=0 maxTime=1e+06
+trackcuts                  kill= keep=mu-,mu+ killSecondaries=0
+                           kineticEnergyCut=0 kineticEnergyMax=1.798e+308
+                           maxTime=1e+06 keepPrimaries=0 steppingVerbose=0
+particlecolor              proton=1,1,1
+particlecolor              pi+=0,1,0
+particlecolor              mu+=1,0.5,0
+particlecolor              mu-=0,1,0
+particlecolor              e+=1,0,0
+particlecolor              gamma=0,0,1
+particlecolor              e-=1,0.5,0
+param        nparticles    1000
+param        beamfile      particles_before.txt
+beam    ASCII   nEvents=1000 firstEvent=-1 lastEvent=2147483647 beamZ=0.0 maxR=1000000.0 renumber=0 weight=1.000000 
+		filename=particles_before.txt format=BLTrackFile 
+		
+material Diamond1 Mixture: 1.00*C
+                density=3.510 temperature=273 pressure=1.0
+param        pi            3.141592654
+param        degrad        0.017453293
+param        abshgt        10
+param        abswidth      100
+param        absLEN3       18.0
+param        abshalfangle3 45.0
+param        absoffset3    3.2
+param        wedge_z       9
+extrusion    LHextrDS3     length=100 vertices=0,0;
+                           -18.0/2,18.0/2/tan(45.0*0.017453293); -18.0/2,10;
+                           0,10 scale1=1 scale2=1 maxStep=0.1
+                           material=Diamond1 color=1,0,1 kill=0 vertexes=0,0;
+                           -18.0/2,18.0/2/tan(45.0*0.017453293); -18.0/2,10;
+                           0,10
+extrusion    LHextrUS3     length=100 vertices=0,0; 0,10; 18.0/2,10;
+                           18.0/2,18.0/2/tan(45.0*0.017453293) scale1=1
+                           scale2=1 maxStep=0.1 material=Diamond1 color=1,0,1
+                           kill=0 vertexes=0,0; 0,10; 18.0/2,10;
+                           18.0/2,18.0/2/tan(45.0*0.017453293)
+param        VDRad         60.0
+virtualdetector VD         radius=60 innerRadius=0 height=120 width=120
+                           length=0.2 maxStep=0.5 material= color=1,1,1
+                           noSingles=0 format=asciiextended filename= file=
+                           require= referenceParticle=0 coordinates=centerline
+                           kill=0
+param        wedgeAxis     0
+param        noWedge       0
+place   LHextrDS3 copies=1 x=3.2 y=0.0 z=9.0 rotation='Z90,Y00,X90'
+place   LHextrUS3 copies=1 x=3.2 y=0.0 z=9.0 rotation='Z90,Y00,X90'
+zntuple                    z=0.0 zloop= noSingles=0 format=ascii
+                           file=vd_start_achromat.txt
+                           filename=vd_start_achromat.txt require=PDGid==-13
+                           referenceParticle=0 coordinates=Centerline
+genericbend  B1            fieldWidth=74.74 fieldHeight=100 fieldLength=320
+                           ironWidth=84.74 ironHeight=110 ironLength=320
+                           By=-6.5 maxStep=0.5 fieldMaterial=Vacuum
+                           fieldColor=0,0,1 ironMaterial=Fe
+                           ironColor=0.6,0.6,0.6 kill=0 fringe= fringeFactor=1
+                           openAperture=0
+place   B1      copies=1 x=0.0 y=0.0 z=190.5 
+zntuple                    z=180.4404 zloop= noSingles=0 format=ascii
+                           file=./runs/vd_B1_end_achromat_320.0_3.txt
+                           filename=./runs/vd_B1_end_achromat_320.0_3.txt
+                           require=PDGid==-13 referenceParticle=0
+                           coordinates=Centerline
+genericbend  B2            fieldWidth=74.74 fieldHeight=100 fieldLength=320
+                           ironWidth=84.74 ironHeight=110 ironLength=320
+                           By=-6.5 maxStep=0.5 fieldMaterial=Vacuum
+                           fieldColor=0,0,1 ironMaterial=Fe
+                           ironColor=0.6,0.6,0.6 kill=0 fringe= fringeFactor=1
+                           openAperture=0
+place   B2      copies=1 x=0.0 y=0.0 z=582.5 rotation='Z90,Y00,X00'
+zntuple                    z=814.3663441227158 zloop= noSingles=0 format=ascii
+                           file=./runs/vd_B1_end_achromat_320.0_3.txt
+                           filename=./runs/vd_B1_end_achromat_320.0_3.txt
+                           require=PDGid==-13 referenceParticle=0
+                           coordinates=Centerline
+
+World size (before incrementing by 201.357 mm): 110.0 H  110.0 W  1484.9 L
+
+PARAMETERS:
+          VDRad=60.0
+            Zcl=742.461
+        absLEN3=18.0
+  abshalfangle3=45.0
+         abshgt=10
+     absoffset3=3.2
+       abswidth=100
+       beamfile=particles_before.txt
+         degrad=0.017453293
+     deltaChord=3.0
+deltaIntersection=0.1
+   deltaOneStep=0.01
+         epsMax=0.05
+         epsMin=2.5e-7
+ eventTimeLimit=30
+    fieldVoxels=400,400,400
+      histoFile=g4beamline
+    histoUpdate=0
+        maxStep=0.5
+    minRangeCut=1
+        minStep=0.01
+        noWedge=0
+     nparticles=1000
+             pi=3.141592654
+ steppingFormat=N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
+steppingVerbose=0
+         viewer=none
+ wallClockLimit=-1
+      wedgeAxis=0
+        wedge_z=9
+  worldMaterial=Vacuum
+     zTolerance=2.0
+         zbegin=0.0
+Checking overlaps for volume LHextrDS3:0 (G4ExtrudedSolid) ... OK! 
+BLCMDextrusion::Construct LHextrDS3 parent= relZ=9.0 globZ=9.0
+	zmin=-41.0 zmax=59.0 kill=0
+Checking overlaps for volume LHextrUS3:0 (G4ExtrudedSolid) ... OK! 
+BLCMDextrusion::Construct LHextrUS3 parent= relZ=9.0 globZ=9.0
+	zmin=-41.0 zmax=59.0 kill=0
+Checking overlaps for volume B1:0 (G4Box) ... OK! 
+Checking overlaps for volume B1:0 (G4SubtractionSolid) ... OK! 
+BLCMDgenericbend::Construct B1 parent= relZ=190.5 globZ=190.5
+	zmin=30.5 zmax=350.5
+Checking overlaps for volume B2:0 (G4Box) ... OK! 
+Checking overlaps for volume B2:0 (G4SubtractionSolid) ... OK! 
+BLCMDgenericbend::Construct B2 parent= relZ=582.5 globZ=582.5
+	zmin=422.5 zmax=742.5
+### Adding tracking cuts for neutron  TimeCut(ns)= 10000  KinEnergyCut(MeV)= 0
+
+Geometry test nPoints=100 tolerance=0.002 mm:
+Testing geometry for children of group 'World':
+Total geometry errors = 0  0 seconds
+
+**************************************************************************
+*** G4Exception: EM Field Extends Outside World
+***    severity: Warning
+***   issued by: BLGlobalField
+*** description: May give inaccurate tracking near world boundary.
+**************************************************************************
+================== Prepare Tracking Beam ==================
+Stochastic processes are enabled.
+================== Begin Tracking Beam ===============
+Event 1 Completed  1 events  realTime=1 sec  1.0 ev/sec
+Event 2 Completed  2 events  realTime=1 sec  2.0 ev/sec
+Event 3 Completed  3 events  realTime=1 sec  3.0 ev/sec
+Event 4 Completed  4 events  realTime=1 sec  4.0 ev/sec
+Event 5 Completed  5 events  realTime=1 sec  5.0 ev/sec
+Event 6 Completed  6 events  realTime=1 sec  6.0 ev/sec
+Event 7 Completed  7 events  realTime=1 sec  7.0 ev/sec
+Event 8 Completed  8 events  realTime=1 sec  8.0 ev/sec
+Event 9 Completed  9 events  realTime=1 sec  9.0 ev/sec
+Event 10 Completed  10 events  realTime=1 sec  10.0 ev/sec
+Event 20 Completed  20 events  realTime=1 sec  20.0 ev/sec
+Event 30 Completed  30 events  realTime=1 sec  30.0 ev/sec
+Event 40 Completed  40 events  realTime=1 sec  40.0 ev/sec
+Event 50 Completed  50 events  realTime=1 sec  50.0 ev/sec
+Event 60 Completed  60 events  realTime=1 sec  60.0 ev/sec
+Event 70 Completed  70 events  realTime=1 sec  70.0 ev/sec
+Event 80 Completed  80 events  realTime=1 sec  80.0 ev/sec
+Event 90 Completed  90 events  realTime=1 sec  90.0 ev/sec
+Event 100 Completed  100 events  realTime=1 sec  100.0 ev/sec
+Event 200 Completed  200 events  realTime=1 sec  200.0 ev/sec
+Event 300 Completed  300 events  realTime=1 sec  300.0 ev/sec
+Event 400 Completed  400 events  realTime=1 sec  400.0 ev/sec
+Event 500 Completed  500 events  realTime=1 sec  500.0 ev/sec
+Event 600 Completed  600 events  realTime=1 sec  600.0 ev/sec
+Event 700 Completed  700 events  realTime=1 sec  700.0 ev/sec
+Event 800 Completed  800 events  realTime=1 sec  800.0 ev/sec
+Event 900 Completed  900 events  realTime=1 sec  900.0 ev/sec
+Event 1000 Completed  1000 events  realTime=1 sec  1000.0 ev/sec
+Run complete  1000 Events  0 seconds
+NTuple Z0                  1004 entries
+NTuple Z180                  17 entries
+NTuple Z814                   0 entries
+
+Exceptions: 0 Fatal, 0 Events Aborted, 0 Stuck Tracks (stopped), 1 Warnings
+      1 times: EM Field Extends Outside World
+g4beamline: simulation complete
+SynRad:  Incoherent Synchrotron Radiation
+Good description for long magnets at all energies.

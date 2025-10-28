@@ -116,7 +116,7 @@ genericbend B1 \
     ironMaterial=Fe ironColor=0.6,0.6,0.6
 place B1 z=30.455844122715714
 
-zntuple vd_B1 z=20.4404 file=./runs/vd_B1_end_achromat_0.0_24.txt format=ascii require=PDGid==-13
+zntuple vd_B1 z=30.455844122715714 file=./runs/vd_B1_end_achromat_0.0_24.txt format=ascii require=PDGid==-13
 #vd_B1_achromat.txt
 
 # --- Drift 1 between B1 and Q1
