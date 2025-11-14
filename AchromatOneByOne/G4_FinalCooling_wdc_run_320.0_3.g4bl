@@ -97,7 +97,7 @@ particlecolor e-=1,0.5,0    # orange
 # MAGNETS (ACHROMAT SETUP)
 #-------------------------------
 # placeholders will be replaced by Python:
-# B1_field: -6.5, B1_width: 74.7401, B1_height: 100.0, B1_length: 320.0, B1_z: 190.45584412271572, 
+# B1_field: -0.5, B1_width: 74.7401, B1_height: 100.0, B1_length: 140.0, B1_z: 190.45584412271572, 
 # B2_z: 582.4610941227157, Q1_z: 851.0280441227158, Drift1_z: 582.4610941227157, Drift2_z: 1046.0625441227157
 # Q1_gradient: -43.4531, Q1_length: 73.1234, radius_q: 100.0
 # B2_field: -6.5, B2_width: 74.7401, B2_height: 100.0, B2_length: 320.0
@@ -116,19 +116,19 @@ genericbend B1 \
     ironMaterial=Fe ironColor=0.6,0.6,0.6
 place B1 z=190.45584412271572 
 
-zntuple vd_B1 z=180.4404 file=./runs/vd_B1_end_achromat_320.0_3.txt format=ascii require=PDGid==-13
+zntuple vd_B1 z=180.4404 file=vd_B1_end_achromat_140.0_3.txt format=ascii require=PDGid==-13
 #vd_B1_achromat.txt
 
-genericbend B2 \
-    By=-6.5 \
-    fieldWidth=74.7401 fieldHeight=100.0 fieldLength=320.0 \
-    ironWidth=74.7401+10 ironHeight=100.0+10 ironLength=320.0 \
-    maxStep=0.5 \
-    fieldMaterial=Vacuum fieldColor=0,0,1 \
-    ironMaterial=Fe ironColor=0.6,0.6,0.6
-place B2 z=582.4610941227157 rotation=Z90,Y00,X00
-
-zntuple vd_B2 z=814.3663441227158 file=./runs/vd_B1_end_achromat_320.0_3.txt format=ascii require=PDGid==-13
+# genericbend B2 \
+#     By=-6.5 \
+#     fieldWidth=74.7401 fieldHeight=100.0 fieldLength=320.0 \
+#     ironWidth=74.7401+10 ironHeight=100.0+10 ironLength=320.0 \
+#     maxStep=0.5 \
+#     fieldMaterial=Vacuum fieldColor=0,0,1 \
+#     ironMaterial=Fe ironColor=0.6,0.6,0.6
+# place B2 z=582.4610941227157 rotation=Z90,Y00,X00
+# 
+# zntuple vd_B2 z=814.3663441227158 file=vd_B2_end_achromat_320.0_3.txt format=ascii require=PDGid==-13
 
 # --- Drift 1 between B1 and Q1
 # box Drift1 width=120.1356 height=100.0 length=463.8105 material=Vacuum color=0.6,0.6,0.6

@@ -4,7 +4,7 @@ G4ENSDFSTATEDATA=/home/incik/Geant4Data/G4ENSDFSTATE2.3
 G4PARTICLEXSDATA=/home/incik/Geant4Data/G4PARTICLEXS4.0
 G4LEVELGAMMADATA=/home/incik/Geant4Data/PhotonEvaporation5.7
 G4RADIOACTIVEDATA=/home/incik/Geant4Data/RadioactiveDecay5.6
-G4beamline Process ID 22078
+G4beamline Process ID 30050
 
 *************************************************************
  g4beamline version: 3.08                        (Aug 11 2022)
@@ -44,9 +44,9 @@ physics      QGSP_BERT     disable= inactivate= deactivate= doStochastics=1
                            fluct=1 minRangeCut=1 list=0 gammaToMuPair=0
                            spinTracking=1 synchrotronRadiation=1
                            synchrotronRadiationMuon=0 maxTime=1e+06
-trackcuts                  kill= keep=mu-,mu+ killSecondaries=0
-                           kineticEnergyCut=0 kineticEnergyMax=1.798e+308
-                           maxTime=1e+06 keepPrimaries=0 steppingVerbose=0
+trackcuts                  kill= keep=mu+ killSecondaries=0 kineticEnergyCut=0
+                           kineticEnergyMax=1.798e+308 maxTime=1e+06
+                           keepPrimaries=0 steppingVerbose=0
 particlecolor              proton=1,1,1
 particlecolor              pi+=0,1,0
 particlecolor              mu+=1,0.5,0
@@ -94,23 +94,28 @@ zntuple                    z=0.0 zloop= noSingles=0 format=ascii
                            file=vd_start_achromat.txt
                            filename=vd_start_achromat.txt require=PDGid==-13
                            referenceParticle=0 coordinates=Centerline
-genericbend  B1            fieldWidth=74.74 fieldHeight=100 fieldLength=320
-                           ironWidth=84.74 ironHeight=110 ironLength=320 By=0
+zntuple                    z=25.455844122715714 zloop= noSingles=0
+                           format=ascii
+                           file=./runs/vd_wedge_end_achromat_100.0_13.txt
+                           filename=./runs/vd_wedge_end_achromat_100.0_13.txt
+                           require=PDGid==-13 referenceParticle=0
+                           coordinates=Centerline
+genericbend  B1            fieldWidth=30 fieldHeight=100 fieldLength=100
+                           ironWidth=40 ironHeight=110 ironLength=100 By=-0.4
                            maxStep=0.5 fieldMaterial=Vacuum fieldColor=0,0,1
                            ironMaterial=Fe ironColor=0.6,0.6,0.6 kill=0
                            fringe= fringeFactor=1 openAperture=0
-place   B1      copies=1 x=0.0 y=0.0 z=190.5 
-zntuple                    z=350.4558441227157 zloop= noSingles=0 format=ascii
-                           file=./runs/vd_B1_end_achromat_320.0_16.txt
-                           filename=./runs/vd_B1_end_achromat_320.0_16.txt
-                           require=PDGid==-13 referenceParticle=0
-                           coordinates=Centerline
+place   B1      copies=1 x=0.0 y=0.0 z=80.5 
+zntuple                    z=130.45584412271572 zloop= noSingles=0
+                           format=ascii file=vd_B1_achromat.txt
+                           filename=vd_B1_achromat.txt require=PDGid==-13
+                           referenceParticle=0 coordinates=Centerline
 
-World size (before incrementing by 201.357 mm): 110.0 H  84.7 W  700.9 L
+World size (before incrementing by 201.357 mm): 110.0 H  40.0 W  260.9 L
 
 PARAMETERS:
           VDRad=60.0
-            Zcl=350.456
+            Zcl=130.456
         absLEN3=18.0
   abshalfangle3=45.0
          abshgt=10
@@ -150,20 +155,14 @@ BLCMDextrusion::Construct LHextrUS3 parent= relZ=9.0 globZ=9.0
 	zmin=-41.0 zmax=59.0 kill=0
 Checking overlaps for volume B1:0 (G4Box) ... OK! 
 Checking overlaps for volume B1:0 (G4SubtractionSolid) ... OK! 
-BLCMDgenericbend::Construct B1 parent= relZ=190.5 globZ=190.5
-	zmin=30.5 zmax=350.5
+BLCMDgenericbend::Construct B1 parent= relZ=80.5 globZ=80.5
+	zmin=30.5 zmax=130.5
 ### Adding tracking cuts for neutron  TimeCut(ns)= 10000  KinEnergyCut(MeV)= 0
-BLTrackFile: cannot open 'particles_before.txt' in mode 'r'
+
 Geometry test nPoints=100 tolerance=0.002 mm:
 Testing geometry for children of group 'World':
 Total geometry errors = 0  0 seconds
 
-**************************************************************************
-*** G4Exception: EM Field Extends Outside World
-***    severity: Warning
-***   issued by: BLGlobalField
-*** description: May give inaccurate tracking near world boundary.
-**************************************************************************
 ================== Prepare Visualization ==================
 Stochastic processes are enabled.
 Available UI session types: [ Qt, tcsh, csh ]
@@ -256,6 +255,21 @@ BLVisManager init: /vis/viewer/set/hiddenMarker true
 WARNING: No extent set for user vis action "DrawMarkers".
 WARNING: User Vis Action "DrawMarkers" extent is null.
  Changing export format to "jpg"
+**************************************************************************
+*** G4Exception: EM Field Extends Outside World
+***    severity: Warning
+***   issued by: BLGlobalField
+*** description: May give inaccurate tracking near world boundary.
+***     EventID: 1     TrackID: 1   mu+  KE=26.67 MeV
+**************************************************************************
+SynRad:  Incoherent Synchrotron Radiation
+Good description for long magnets at all energies.
+10 events have been kept for refreshing and/or reviewing.
+  "/vis/reviewKeptEvents" to review them one by one.
+  "/vis/enable", then "/vis/viewer/flush" or "/vis/viewer/rebuild" to see them accumulated.
+100 events have been kept for refreshing and/or reviewing.
+  "/vis/reviewKeptEvents" to review them one by one.
+  "/vis/enable", then "/vis/viewer/flush" or "/vis/viewer/rebuild" to see them accumulated.
 
 Graphics systems deleted.
 Visualization Manager deleting...

@@ -1,0 +1,5 @@
+#BLTrackFile NTuple/Z213
+#x y z Px Py Pz t PDGid EventID TrackID ParentID Weight
+#mm mm mm MeV/c MeV/c MeV/c ns - - - - -
+6.72605 4.96633 212.678 27.3572 1.38126 73.1482 1.29331 -13 206 1 0 1
+17.7928 5.57525 212.678 29.1416 12.6714 44.0722 5.3615 -13 916 1 0 1

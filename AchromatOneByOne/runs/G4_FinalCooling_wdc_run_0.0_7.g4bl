@@ -97,7 +97,7 @@ particlecolor e-=1,0.5,0    # orange
 # MAGNETS (ACHROMAT SETUP)
 #-------------------------------
 # placeholders will be replaced by Python:
-# B1_field: -4.5, B1_width: 74.7401, B1_height: 100.0, B1_length: 0.0, B1_z: 30.455844122715714, 
+# B1_field: -2.6500000000000012, B1_width: 74.7401, B1_height: 100.0, B1_length: 0.0, B1_z: 30.455844122715714, 
 # B2_z: 911.3517441227158, Q1_z: 531.0280441227158, Drift1_z: 262.46109412271574, Drift2_z: 726.0625441227157
 # Q1_gradient: -43.4531, Q1_length: 73.1234, radius_q: 100.0
 # B2_field: -0.0126, B2_width: 167.5582, B2_height: 144.8055, B2_length: 53.6328
@@ -108,7 +108,7 @@ zntuple vd_start z=0.0 file=vd_start_achromat.txt format=ascii require=PDGid==-1
 
 # --- First dipole (B1)
 genericbend B1 \
-    By=-4.5 \
+    By=-2.6500000000000012 \
     fieldWidth=74.7401 fieldHeight=100.0 fieldLength=0.0 \
     ironWidth=74.7401+10 ironHeight=100.0+10 ironLength=0.0 \
     maxStep=0.5 \

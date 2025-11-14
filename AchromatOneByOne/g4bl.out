@@ -4,7 +4,7 @@ G4ENSDFSTATEDATA=/home/incik/Geant4Data/G4ENSDFSTATE2.3
 G4PARTICLEXSDATA=/home/incik/Geant4Data/G4PARTICLEXS4.0
 G4LEVELGAMMADATA=/home/incik/Geant4Data/PhotonEvaporation5.7
 G4RADIOACTIVEDATA=/home/incik/Geant4Data/RadioactiveDecay5.6
-G4beamline Process ID 21304
+G4beamline Process ID 25357
 
 *************************************************************
  g4beamline version: 3.08                        (Aug 11 2022)
@@ -93,36 +93,23 @@ zntuple                    z=0.0 zloop= noSingles=0 format=ascii
                            file=vd_start_achromat.txt
                            filename=vd_start_achromat.txt require=PDGid==-13
                            referenceParticle=0 coordinates=Centerline
-genericbend  B1            fieldWidth=74.74 fieldHeight=100 fieldLength=320
-                           ironWidth=84.74 ironHeight=110 ironLength=320
-                           By=-6.5 maxStep=0.5 fieldMaterial=Vacuum
+genericbend  B1            fieldWidth=74.74 fieldHeight=100 fieldLength=267.7
+                           ironWidth=84.74 ironHeight=110 ironLength=267.7
+                           By=-0.133 maxStep=0.5 fieldMaterial=Vacuum
                            fieldColor=0,0,1 ironMaterial=Fe
                            ironColor=0.6,0.6,0.6 kill=0 fringe= fringeFactor=1
                            openAperture=0
-place   B1      copies=1 x=0.0 y=0.0 z=190.5 
-zntuple                    z=180.4404 zloop= noSingles=0 format=ascii
-                           file=./runs/vd_B1_end_achromat_320.0_3.txt
-                           filename=./runs/vd_B1_end_achromat_320.0_3.txt
-                           require=PDGid==-13 referenceParticle=0
-                           coordinates=Centerline
-genericbend  B2            fieldWidth=74.74 fieldHeight=100 fieldLength=320
-                           ironWidth=84.74 ironHeight=110 ironLength=320
-                           By=-6.5 maxStep=0.5 fieldMaterial=Vacuum
-                           fieldColor=0,0,1 ironMaterial=Fe
-                           ironColor=0.6,0.6,0.6 kill=0 fringe= fringeFactor=1
-                           openAperture=0
-place   B2      copies=1 x=0.0 y=0.0 z=582.5 rotation='Z90,Y00,X00'
-zntuple                    z=814.3663441227158 zloop= noSingles=0 format=ascii
-                           file=./runs/vd_B1_end_achromat_320.0_3.txt
-                           filename=./runs/vd_B1_end_achromat_320.0_3.txt
-                           require=PDGid==-13 referenceParticle=0
-                           coordinates=Centerline
+place   B1      copies=1 x=0.0 y=0.0 z=177.8 
+zntuple                    z=311.61120000000005 zloop= noSingles=0
+                           format=ascii file=vd_B1_achromat.txt
+                           filename=vd_B1_achromat.txt require=PDGid==-13
+                           referenceParticle=0 coordinates=Centerline
 
-World size (before incrementing by 201.357 mm): 110.0 H  110.0 W  1484.9 L
+World size (before incrementing by 201.357 mm): 110.0 H  84.7 W  623.2 L
 
 PARAMETERS:
           VDRad=60.0
-            Zcl=742.461
+            Zcl=311.611
         absLEN3=18.0
   abshalfangle3=45.0
          abshgt=10
@@ -162,27 +149,24 @@ BLCMDextrusion::Construct LHextrUS3 parent= relZ=9.0 globZ=9.0
 	zmin=-41.0 zmax=59.0 kill=0
 Checking overlaps for volume B1:0 (G4Box) ... OK! 
 Checking overlaps for volume B1:0 (G4SubtractionSolid) ... OK! 
-BLCMDgenericbend::Construct B1 parent= relZ=190.5 globZ=190.5
-	zmin=30.5 zmax=350.5
-Checking overlaps for volume B2:0 (G4Box) ... OK! 
-Checking overlaps for volume B2:0 (G4SubtractionSolid) ... OK! 
-BLCMDgenericbend::Construct B2 parent= relZ=582.5 globZ=582.5
-	zmin=422.5 zmax=742.5
+BLCMDgenericbend::Construct B1 parent= relZ=177.8 globZ=177.8
+	zmin=43.9 zmax=311.6
 ### Adding tracking cuts for neutron  TimeCut(ns)= 10000  KinEnergyCut(MeV)= 0
 
 Geometry test nPoints=100 tolerance=0.002 mm:
 Testing geometry for children of group 'World':
 Total geometry errors = 0  0 seconds
 
+================== Prepare Tracking Beam ==================
+Stochastic processes are enabled.
+================== Begin Tracking Beam ===============
 **************************************************************************
 *** G4Exception: EM Field Extends Outside World
 ***    severity: Warning
 ***   issued by: BLGlobalField
 *** description: May give inaccurate tracking near world boundary.
+***     EventID: 1     TrackID: 1   mu+  KE=26.67 MeV
 **************************************************************************
-================== Prepare Tracking Beam ==================
-Stochastic processes are enabled.
-================== Begin Tracking Beam ===============
 Event 1 Completed  1 events  realTime=1 sec  1.0 ev/sec
 Event 2 Completed  2 events  realTime=1 sec  2.0 ev/sec
 Event 3 Completed  3 events  realTime=1 sec  3.0 ev/sec
@@ -203,18 +187,17 @@ Event 80 Completed  80 events  realTime=1 sec  80.0 ev/sec
 Event 90 Completed  90 events  realTime=1 sec  90.0 ev/sec
 Event 100 Completed  100 events  realTime=1 sec  100.0 ev/sec
 Event 200 Completed  200 events  realTime=1 sec  200.0 ev/sec
-Event 300 Completed  300 events  realTime=1 sec  300.0 ev/sec
-Event 400 Completed  400 events  realTime=1 sec  400.0 ev/sec
-Event 500 Completed  500 events  realTime=1 sec  500.0 ev/sec
-Event 600 Completed  600 events  realTime=1 sec  600.0 ev/sec
-Event 700 Completed  700 events  realTime=1 sec  700.0 ev/sec
-Event 800 Completed  800 events  realTime=1 sec  800.0 ev/sec
-Event 900 Completed  900 events  realTime=1 sec  900.0 ev/sec
-Event 1000 Completed  1000 events  realTime=1 sec  1000.0 ev/sec
-Run complete  1000 Events  0 seconds
-NTuple Z0                  1004 entries
-NTuple Z180                  17 entries
-NTuple Z814                   0 entries
+Event 300 Completed  300 events  realTime=2 sec  150.0 ev/sec
+Event 400 Completed  400 events  realTime=3 sec  133.3 ev/sec
+Event 500 Completed  500 events  realTime=4 sec  125.0 ev/sec
+Event 600 Completed  600 events  realTime=5 sec  120.0 ev/sec
+Event 700 Completed  700 events  realTime=5 sec  140.0 ev/sec
+Event 800 Completed  800 events  realTime=6 sec  133.3 ev/sec
+Event 900 Completed  900 events  realTime=7 sec  128.6 ev/sec
+Event 1000 Completed  1000 events  realTime=8 sec  125.0 ev/sec
+Run complete  1000 Events  8 seconds
+NTuple Z0                  1000 entries
+NTuple Z312                 518 entries
 
 Exceptions: 0 Fatal, 0 Events Aborted, 0 Stuck Tracks (stopped), 1 Warnings
       1 times: EM Field Extends Outside World
