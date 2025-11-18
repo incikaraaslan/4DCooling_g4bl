@@ -38,7 +38,7 @@ particlecolor e-=1,0.5,0    # orange
 
 ######################### DEFINE INPUT BEAM
 
-  param -unset nparticles=1000
+  param -unset nparticles=5000
 
   param -unset beamfile=particles_before.txt
 
