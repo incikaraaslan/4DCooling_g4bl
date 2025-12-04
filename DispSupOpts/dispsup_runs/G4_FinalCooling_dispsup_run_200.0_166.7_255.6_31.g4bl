@@ -1,0 +1,173 @@
+# Simulates Final Cooling Dispersion Suppressor
+
+# Created by: Inci Karaaslan
+# Updated: November 21, 2025
+
+# COLORS:  100 red, 010 green, 111 white, 110 yellow, 001 blue, 101 magenta, 011 cyan
+
+# VERSION HISTORY
+
+# v304: Creates distributions at entrance of Q20 and Q21
+
+######################### DEFINE PHYSICS MODEL
+ 
+# randomseed time
+  
+param zbegin=0.0
+start initialZ=$zbegin  y=0.000   x=0.00   z=0.00    radiusCut=300
+param steppingFormat=N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
+param fieldVoxels=400,400,400 
+param maxStep=0.5
+
+param -unset minRangeCut=1
+
+physics QGSP_BERT doStochastics=1 spinTracking=1 synchrotronRadiation=1 minRangeCut=$minRangeCut # disable=Decay
+# physics FTFP_BERT doStochastics=1 spinTracking=1 synchrotronRadiation=1 # disable=Decay
+
+trackcuts keep=mu+
+
+particlecolor proton=1,1,1 
+particlecolor pi+=0,1,0 
+particlecolor mu+=1,0.5,0   # orange
+particlecolor mu-=0,1,0   # green
+particlecolor e+=1,0,0      # red
+particlecolor gamma=0,0,1   # blue
+particlecolor e-=1,0.5,0    # orange
+
+# material Nb3Sn Z=38.25 A=118.25 density=8.4 state=solid
+
+######################### DEFINE INPUT BEAM
+
+  param -unset nparticles=5000
+
+  param -unset beamfile=particles_before.txt
+
+  beam ascii filename=$beamfile nEvents=$nparticles beamZ=0  
+                                   
+######################### DEFINE WEDGE
+
+  material Diamond1 C,1.0 density=3.51  
+
+  param pi=3.141592654
+  param degrad=$pi/180
+
+  param -unset abshgt=10
+  param abswidth=100
+  param -unset absLEN3=18.0
+  param -unset abshalfangle3=45.0 
+  param -unset absoffset3=3.2     
+  
+  param wedge_z=0.5*$absLEN3
+     
+  extrusion LHextrDS3 color=1,0,1 material=Diamond1 length=$abswidth maxStep=0.1\
+  vertices='0,0; \
+                 -$absLEN3/2,$absLEN3/2/tan($abshalfangle3*$degrad); \
+                 -$absLEN3/2,$abshgt; \
+                 0,$abshgt'
+
+  extrusion LHextrUS3 color=1,0,1 material=Diamond1 length=$abswidth maxStep=0.1\
+  vertices='0,0; \
+                  0,$abshgt; \
+                  $absLEN3/2,$abshgt; \
+                  $absLEN3/2,$absLEN3/2/tan($abshalfangle3*$degrad)'
+
+######################### DEFINE VIRTUAL SCREENS
+
+  param VDRad=60.0
+  virtualdetector VD    radius=$VDRad    length=0.2  color=1,1,1 format=asciiExtended coordinates=centerline
+   
+##########################################################################################################
+############################################  PLACE ELEMENTS  ############################################
+##########################################################################################################
+
+  param -unset wedgeAxis=0  # 1 (or any nonzero) indicates y axis
+  param -unset noWedge=0  # 1 to completely remove the wedge
+  
+  if $noWedge==0
+    if $wedgeAxis==1
+      place LHextrDS3 x=0 y=$absoffset3 z=$wedge_z rotation=Z180,Y90,X00
+      place LHextrUS3 x=0 y=$absoffset3 z=$wedge_z+0 rotation=Z180,Y90,X00
+    else
+      place LHextrDS3 x=$absoffset3 y=0 z=$wedge_z rotation=Z90,Y00,X90
+      place LHextrUS3 x=$absoffset3 y=0 z=$wedge_z+0 rotation=Z90,Y00,X90
+    endif
+  endif
+
+#-------------------------------
+# MAGNETS (DISPERSION SUPPRESSOR SETUP)
+#-------------------------------
+# placeholders will be replaced by Python:
+# B1_field: 0.2101, B1_width: 122.8026, B1_height: 265.3664, B1_length: 83.8629, B1_z: 677.9253941227157, 
+# Q1_z: 125.55584412271571, Q2_z: 457.2481941227157, Drift1_z: 295.5386441227157, Drift2_z: 592.4844441227157
+# Drift1_length: 139.7656, Drift2_length:86.819,
+# Q1_gradient: 1.1000000000000028, Q1_length: 200.0, radius_q: 255.55555555555554, thickness: 166.66666666666666
+# Q2_gradient: -0.1835, Q2_length: 183.4535, radius_q: 255.55555555555554
+
+zntuple vd_start z=0.0 file=vd_start_dispsup.txt format=ascii require=PDGid==-13
+
+zntuple vd_wedge z=25.455844122715714 file=vd_wedge_end_achromat.txt format=ascii require=PDGid==-13
+
+
+# --- Quadrupole (Q1)
+genericquad Q1 \
+    gradient=1.1000000000000028 \
+    fieldLength=200.0 \
+    ironLength=200.0 \
+    ironRadius=255.55555555555554+166.66666666666666 \
+    apertureRadius=255.55555555555554 \
+    maxStep=0.5 \
+    ironMaterial=Fe fieldMaterial=Vacuum \
+    ironColor=0.4,0.8,0.4
+
+place Q1 z=125.55584412271571
+zntuple vd_Q1 z=225.5558441227157 file=dispsup_runs/vd_dispsup.txt_200.0_166.7_255.6_31.txt format=ascii require=PDGid==-13
+# vd_Q1_dispsup.txt
+# # --- Drift 1 between Q1 and Q2
+# box Drift1 width=173.3462 height=243.1225 length=139.7656 material=Vacuum color=0.6,0.6,0.6
+# place Drift1 z=295.5386441227157
+# zntuple vd_D1 z=365.4214441227157 file=vd_D1_dispsup.txt format=ascii require=PDGid==-13
+# 
+# # --- Quadrupole (Q2)
+# genericquad Q2 \
+#     gradient=-0.1835 \
+#     fieldLength=183.4535 \
+#     ironLength=183.4535 \
+#     ironRadius=255.55555555555554+166.66666666666666 \
+#     apertureRadius=255.55555555555554 \
+#     maxStep=0.5 \
+#     ironMaterial=Fe fieldMaterial=Vacuum \
+#     ironColor=0.4,0.8,0.4
+# 
+# place Q2 z=457.2481941227157
+# zntuple vd_Q2 z=548.9749441227157 file=vd_Q2_dispsup.txt format=ascii require=PDGid==-13
+# 
+# # --- Drift 2 between Q2 and B1
+# box Drift2 width=191.618 height=121.9246 length=86.819 material=Vacuum color=0.6,0.6,0.6
+# place Drift2 z=592.4844441227157
+# 
+# zntuple vd_D2 z=635.8939441227157 file=vd_D2_dispsup.txt format=ascii require=PDGid==-13
+# 
+# # --- First dipole (B1)
+# genericbend B1 \
+#     By=0.2101 \
+#     fieldWidth=122.8026 fieldHeight=265.3664 fieldLength=83.8629 \
+#     ironWidth=122.8026+10 ironHeight=265.3664+10 ironLength=83.8629 \
+#     maxStep=0.5 \
+#     fieldMaterial=Vacuum fieldColor=0,0,1 \
+#     ironMaterial=Fe ironColor=0.6,0.6,0.6
+# place B1 z=677.9253941227157
+# 
+# zntuple vd_B1 z=719.8568441227158 file=vd_B1_dispsup.txt format=ascii require=PDGid==-13
+# 
+# #-------------------------------
+# # DETECTOR
+# #-------------------------------
+# # virtualdetector VD radius=100 color=1,0,1
+# # place VD  rename=VD
+# zntuple VD z=729.9568441227158 file=dispsup_runs/vd_dispsup.txt_200.0_166.7_255.6_31.txt format=ascii require=PDGid==-13  
+# 
+# 
+# #-------------------------------
+# # FIELD MAP OUTPUT
+# #-------------------------------
+# printfield type=grid file=field_cell.dat field=By X0=0 Y0=0 Z0=0 nX=1 dX=1 nY=1 dY=1 nZ=246 dZ=5
