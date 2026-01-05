@@ -1,7 +1,9 @@
+
+#!/usr/bin/env python3
 """
 QQD_full.py
 
-Propagate Twiss (beta, alpha) and dispersion through a QQD optics (Option A).
+Propagate Twiss (beta, alpha) and dispersion through a QQD optics.
 Features:
  - Reads G4Beamline for009-style track files to extract initial Twiss/dispersion using your calc_params logic.
  - Builds piecewise Kx(s), Ky(s) and h(s)=1/rho on a grid.
@@ -173,7 +175,7 @@ def fundamental_matrix(s_positions, K_vals):
     return M, sol.t, sol.y
 
 # ------------------------
-# Propagation
+# Propagation wrappers
 # ------------------------
 def propagate_beta(beta0, alpha0, s_positions, K_vals):
     bp0 = -2.0*alpha0
@@ -299,11 +301,11 @@ def dispersion_cost(kvec, optics_template, x_params, y_params,
 # Main runner that assembles everything and optionally runs the optimizer
 # ------------------------
 def run_all(particle_file=None, do_plots=True, do_optimize=True, ds=1e-3):
-    
+    # Option A optics template
     optics_template = [
         ("quad", 0.20,  1.0),
         ("quad", 0.20, -0.5),
-        ("dipole", 0.50, 1.0)
+        ("dipole", 0.50, 0.25)
     ]
 
     # initial Twiss from particle file or defaults

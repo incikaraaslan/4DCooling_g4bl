@@ -57,18 +57,35 @@ def read_trackfile(filepath):
     return pd.read_csv(filepath, sep=" ", comment="#", names=FIELDS, index_col=False)
 
 
-def write_trackfile(tracks, filepath, comment=""):
-    """
+"""def write_trackfile(tracks, filepath, comment=""):
+
     Creates a trackfile in the #BLTrackFile2 format
 
     :param tracks: pandas dataframe of particle tracks to write
     :param filepath: filepath to write to
     :param comment: user comment on the file (usually a title)
-    """
+
+    with open(filepath, "w+") as file:
+        file.write(f"#BLTrackFile2 {comment}\n")
+        file.write("#" + " ".join(FIELDS) + "\n")
+        
+        tracks.to_csv(file, sep=" ", header=False, index=False, lineterminator="\n")"""
+        
+def write_trackfile(tracks, filepath, comment=""):
+    # Ensure all fields exist
+    tracks = tracks.copy()
+    for field in FIELDS:
+        if field not in tracks.columns:
+            tracks[field] = 0.0
+
+    # Reorder columns to match the BLTrackFile2 header
+    tracks = tracks[FIELDS]
+
     with open(filepath, "w+") as file:
         file.write(f"#BLTrackFile2 {comment}\n")
         file.write("#" + " ".join(FIELDS) + "\n")
         tracks.to_csv(file, sep=" ", header=False, index=False, lineterminator="\n")
+
 
 
 def calc_params(x, xp, delta, normalization=1):

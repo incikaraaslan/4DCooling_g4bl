@@ -4,7 +4,7 @@ G4ENSDFSTATEDATA=/home/incik/Geant4Data/G4ENSDFSTATE2.3
 G4PARTICLEXSDATA=/home/incik/Geant4Data/G4PARTICLEXS4.0
 G4LEVELGAMMADATA=/home/incik/Geant4Data/PhotonEvaporation5.7
 G4RADIOACTIVEDATA=/home/incik/Geant4Data/RadioactiveDecay5.6
-G4beamline Process ID 12239
+G4beamline Process ID 11942
 
 *************************************************************
  g4beamline version: 3.08                        (Aug 11 2022)
@@ -26,6 +26,7 @@ G4beamline Process ID 12239
                              WWW : http://geant4.org/
 **************************************************************
 
+param        viewer        best,1
 geometry                   nPoints=100 printGeometry=0 visual=0
                            tolerance=0.002
 param        zbegin        0.0
@@ -62,26 +63,28 @@ material Diamond1 Mixture: 1.00*C
                 density=3.510 temperature=273 pressure=1.0
 param        pi            3.141592654
 param        degrad        0.017453293
-param        abshgt        9.509857116805007
-param        abswidth      100
-param        absLEN3       24
-param        abshalfangle3 51.898062710886734
-param        absoffset3    2.463498548957793
-param        wedge_z       12
-extrusion    LHextrDS3     length=100 vertices=0,0;
-                           -24/2,24/2/tan(51.898062710886734*0.017453293);
-                           -24/2,9.509857116805007; 0,9.509857116805007
+param        abshgt        2.0832949869794697
+param        abswidth      6.18
+param        absLEN3       4.9511136160530835
+param        abshalfangle3 51.3
+param        absoffset3    2.4755568080265418
+param        wedge_z       2.4755568
+extrusion    LHextrDS3     length=6.18 vertices=0,0;
+                           -4.9511136160530835/2,4.9511136160530835/2/tan(51.3*0.017453293);
+                           -4.9511136160530835/2,2.0832949869794697;
+                           0,2.0832949869794697 scale1=1 scale2=1 maxStep=0.1
+                           material=Diamond1 color=1,0,1 kill=0 vertexes=0,0;
+                           -4.9511136160530835/2,4.9511136160530835/2/tan(51.3*0.017453293);
+                           -4.9511136160530835/2,2.0832949869794697;
+                           0,2.0832949869794697
+extrusion    LHextrUS3     length=6.18 vertices=0,0; 0,2.0832949869794697;
+                           4.9511136160530835/2,2.0832949869794697;
+                           4.9511136160530835/2,4.9511136160530835/2/tan(51.3*0.017453293)
                            scale1=1 scale2=1 maxStep=0.1 material=Diamond1
                            color=1,0,1 kill=0 vertexes=0,0;
-                           -24/2,24/2/tan(51.898062710886734*0.017453293);
-                           -24/2,9.509857116805007; 0,9.509857116805007
-extrusion    LHextrUS3     length=100 vertices=0,0; 0,9.509857116805007;
-                           24/2,9.509857116805007;
-                           24/2,24/2/tan(51.898062710886734*0.017453293)
-                           scale1=1 scale2=1 maxStep=0.1 material=Diamond1
-                           color=1,0,1 kill=0 vertexes=0,0;
-                           0,9.509857116805007; 24/2,9.509857116805007;
-                           24/2,24/2/tan(51.898062710886734*0.017453293)
+                           0,2.0832949869794697;
+                           4.9511136160530835/2,2.0832949869794697;
+                           4.9511136160530835/2,4.9511136160530835/2/tan(51.3*0.017453293)
 param        VDRad         60.0
 virtualdetector VD         radius=60 innerRadius=0 height=120 width=120
                            length=0.2 maxStep=0.5 material= color=1,1,1
@@ -90,21 +93,21 @@ virtualdetector VD         radius=60 innerRadius=0 height=120 width=120
                            kill=0
 param        wedgeAxis     0
 param        noWedge       0
-place   LHextrDS3 copies=1 x=2.5 y=0.0 z=12.0 rotation='Z90,Y00,X90'
-place   LHextrUS3 copies=1 x=2.5 y=0.0 z=12.0 rotation='Z90,Y00,X90'
+place   LHextrDS3 copies=1 x=2.5 y=0.0 z=2.5 rotation='Z90,Y00,X90'
+place   LHextrUS3 copies=1 x=2.5 y=0.0 z=2.5 rotation='Z90,Y00,X90'
 param        outname       particles_after
-place   VD      copies=1 x=0.0 y=0.0 z=25.1 rename='particles_after'
+place   VD      copies=1 x=0.0 y=0.0 z=6.1 rename='particles_after'
 
-World size (before incrementing by 201.357 mm): 120.0 H  120.0 W  50.4 L
+World size (before incrementing by 201.357 mm): 120.0 H  120.0 W  12.3 L
 
 PARAMETERS:
           VDRad=60.0
-            Zcl=25.2
-        absLEN3=24
-  abshalfangle3=51.898062710886734
-         abshgt=9.509857116805007
-     absoffset3=2.463498548957793
-       abswidth=100
+            Zcl=6.15111
+        absLEN3=4.9511136160530835
+  abshalfangle3=51.3
+         abshgt=2.0832949869794697
+     absoffset3=2.4755568080265418
+       abswidth=6.18
        beamfile=particles_before.txt
          degrad=0.017453293
      deltaChord=3.0
@@ -125,73 +128,122 @@ deltaIntersection=0.1
              pi=3.141592654
  steppingFormat=N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
 steppingVerbose=0
-         viewer=none
+         viewer=best,1
  wallClockLimit=-1
       wedgeAxis=0
-        wedge_z=12
+        wedge_z=2.4755568
   worldMaterial=Vacuum
      zTolerance=2.0
          zbegin=0.0
 Checking overlaps for volume LHextrDS3:0 (G4ExtrudedSolid) ... OK! 
-BLCMDextrusion::Construct LHextrDS3 parent= relZ=12.0 globZ=12.0
-	zmin=-38.0 zmax=62.0 kill=0
+BLCMDextrusion::Construct LHextrDS3 parent= relZ=2.5 globZ=2.5
+	zmin=-0.6 zmax=5.6 kill=0
 Checking overlaps for volume LHextrUS3:0 (G4ExtrudedSolid) ... OK! 
-BLCMDextrusion::Construct LHextrUS3 parent= relZ=12.0 globZ=12.0
-	zmin=-38.0 zmax=62.0 kill=0
+BLCMDextrusion::Construct LHextrUS3 parent= relZ=2.5 globZ=2.5
+	zmin=-0.6 zmax=5.6 kill=0
 Checking overlaps for volume particles_after:0 (G4Tubs) ... OK! 
-BLCMDvirtualdetector::Construct particles_after parent= relZ=25.1 globZ=25.1
+BLCMDvirtualdetector::Construct particles_after parent= relZ=6.1 globZ=6.1
 ### Adding tracking cuts for neutron  TimeCut(ns)= 10000  KinEnergyCut(MeV)= 0
 
 Geometry test nPoints=100 tolerance=0.002 mm:
 Testing geometry for children of group 'World':
 Total geometry errors = 0  0 seconds
 
-================== Prepare Tracking Beam ==================
+================== Prepare Visualization ==================
 Stochastic processes are enabled.
-================== Begin Tracking Beam ===============
-Event 1 Completed  1 events  realTime=1 sec  1.0 ev/sec
-Event 2 Completed  2 events  realTime=1 sec  2.0 ev/sec
-Event 3 Completed  3 events  realTime=1 sec  3.0 ev/sec
-Event 4 Completed  4 events  realTime=1 sec  4.0 ev/sec
-Event 5 Completed  5 events  realTime=1 sec  5.0 ev/sec
-Event 6 Completed  6 events  realTime=1 sec  6.0 ev/sec
-Event 7 Completed  7 events  realTime=1 sec  7.0 ev/sec
-Event 8 Completed  8 events  realTime=1 sec  8.0 ev/sec
-Event 9 Completed  9 events  realTime=1 sec  9.0 ev/sec
-Event 10 Completed  10 events  realTime=1 sec  10.0 ev/sec
-Event 20 Completed  20 events  realTime=1 sec  20.0 ev/sec
-Event 30 Completed  30 events  realTime=1 sec  30.0 ev/sec
-Event 40 Completed  40 events  realTime=1 sec  40.0 ev/sec
-Event 50 Completed  50 events  realTime=1 sec  50.0 ev/sec
-Event 60 Completed  60 events  realTime=1 sec  60.0 ev/sec
-Event 70 Completed  70 events  realTime=1 sec  70.0 ev/sec
-Event 80 Completed  80 events  realTime=1 sec  80.0 ev/sec
-Event 90 Completed  90 events  realTime=1 sec  90.0 ev/sec
-Event 100 Completed  100 events  realTime=1 sec  100.0 ev/sec
-Event 200 Completed  200 events  realTime=1 sec  200.0 ev/sec
-Event 300 Completed  300 events  realTime=1 sec  300.0 ev/sec
-Event 400 Completed  400 events  realTime=1 sec  400.0 ev/sec
-Event 500 Completed  500 events  realTime=1 sec  500.0 ev/sec
-Event 600 Completed  600 events  realTime=1 sec  600.0 ev/sec
-Event 700 Completed  700 events  realTime=1 sec  700.0 ev/sec
-Event 800 Completed  800 events  realTime=1 sec  800.0 ev/sec
-Event 900 Completed  900 events  realTime=1 sec  900.0 ev/sec
-Event 1000 Completed  1000 events  realTime=1 sec  1000.0 ev/sec
-Event 2000 Completed  2000 events  realTime=1 sec  2000.0 ev/sec
-Event 3000 Completed  3000 events  realTime=1 sec  3000.0 ev/sec
-Event 4000 Completed  4000 events  realTime=1 sec  4000.0 ev/sec
-Event 5000 Completed  5000 events  realTime=1 sec  5000.0 ev/sec
-Event 6000 Completed  6000 events  realTime=2 sec  3000.0 ev/sec
-Event 7000 Completed  7000 events  realTime=2 sec  3500.0 ev/sec
-Event 8000 Completed  8000 events  realTime=2 sec  4000.0 ev/sec
-Event 9000 Completed  9000 events  realTime=3 sec  3000.0 ev/sec
-Event 10000 Completed  10000 events  realTime=3 sec  3333.3 ev/sec
-Event 11000 Completed  11000 events  realTime=3 sec  3666.7 ev/sec
-Event 12000 Completed  12000 events  realTime=4 sec  3000.0 ev/sec
-Run complete  12000 Events  4 seconds
-NTuple particles_after    11148 entries
+Available UI session types: [ Qt, tcsh, csh ]
+QStandardPaths: wrong permissions on runtime directory /mnt/wslg/runtime-dir, 0777 instead of 0700
+Visualization Manager instantiating with verbosity "warnings (3)"...
+Visualization Manager initialising...
+Registering graphics systems...
+
+You have successfully registered the following graphics systems.
+Registered graphics systems are:
+  ASCIITree (ATree)
+  DAWNFILE (DAWNFILE)
+  G4HepRepFile (HepRepFile)
+  RayTracer (RayTracer)
+  VRML2FILE (VRML2FILE)
+  gMocrenFile (gMocrenFile)
+  OpenGLImmediateQt (OGLIQt, OGLI)
+  OpenGLStoredQt (OGLSQt, OGL, OGLS)
+  OpenGLImmediateX (OGLIX, OGLIQt_FALLBACK)
+  OpenGLStoredX (OGLSX, OGLSQt_FALLBACK)
+  RayTracerX (RayTracerX)
+
+Registering model factories...
+
+You have successfully registered the following model factories.
+Registered model factories:
+  generic
+  drawByAttribute
+  drawByCharge
+  drawByOriginVolume
+  drawByParticleID
+  drawByEncounteredVolume
+
+Registered models:
+  None
+
+Registered filter factories:
+  attributeFilter
+  chargeFilter
+  originVolumeFilter
+  particleFilter
+  encounteredVolumeFilter
+
+Registered filters:
+  None
+
+You have successfully registered the following user vis actions.
+Run Duration User Vis Actions: none
+End of Event User Vis Actions: none
+End of Run User Vis Actions: none
+
+Some /vis commands (optionally) take a string to specify colour.
+"/vis/list" to see available colours.
+
+Selected visualization viewer: Qt
+BLVisManager init: /vis/open OGLSQt
+BLVisManager init: /vis/viewer/set/auxiliaryEdge true
+BLVisManager init: /vis/viewer/set/style surface
+BLVisManager init: /vis/viewer/set/viewpointThetaPhi 0 0 deg
+BLVisManager init: /vis/drawVolume
+BLVisManager init: /tracking/storeTrajectory 1
+BLVisManager init: /vis/scene/add/trajectories
+/tracking/storeTrajectory 1
+Attributes available for modeling and filtering with
+  "/vis/modeling/trajectories/create/drawByAttribute" and
+  "/vis/filtering/trajectories/create/attributeFilter" commands:
+G4TrajectoriesModel:
+  Event ID (EventID): G4int
+  Run ID (RunID): G4int
+G4Trajectory:
+  Charge (Ch): unit: e+ (G4double)
+  Track ID (ID): G4int
+  Initial kinetic energy (IKE): G4BestUnit (G4double)
+  Initial momentum magnitude (IMag): G4BestUnit (G4double)
+  Initial momentum (IMom): G4BestUnit (G4ThreeVector)
+  No. of points (NTP): G4int
+  PDG Encoding (PDG): G4int
+  Parent ID (PID): G4int
+  Particle Name (PN): G4String
+G4TrajectoryPoint:
+  Position (Pos): G4BestUnit (G4ThreeVector)
+WARNING: Trajectory storing has been requested.  This action may be
+  reversed with "/tracking/storeTrajectory 0".
+BLVisManager init: /vis/scene/endOfEventAction accumulate -1
+WARNING: The vis manager will keep an unlimited number of events.
+  This may use a lot of memory.
+  It may be changed with, e.g., "/vis/scene/endOfEventAction accumulate 10".
+BLVisManager init: /vis/viewer/set/hiddenMarker true
+
+WARNING: No extent set for user vis action "DrawMarkers".
+WARNING: User Vis Action "DrawMarkers" extent is null.
+ Changing export format to "jpg"
+
+Graphics systems deleted.
+Visualization Manager deleting...
 
 Exceptions: 0 Fatal, 0 Events Aborted, 0 Stuck Tracks (stopped), 0 Warnings
 g4beamline: simulation complete
-SynRad:  Incoherent Synchrotron Radiation
-Good description for long magnets at all energies.

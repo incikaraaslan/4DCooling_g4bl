@@ -40,9 +40,9 @@ particlecolor e-=1,0.5,0    # orange
 
   param -unset nparticles=5000
 
-  param -unset beamfile=particles_before.txt
+  param -unset beamfile=particles_before_new.txt
 
-  beam ascii filename=$beamfile nEvents=$nparticles beamZ=0  
+  beam ascii filename=$beamfile nEvents=$nparticles beamZ=0.0  
                                    
 ######################### DEFINE WEDGE
 
@@ -51,11 +51,11 @@ particlecolor e-=1,0.5,0    # orange
   param pi=3.141592654
   param degrad=$pi/180
 
-  param -unset abshgt=10
+  param -unset abshgt=2.079108542938554 
   param abswidth=100
-  param -unset absLEN3=18.0
-  param -unset abshalfangle3=45.0 
-  param -unset absoffset3=3.2     
+  param -unset absLEN3=4.944980996971603
+  param -unset abshalfangle3=51.32442402932793
+  param -unset absoffset3=2.4724904984858016    
   
   param wedge_z=0.5*$absLEN3
      
@@ -97,77 +97,79 @@ particlecolor e-=1,0.5,0    # orange
 # MAGNETS (DISPERSION SUPPRESSOR SETUP)
 #-------------------------------
 # placeholders will be replaced by Python:
-# B1_field: 0.2101, B1_width: 122.8026, B1_height: 265.3664, B1_length: 83.8629, B1_z: 774.8865941227158, 
-# Q1_z: 173.9864441227157, Q2_z: 554.2093941227157, Drift1_z: 392.4998441227157, Drift2_z: 689.4456441227157
-# Drift1_length: 139.7656, Drift2_length:86.819,
-# Q1_gradient: -1.2517, Q1_length: 297.0612, radius_q: 63.938, thickness: 410.4403
-# Q2_gradient: -0.1835, Q2_length: 183.4535, radius_q: 63.938
+# wedge_end: 6.334060274369019
+# B1_field: -0.35, B1_width: 100.0, B1_height: 100.0, B1_length: 120.0, B1_z: 146.734060274369, 
+# Q1_z: 21.33406027436902, Q2_z: 61.534060274369025, Drift1_z: 41.434060274369024, Drift2_z: 81.63406027436902
+# Drift1_length: 10.0, Drift2_length:10.0,
+# Q1_gradient: 0.05, Q1_length: 30.0, radius_q: 50.0, thickness: 10.0
+# Q2_gradient: -0.05, Q2_length: 30.0, radius_q: 50.0
 
 zntuple vd_start z=0.0 file=vd_start_dispsup.txt format=ascii require=PDGid==-13
 
-zntuple vd_wedge z=25.455844122715714 file=vd_wedge_end_achromat.txt format=ascii require=PDGid==-13
+zntuple vd_wedge z=6.334060274369019 file=vd_wedge_end_achromat.txt format=ascii require=PDGid==-13
 
 
 # --- Quadrupole (Q1)
 genericquad Q1 \
-    gradient=-1.2517 \
-    fieldLength=297.0612 \
-    ironLength=297.0612 \
-    ironRadius=63.938+410.4403 \
-    apertureRadius=63.938 \
+    gradient=0.05 \
+    fieldLength=30.0 \
+    ironLength=30.0 \
+    ironRadius=50.0+10.0 \
+    apertureRadius=50.0 \
     maxStep=0.5 \
     ironMaterial=Fe fieldMaterial=Vacuum \
     ironColor=0.4,0.8,0.4
 
-place Q1 z=173.9864441227157
-zntuple vd_Q1 z=322.5170441227157 file=vd_Q1_dispsup.txt format=ascii require=PDGid==-13
+place Q1 z=21.33406027436902
+zntuple vd_Q1 z=36.33406027436902 file=vd_Q1_dispsup.txt format=ascii require=PDGid==-13
+
 
 # --- Drift 1 between Q1 and Q2
-box Drift1 width=173.3462 height=243.1225 length=139.7656 material=Vacuum color=0.6,0.6,0.6
-place Drift1 z=392.4998441227157
-zntuple vd_D1 z=462.38264412271565 file=vd_D1_dispsup.txt format=ascii require=PDGid==-13
+box Drift1 width=100.0 height=100.0 length=10.0 material=Vacuum color=0.6,0.6,0.6
+place Drift1 z=41.434060274369024
+zntuple vd_D1 z=46.434060274369024 file=vd_D1_dispsup.txt format=ascii require=PDGid==-13
 
 # --- Quadrupole (Q2)
 genericquad Q2 \
-    gradient=-0.1835 \
-    fieldLength=183.4535 \
-    ironLength=183.4535 \
-    ironRadius=63.938+410.4403 \
-    apertureRadius=63.938 \
+    gradient=-0.05 \
+    fieldLength=30.0 \
+    ironLength=30.0 \
+    ironRadius=50.0+10.0 \
+    apertureRadius=50.0 \
     maxStep=0.5 \
     ironMaterial=Fe fieldMaterial=Vacuum \
     ironColor=0.4,0.8,0.4
 
-place Q2 z=554.2093941227157
-zntuple vd_Q2 z=645.9361441227157 file=vd_Q2_dispsup.txt format=ascii require=PDGid==-13
+place Q2 z=61.534060274369025
+zntuple vd_Q2 z=76.53406027436903 file=vd_Q2_dispsup.txt format=ascii require=PDGid==-13
 
 # --- Drift 2 between Q2 and B1
-box Drift2 width=191.618 height=121.9246 length=86.819 material=Vacuum color=0.6,0.6,0.6
-place Drift2 z=689.4456441227157
+box Drift2 width=100.0 height=100.0 length=10.0 material=Vacuum color=0.6,0.6,0.6
+place Drift2 z=81.63406027436902
 
-zntuple vd_D2 z=732.8551441227157 file=vd_D2_dispsup.txt format=ascii require=PDGid==-13
+zntuple vd_D2 z=86.63406027436902 file=vd_D2_dispsup.txt format=ascii require=PDGid==-13
 
 # --- First dipole (B1)
 genericbend B1 \
-    By=0.2101 \
-    fieldWidth=122.8026 fieldHeight=265.3664 fieldLength=83.8629 \
-    ironWidth=122.8026+10 ironHeight=265.3664+10 ironLength=83.8629 \
+    By=-0.35 \
+    fieldWidth=100.0 fieldHeight=100.0 fieldLength=120.0 \
+    ironWidth=100.0+10 ironHeight=100.0+10 ironLength=120.0 \
     maxStep=0.5 \
     fieldMaterial=Vacuum fieldColor=0,0,1 \
     ironMaterial=Fe ironColor=0.6,0.6,0.6
-place B1 z=774.8865941227158
+place B1 z=146.734060274369
 
-zntuple vd_B1 z=816.8180441227158 file=vd_B1_dispsup.txt format=ascii require=PDGid==-13
+zntuple vd_B1 z=206.734060274369 file=vd_B1_dispsup.txt format=ascii require=PDGid==-13
 
 #-------------------------------
 # DETECTOR
 #-------------------------------
 # virtualdetector VD radius=100 color=1,0,1
 # place VD  rename=VD
-zntuple VD z=826.9180441227159 file=vd_dispsup.txt format=ascii require=PDGid==-13  
+zntuple VD z=216.834060274369 file=vd_dispsup.txt format=ascii require=PDGid==-13  
 
 
 #-------------------------------
 # FIELD MAP OUTPUT
 #-------------------------------
-printfield type=grid file=field_cell.dat field=By X0=0 Y0=0 Z0=0 nX=1 dX=1 nY=1 dY=1 nZ=246 dZ=5
+# printfield type=grid file=field_cell.dat field=By X0=0 Y0=0 Z0=0 nX=1 dX=1 nY=1 dY=1 nZ=216.0 dZ=1
