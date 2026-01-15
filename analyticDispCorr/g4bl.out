@@ -4,7 +4,7 @@ G4ENSDFSTATEDATA=/home/incik/Geant4Data/G4ENSDFSTATE2.3
 G4PARTICLEXSDATA=/home/incik/Geant4Data/G4PARTICLEXS4.0
 G4LEVELGAMMADATA=/home/incik/Geant4Data/PhotonEvaporation5.7
 G4RADIOACTIVEDATA=/home/incik/Geant4Data/RadioactiveDecay5.6
-G4beamline Process ID 8039
+G4beamline Process ID 13564
 
 *************************************************************
  g4beamline version: 3.08                        (Aug 11 2022)
@@ -26,6 +26,7 @@ G4beamline Process ID 8039
                              WWW : http://geant4.org/
 **************************************************************
 
+param        viewer        best,1
 geometry                   nPoints=100 printGeometry=0 visual=0
                            tolerance=0.002
 param        zbegin        0.0
@@ -43,9 +44,9 @@ physics      QGSP_BERT     disable= inactivate= deactivate= doStochastics=1
                            fluct=1 minRangeCut=1 list=0 gammaToMuPair=0
                            spinTracking=1 synchrotronRadiation=1
                            synchrotronRadiationMuon=0 maxTime=1e+06
-trackcuts                  kill= keep=mu-,mu+ killSecondaries=0
-                           kineticEnergyCut=0 kineticEnergyMax=1.798e+308
-                           maxTime=1e+06 keepPrimaries=0 steppingVerbose=0
+trackcuts                  kill= keep=mu+ killSecondaries=0 kineticEnergyCut=0
+                           kineticEnergyMax=1.798e+308 maxTime=1e+06
+                           keepPrimaries=0 steppingVerbose=0
 particlecolor              proton=1,1,1
 particlecolor              pi+=0,1,0
 particlecolor              mu+=1,0.5,0
@@ -53,10 +54,16 @@ particlecolor              mu-=0,1,0
 particlecolor              e+=1,0,0
 particlecolor              gamma=0,0,1
 particlecolor              e-=1,0.5,0
-param        nparticles    50000
-param        beamfile      particles_before.txt
-beam    ASCII   nEvents=50000 firstEvent=-1 lastEvent=2147483647 beamZ=0.0 maxR=1000000.0 renumber=0 weight=1.000000 
-		filename=particles_before.txt format=BLTrackFile 
+param        nparticles    {N_PARTICLES}
+param        beamfile      particles_before_new.txt
+**************************************************************************
+*** G4Exception: printError
+***    severity: Warning
+***   issued by: 
+*** description: Invalid value '{N_PARTICLES}' for argument 'nEvents' to command 'beam'
+**************************************************************************
+beam    ASCII   nEvents=0 firstEvent=-1 lastEvent=2147483647 beamZ=0.0 maxR=1000000.0 renumber=0 weight=1.000000 
+		filename=particles_before_new.txt format=BLTrackFile 
 		
 material Diamond1 Mixture: 1.00*C
                 density=3.510 temperature=273 pressure=1.0
@@ -92,144 +99,143 @@ param        wedgeAxis     0
 param        noWedge       0
 place   LHextrDS3 copies=1 x=2.5 y=0.0 z=12.0 rotation='Z90,Y00,X90'
 place   LHextrUS3 copies=1 x=2.5 y=0.0 z=12.0 rotation='Z90,Y00,X90'
-param        outname       particles_after
-place   VD      copies=1 x=0.0 y=0.0 z=25.1 rename='particles_after'
+zntuple                    z=0.0 zloop= noSingles=0 format=ascii
+                           file=vd_start_dispsup.txt
+                           filename=vd_start_dispsup.txt require=PDGid==-13
+                           referenceParticle=0 coordinates=Centerline
+zntuple                    z={wedge_end} zloop= noSingles=0 format=ascii
+                           file=vd_wedge_end_achromat.txt
+                           filename=vd_wedge_end_achromat.txt
+                           require=PDGid==-13 referenceParticle=0
+                           coordinates=Centerline
+**************************************************************************
+*** G4Exception: printError
+***    severity: Warning
+***   issued by: 
+*** description: Invalid value '{radius_q}' for argument 'apertureRadius' to command 'genericquad'
+**************************************************************************
+**************************************************************************
+*** G4Exception: printError
+***    severity: Warning
+***   issued by: 
+*** description: Invalid value '{Q1_length}' for argument 'fieldLength' to command 'genericquad'
+**************************************************************************
+**************************************************************************
+*** G4Exception: printError
+***    severity: Warning
+***   issued by: 
+*** description: Invalid value '{Q1_gradient}' for argument 'gradient' to command 'genericquad'
+**************************************************************************
+**************************************************************************
+*** G4Exception: printError
+***    severity: Warning
+***   issued by: 
+*** description: Invalid value '{Q1_length}' for argument 'ironLength' to command 'genericquad'
+**************************************************************************
+**************************************************************************
+*** G4Exception: printError
+***    severity: Warning
+***   issued by: 
+*** description: Invalid value '{radius_q}+{thickness}' for argument 'ironRadius' to command 'genericquad'
+**************************************************************************
+genericquad  Q1            fieldLength=0 ironLength=0 ironRadius=0
+                           apertureRadius=0 poleTipRadius=0 coilRadius=0
+                           coilHalfwidth=0 coilHalfWidth=0 gradient=0
+                           maxStep=0.5 ironMaterial=Fe fieldMaterial=Vacuum
+                           ironColor=0.4,0.8,0.4 kill=0 fringe= fringeFactor=1
+                           openAperture=0
+**************************************************************************
+*** G4Exception: printError
+***    severity: Warning
+***   issued by: 
+*** description: Invalid value '{Q1_z}' for argument 'z' to command 'place'
+**************************************************************************
+**************************************************************************
+*** G4Exception: printError
+***    severity: Warning
+***   issued by: 
+*** description: place: element length is <= 0 -- cannot be placed sequentially
+**************************************************************************
+place   Q1      copies=1 sequentially along z; 
+zntuple                    z={Q1_end} zloop= noSingles=0 format=ascii
+                           file=vd_Q1_dispsup.txt filename=vd_Q1_dispsup.txt
+                           require=PDGid==-13 referenceParticle=0
+                           coordinates=Centerline
+**************************************************************************
+*** G4Exception: printError
+***    severity: Warning
+***   issued by: 
+*** description: Invalid value '{Drift1_height}' for argument 'height' to command 'box'
+**************************************************************************
+**************************************************************************
+*** G4Exception: printError
+***    severity: Warning
+***   issued by: 
+*** description: Invalid value '{Drift1_length}' for argument 'length' to command 'box'
+***    printing: every 10-th occurrence
+**************************************************************************
+box          Drift1        height=0 width=0 length=0 maxStep=0.5
+                           material=Vacuum color=0.6,0.6,0.6 kill=0
+place   Drift1  copies=1 sequentially along z; 
+zntuple                    z={D1_end} zloop= noSingles=0 format=ascii
+                           file=vd_D1_dispsup.txt filename=vd_D1_dispsup.txt
+                           require=PDGid==-13 referenceParticle=0
+                           coordinates=Centerline
+genericquad  Q2            fieldLength=0 ironLength=0 ironRadius=0
+                           apertureRadius=0 poleTipRadius=0 coilRadius=0
+                           coilHalfwidth=0 coilHalfWidth=0 gradient=0
+                           maxStep=0.5 ironMaterial=Fe fieldMaterial=Vacuum
+                           ironColor=0.4,0.8,0.4 kill=0 fringe= fringeFactor=1
+                           openAperture=0
+**************************************************************************
+*** G4Exception: printError
+***    severity: Warning
+***   issued by: 
+*** description: place: element length is <= 0 -- cannot be placed sequentially
+***    printing: every 10-th occurrence
+**************************************************************************
+place   Q2      copies=1 sequentially along z; 
+zntuple                    z={Q2_end} zloop= noSingles=0 format=ascii
+                           file=vd_Q2_dispsup.txt filename=vd_Q2_dispsup.txt
+                           require=PDGid==-13 referenceParticle=0
+                           coordinates=Centerline
+box          Drift2        height=0 width=0 length=0 maxStep=0.5
+                           material=Vacuum color=0.6,0.6,0.6 kill=0
+place   Drift2  copies=1 sequentially along z; 
+zntuple                    z={D2_end} zloop= noSingles=0 format=ascii
+                           file=vd_D2_dispsup.txt filename=vd_D2_dispsup.txt
+                           require=PDGid==-13 referenceParticle=0
+                           coordinates=Centerline
+**************************************************************************
+*** G4Exception: printError
+***    severity: Warning
+***   issued by: 
+*** description: Invalid value '{B1_height}+10' for argument 'ironHeight' to command 'genericbend'
+***    printing: every 10-th occurrence
+**************************************************************************
+genericbend  B1            fieldWidth=0 fieldHeight=0 fieldLength=0
+                           ironWidth=0 ironHeight=0 ironLength=0 By=nan
+                           maxStep=0.5 fieldMaterial=Vacuum fieldColor=0,0,1
+                           ironMaterial=Fe ironColor=0.6,0.6,0.6 kill=0
+                           fringe= fringeFactor=1 openAperture=0
+place   B1      copies=1 sequentially along z; 
+zntuple                    z={B1_end} zloop= noSingles=0 format=ascii
+                           file=vd_B1_dispsup.txt filename=vd_B1_dispsup.txt
+                           require=PDGid==-13 referenceParticle=0
+                           coordinates=Centerline
+zntuple                    z={VD_z} zloop= noSingles=0 format=ascii
+                           file={VD_FILENAME} filename={VD_FILENAME}
+                           require=PDGid==-13 referenceParticle=0
+                           coordinates=Centerline
+**************************************************************************
+*** G4Exception: Input Errors
+***    severity: Fatal Exception
+***   issued by: main
+*** description: There were 35 errors in the input
+**************************************************************************
+g4beamline: attempting to close up after fatal G4Exception...
 
-World size (before incrementing by 201.357 mm): 120.0 H  120.0 W  50.4 L
-
-PARAMETERS:
-          VDRad=60.0
-            Zcl=25.2
-        absLEN3=24
-  abshalfangle3=51.898062710886734
-         abshgt=9.509857116805007
-     absoffset3=2.463498548957793
-       abswidth=100
-       beamfile=particles_before.txt
-         degrad=0.017453293
-     deltaChord=3.0
-deltaIntersection=0.1
-   deltaOneStep=0.01
-         epsMax=0.05
-         epsMin=2.5e-7
- eventTimeLimit=30
-    fieldVoxels=400,400,400
-      histoFile=g4beamline
-    histoUpdate=0
-        maxStep=0.5
-    minRangeCut=1
-        minStep=0.01
-        noWedge=0
-     nparticles=50000
-        outname=particles_after
-             pi=3.141592654
- steppingFormat=N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
-steppingVerbose=0
-         viewer=none
- wallClockLimit=-1
-      wedgeAxis=0
-        wedge_z=12
-  worldMaterial=Vacuum
-     zTolerance=2.0
-         zbegin=0.0
-Checking overlaps for volume LHextrDS3:0 (G4ExtrudedSolid) ... OK! 
-BLCMDextrusion::Construct LHextrDS3 parent= relZ=12.0 globZ=12.0
-	zmin=-38.0 zmax=62.0 kill=0
-Checking overlaps for volume LHextrUS3:0 (G4ExtrudedSolid) ... OK! 
-BLCMDextrusion::Construct LHextrUS3 parent= relZ=12.0 globZ=12.0
-	zmin=-38.0 zmax=62.0 kill=0
-Checking overlaps for volume particles_after:0 (G4Tubs) ... OK! 
-BLCMDvirtualdetector::Construct particles_after parent= relZ=25.1 globZ=25.1
-### Adding tracking cuts for neutron  TimeCut(ns)= 10000  KinEnergyCut(MeV)= 0
-
-Geometry test nPoints=100 tolerance=0.002 mm:
-Testing geometry for children of group 'World':
-Total geometry errors = 0  0 seconds
-
-================== Prepare Tracking Beam ==================
-Stochastic processes are enabled.
-================== Begin Tracking Beam ===============
-Event 1 Completed  1 events  realTime=1 sec  1.0 ev/sec
-Event 2 Completed  2 events  realTime=1 sec  2.0 ev/sec
-Event 3 Completed  3 events  realTime=1 sec  3.0 ev/sec
-Event 4 Completed  4 events  realTime=1 sec  4.0 ev/sec
-Event 5 Completed  5 events  realTime=1 sec  5.0 ev/sec
-Event 6 Completed  6 events  realTime=1 sec  6.0 ev/sec
-Event 7 Completed  7 events  realTime=1 sec  7.0 ev/sec
-Event 8 Completed  8 events  realTime=1 sec  8.0 ev/sec
-Event 9 Completed  9 events  realTime=1 sec  9.0 ev/sec
-Event 10 Completed  10 events  realTime=1 sec  10.0 ev/sec
-Event 20 Completed  20 events  realTime=1 sec  20.0 ev/sec
-Event 30 Completed  30 events  realTime=1 sec  30.0 ev/sec
-Event 40 Completed  40 events  realTime=1 sec  40.0 ev/sec
-Event 50 Completed  50 events  realTime=1 sec  50.0 ev/sec
-Event 60 Completed  60 events  realTime=1 sec  60.0 ev/sec
-Event 70 Completed  70 events  realTime=1 sec  70.0 ev/sec
-Event 80 Completed  80 events  realTime=1 sec  80.0 ev/sec
-Event 90 Completed  90 events  realTime=1 sec  90.0 ev/sec
-Event 100 Completed  100 events  realTime=1 sec  100.0 ev/sec
-Event 200 Completed  200 events  realTime=1 sec  200.0 ev/sec
-Event 300 Completed  300 events  realTime=1 sec  300.0 ev/sec
-Event 400 Completed  400 events  realTime=1 sec  400.0 ev/sec
-Event 500 Completed  500 events  realTime=1 sec  500.0 ev/sec
-Event 600 Completed  600 events  realTime=1 sec  600.0 ev/sec
-Event 700 Completed  700 events  realTime=1 sec  700.0 ev/sec
-Event 800 Completed  800 events  realTime=1 sec  800.0 ev/sec
-Event 900 Completed  900 events  realTime=1 sec  900.0 ev/sec
-Event 1000 Completed  1000 events  realTime=1 sec  1000.0 ev/sec
-Event 2000 Completed  2000 events  realTime=1 sec  2000.0 ev/sec
-Event 3000 Completed  3000 events  realTime=1 sec  3000.0 ev/sec
-Event 4000 Completed  4000 events  realTime=1 sec  4000.0 ev/sec
-Event 5000 Completed  5000 events  realTime=2 sec  2500.0 ev/sec
-Event 6000 Completed  6000 events  realTime=2 sec  3000.0 ev/sec
-Event 7000 Completed  7000 events  realTime=3 sec  2333.3 ev/sec
-Event 8000 Completed  8000 events  realTime=3 sec  2666.7 ev/sec
-Event 9000 Completed  9000 events  realTime=3 sec  3000.0 ev/sec
-Event 10000 Completed  10000 events  realTime=4 sec  2500.0 ev/sec
-Event 11000 Completed  11000 events  realTime=4 sec  2750.0 ev/sec
-Event 12000 Completed  12000 events  realTime=4 sec  3000.0 ev/sec
-Event 13000 Completed  13000 events  realTime=5 sec  2600.0 ev/sec
-Event 14000 Completed  14000 events  realTime=5 sec  2800.0 ev/sec
-Event 15000 Completed  15000 events  realTime=5 sec  3000.0 ev/sec
-Event 16000 Completed  16000 events  realTime=6 sec  2666.7 ev/sec
-Event 17000 Completed  17000 events  realTime=6 sec  2833.3 ev/sec
-Event 18000 Completed  18000 events  realTime=7 sec  2571.4 ev/sec
-Event 19000 Completed  19000 events  realTime=7 sec  2714.3 ev/sec
-Event 20000 Completed  20000 events  realTime=7 sec  2857.1 ev/sec
-Event 21000 Completed  21000 events  realTime=8 sec  2625.0 ev/sec
-Event 22000 Completed  22000 events  realTime=8 sec  2750.0 ev/sec
-Event 23000 Completed  23000 events  realTime=8 sec  2875.0 ev/sec
-Event 24000 Completed  24000 events  realTime=9 sec  2666.7 ev/sec
-Event 25000 Completed  25000 events  realTime=9 sec  2777.8 ev/sec
-Event 1000 Completed  26000 events  realTime=10 sec  2600.0 ev/sec
-Event 2000 Completed  27000 events  realTime=10 sec  2700.0 ev/sec
-Event 3000 Completed  28000 events  realTime=10 sec  2800.0 ev/sec
-Event 4000 Completed  29000 events  realTime=11 sec  2636.4 ev/sec
-Event 5000 Completed  30000 events  realTime=11 sec  2727.3 ev/sec
-Event 6000 Completed  31000 events  realTime=12 sec  2583.3 ev/sec
-Event 7000 Completed  32000 events  realTime=12 sec  2666.7 ev/sec
-Event 8000 Completed  33000 events  realTime=12 sec  2750.0 ev/sec
-Event 9000 Completed  34000 events  realTime=13 sec  2615.4 ev/sec
-Event 10000 Completed  35000 events  realTime=13 sec  2692.3 ev/sec
-Event 11000 Completed  36000 events  realTime=13 sec  2769.2 ev/sec
-Event 12000 Completed  37000 events  realTime=14 sec  2642.9 ev/sec
-Event 13000 Completed  38000 events  realTime=14 sec  2714.3 ev/sec
-Event 14000 Completed  39000 events  realTime=15 sec  2600.0 ev/sec
-Event 15000 Completed  40000 events  realTime=15 sec  2666.7 ev/sec
-Event 16000 Completed  41000 events  realTime=15 sec  2733.3 ev/sec
-Event 17000 Completed  42000 events  realTime=16 sec  2625.0 ev/sec
-Event 18000 Completed  43000 events  realTime=16 sec  2687.5 ev/sec
-Event 19000 Completed  44000 events  realTime=16 sec  2750.0 ev/sec
-Event 20000 Completed  45000 events  realTime=17 sec  2647.1 ev/sec
-Event 21000 Completed  46000 events  realTime=17 sec  2705.9 ev/sec
-Event 22000 Completed  47000 events  realTime=18 sec  2611.1 ev/sec
-Event 23000 Completed  48000 events  realTime=18 sec  2666.7 ev/sec
-Event 24000 Completed  49000 events  realTime=18 sec  2722.2 ev/sec
-Event 25000 Completed  50000 events  realTime=19 sec  2631.6 ev/sec
-Run complete  50000 Events  19 seconds
-NTuple particles_after    48230 entries
-
-Exceptions: 0 Fatal, 0 Events Aborted, 0 Stuck Tracks (stopped), 0 Warnings
-g4beamline: simulation complete
-SynRad:  Incoherent Synchrotron Radiation
-Good description for long magnets at all energies.
+Exceptions: 1 Fatal, 0 Events Aborted, 0 Stuck Tracks (stopped), 35 Warnings
+      1 times: Input Errors
+     35 times: printError
+g4beamline: simulation aborted

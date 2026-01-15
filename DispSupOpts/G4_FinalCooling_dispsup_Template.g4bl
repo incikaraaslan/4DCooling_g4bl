@@ -51,11 +51,11 @@ particlecolor e-=1,0.5,0    # orange
   param pi=3.141592654
   param degrad=$pi/180
 
-  param -unset abshgt=2.079108542938554 
+  param -unset abshgt=3.11483108026904 
   param abswidth=100
-  param -unset absLEN3=4.944980996971603
-  param -unset abshalfangle3=51.32442402932793
-  param -unset absoffset3=2.4724904984858016    
+  param -unset absLEN3=6.547448752123179 #24
+  param -unset abshalfangle3=47.35747644447838
+  param -unset absoffset3=3.2737243760615895 
   
   param wedge_z=0.5*$absLEN3
      
@@ -117,7 +117,8 @@ genericquad Q1 \
     ironRadius={radius_q}+{thickness} \
     apertureRadius={radius_q} \
     maxStep=0.5 \
-    ironMaterial=Fe fieldMaterial=Vacuum \
+    ironMaterial=Fe \
+    fieldMaterial=Vacuum \
     ironColor=0.4,0.8,0.4
 
 place Q1 z={Q1_z}
@@ -137,8 +138,11 @@ genericquad Q2 \
     ironRadius={radius_q}+{thickness} \
     apertureRadius={radius_q} \
     maxStep=0.5 \
-    ironMaterial=Fe fieldMaterial=Vacuum \
-    ironColor=0.4,0.8,0.4
+    ironMaterial=Fe \
+    fieldMaterial=Vacuum \
+    ironColor=0.4,0.8,0.4 \
+    kill=1 \
+    fringe=0
 
 place Q2 z={Q2_z}
 zntuple vd_Q2 z={Q2_end} file=vd_Q2_dispsup.txt format=ascii require=PDGid==-13
@@ -156,7 +160,9 @@ genericbend B1 \
     ironWidth={B1_width}+10 ironHeight={B1_height}+10 ironLength={B1_length} \
     maxStep=0.5 \
     fieldMaterial=Vacuum fieldColor=0,0,1 \
-    ironMaterial=Fe ironColor=0.6,0.6,0.6
+    ironMaterial=Fe ironColor=0.6,0.6,0.6 \
+    kill=1 \
+    fringe=0
 place B1 z={B1_z}
 
 zntuple vd_B1 z={B1_end} file=vd_B1_dispsup.txt format=ascii require=PDGid==-13

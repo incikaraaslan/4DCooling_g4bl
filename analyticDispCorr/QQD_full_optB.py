@@ -193,7 +193,7 @@ def twiss_from_sigma(Sigma, emit_m):
 # ------------------------
 # Cost function: optimizer varies (B_pole, r) pairs
 # ------------------------
-def dispersion_cost_br(x_vec, optics_template, x_params, y_params, Brho, ds=1e-3, w=1.0, reg=1e-6, w_beta=0.1):
+def dispersion_cost_br(x_vec, optics_template, x_params, y_params, Brho, ds=1e-3, w=0.5, reg=1e-6, w_beta=5.0, w_betay=10.0):
     """
     x_vec: flat vector [B1, r1, B2, r2, ...] for each quad in optics_template order
     """
@@ -229,8 +229,8 @@ def dispersion_cost_br(x_vec, optics_template, x_params, y_params, Brho, ds=1e-3
     _, Dx_s, Dxp_s = propagate_dispersion(Dx0, Dxp0, s_pos, Kx, h)
     Dx_end = Dx_s[-1]; Dxp_end = Dxp_s[-1]
 
-    # cost: dispersion + beta-preservation + regularization to keep B/r near initial
-    cost = Dx_end ** 2 + w * (Dxp_end ** 2) + w_beta * ((beta_x_s[-1] - beta_x0) ** 2 + (beta_y_s[-1] - beta_y0) ** 2)
+    # cost: dispersion + beta-preservation + regularization to keep B/r near initial 
+    cost = Dx_end ** 2 + w * (Dxp_end ** 2) + w_beta * ((beta_x_s[-1] - beta_x0) ** 2) + w_betay * ((beta_y_s[-1] - beta_y0) ** 2)
 
     # regularization: keep B/r (i.e., G) near initial
     # build initial G vector
@@ -255,19 +255,67 @@ def dispersion_cost_br(x_vec, optics_template, x_params, y_params, Brho, ds=1e-3
 
     return float(cost)
 
+# For plotting where things are
+def get_lattice_spans(optics):
+    """
+    Returns a list of dicts with element type and (s_start, s_end).
+    """
+    spans = []
+    s_cursor = 0.0
+
+    for elem in optics:
+        typ = elem[0].lower()
+        L = elem[1]
+        spans.append({
+            "type": typ,
+            "s_start": s_cursor,
+            "s_end": s_cursor + L
+        })
+        s_cursor += L
+
+    return spans
+def shade_lattice(ax, spans, alpha=0.15):
+    """
+    Shades lattice elements on an existing matplotlib axis.
+    """
+    colors = {
+        "quad": "red",
+        "dipole": "blue",
+        "drift": "gray"
+    }
+
+    labeled = set()
+
+    for sp in spans:
+        c = colors.get(sp["type"], "black")
+        label = sp["type"].capitalize() if sp["type"] not in labeled else None
+
+        ax.axvspan(
+            sp["s_start"],
+            sp["s_end"],
+            color=c,
+            alpha=alpha,
+            label=label
+        )
+
+        labeled.add(sp["type"])
+
 # ------------------------
 # Main runner
 # ------------------------
 def run_all(particle_file=None, do_plots=True, do_optimize=True, ds=1e-3):
     # Example optics template: quads have (L, B_pole, r) and dipole is (L, B, width, height)
     optics_template = [
-        ("quad", 0.03,  0.05, 0.05),  # L=0.03 m, B_pole=0.02965 T, r=0.1 m
-        ("drift", 0.01),
-        ("quad", 0.03, -0.05, 0.05), # L=0.025 m, B_pole=-0.014825 T, r=0.1 m
-        ("drift", 0.01),
-        ("dipole", 0.12, -0.35, 0.1, 0.1)  # L=0.03 m, B=1.5 T, width=0.1 m , height=0.1 m
+        ("quad", 0.1, -1.5, 0.5),  # L=0.03 m, B_pole=0.02965 T, r=0.1 m
+        ("drift", 0.1),
+        ("quad", 0.2, -3.0, 0.5), # L=0.025 m, B_pole=-0.014825 T, r=0.1 m
+        ("drift", 0.1),
+        ("dipole", 0.2, -0.7, 0.1, 0.1)  # L=0.03 m, B=1.5 T, width=0.1 m , height=0.1 m
     ]
-
+    
+    # Plotting where things are
+    lattice_spans = get_lattice_spans(optics_template)
+    
     # read particle file to get initial twiss & Brho
     if particle_file:
         df = read_for009_trackfile(particle_file)
@@ -278,11 +326,11 @@ def run_all(particle_file=None, do_plots=True, do_optimize=True, ds=1e-3):
     else:
         # fallback defaults
         print("No particle file provided; using default Twiss and Brho from 88 MeV/c muon.")
-        p_ref_mean = 88.0  # MeV/c
+        p_ref_mean = 88.961842  # MeV/c
         Brho = Brho_from_p_MeV(p_ref_mean)
         # default Twiss tuple format returned by calc_params: (emit_mm, beta_m, gamma, alpha, D, Dp)
-        x_params = (0.2, 8.0, 0.2, -1.0, 0.3, 0.0)
-        y_params = (0.2, 7.0, 0.15, 0.2, 0.0, 0.0)
+        x_params = (0.032314888033942994, 0.04352034430332993, 255.79365628939377, -3.183116082131164, 0.015274752174883286, -0.16276468456961618)
+        y_params = (0.11683931480995156, 0.022433027940989454, 73.66612099940427, -0.8078082388066774, -0.0003564703042096456, -0.01884340044268174)
 
     print(f"Using Bρ = {Brho:.6g} T·m (from p_ref ~ {p_ref_mean:.3f} MeV/c)")
 
@@ -313,16 +361,14 @@ def run_all(particle_file=None, do_plots=True, do_optimize=True, ds=1e-3):
         for e in optics_template:
             if e[0].lower() == "quad":
                 _, L_init, B_init, r_init = e
-                x0.extend([L_init, B_init, r_init])
-                bounds.append((0.05, 1.0))   # enforce length ≥ 0.1 m
-                # bounds: B_pole can be negative (sign indicates focusing polarity)
-                bounds.append((-3.0, 3.0))   # B field bounds (T) -- adjust as needed
-                # r bounds (aperture)
-                bounds.append((0.05, 0.5))   # 2 cm to 50 cm
+                x0.extend([B_init, r_init])
+                bounds.append((-3.0, 3.0))   # B_pole
+                bounds.append((0.05, 0.5))   # r_aperture
+
 
         # differential evolution
         print("Starting optimizing B_pole and r_aperture pairs...")
-        """res = differential_evolution(
+        res = differential_evolution(
             func=lambda x: dispersion_cost_br(x, optics_template, x_params, y_params, Brho, ds=ds, w=1.0, reg=1e-6),
             bounds=bounds,
             maxiter=800,
@@ -333,15 +379,15 @@ def run_all(particle_file=None, do_plots=True, do_optimize=True, ds=1e-3):
             polish=True,
             updating="deferred",
             workers=1  # keep single-worker to avoid map-like callable issues
-        )"""
+        )
         
-        res = minimize(
+        """res = minimize(
             lambda x: dispersion_cost_br(x, optics_template, x_params, y_params, Brho, ds=ds, w=1.0, reg=1e-6),
             x0,
             method="L-BFGS-B",
             bounds=bounds,
             options={"ftol": 1e-12},
-        )
+        )"""
 
         print("Optimization finished:", res.message)
         x_opt = res.x
@@ -377,6 +423,9 @@ def run_all(particle_file=None, do_plots=True, do_optimize=True, ds=1e-3):
 
                 qi += 2
                 quad_index += 1
+        
+        if "opt" in results:
+            lattice_spans_opt = get_lattice_spans(optics_opt)
 
         # Print dipoles
         dipole_index = 1
@@ -425,51 +474,78 @@ def run_all(particle_file=None, do_plots=True, do_optimize=True, ds=1e-3):
         s_plot = results["s"]
         minlen = min(len(s_plot), len(results["beta_x"]))
         
-        plt.figure(figsize=(10,6))
-        plt.plot(s_plot[:minlen], results["beta_x"][:minlen], label=r'$\beta_x$ (env)')
-        plt.plot(s_plot[:minlen], results["beta_y"][:minlen], label=r'$\beta_y$ (env)')
-        plt.xlabel("s [m]"); plt.ylabel(r"$\beta$ [m]"); plt.legend(); plt.grid(True)
-        plt.title("Beta functions")
+        fig, ax = plt.subplots(figsize=(10,6))
+
+        ax.plot(s_plot[:minlen], results["beta_x"][:minlen], label=r'$\beta_x$')
+        ax.plot(s_plot[:minlen], results["beta_y"][:minlen], label=r'$\beta_y$')
+
+        shade_lattice(ax, lattice_spans)
+
         if "opt" in results:
-            s_opt = results["opt"]["s_opt"]
-            m = min(len(s_plot), len(s_opt), len(results["opt"]["beta_x_opt"]))
-            plt.plot(s_opt[:m], results["opt"]["beta_x_opt"][:m], '--', label=r'$\beta_x$ (opt)')
-            plt.plot(s_opt[:m], results["opt"]["beta_y_opt"][:m], '--', label=r'$\beta_y$ (opt)')
+            m = min(len(results["opt"]["s_opt"]), minlen)
+            ax.plot(results["opt"]["s_opt"][:m], results["opt"]["beta_x_opt"][:m], '--', label=r'$\beta_x$ (opt)')
+            ax.plot(results["opt"]["s_opt"][:m], results["opt"]["beta_y_opt"][:m], '--', label=r'$\beta_y$ (opt)')
+
+        ax.set_xlabel("s [m]")
+        ax.set_ylabel(r"$\beta$ [m]")
+        ax.set_title("Beta functions")
+        ax.grid(True)
+        ax.legend()
         plt.tight_layout()
-        plt.legend()
-        plt.savefig("QQD_trialBeta_15.png")
+        plt.savefig("QQD_trialBeta_17.png")
+
         
-        plt.figure(figsize=(10,6))
-        plt.plot(s_plot[:minlen], results["Dx"][:minlen], label=r'$D_x$')
-        if "opt" in results:
-            plt.plot(results["opt"]["s_opt"][:minlen], results["opt"]["Dx_opt"][:minlen], '--', label=r'$D_x$ (opt)')
-        plt.xlabel("s [m]"); plt.ylabel("Dispersion [m]"); plt.legend(); plt.grid(True)
-        plt.title("Dispersion functions")
-        plt.tight_layout()
-        plt.legend()
-        plt.savefig("QQD_trialDisp_15.png")
+        fig, ax = plt.subplots(figsize=(10,6))
+
+        ax.plot(s_plot[:minlen], results["Dx"][:minlen], label=r'$D_x$')
         
-        plt.figure(figsize=(10,6))
-        plt.plot(s_plot[:minlen], results["Dxp"][:minlen], label=r'$D_xp$')
+        shade_lattice(ax, lattice_spans)
+
         if "opt" in results:
-            plt.plot(results["opt"]["s_opt"][:minlen], results["opt"]["Dxp_opt"][:minlen], '--', label=r'$D_xp$ (opt)')
-        plt.xlabel("s [m]"); plt.ylabel("Dispersion Derivative"); plt.legend(); plt.grid(True)
-        plt.title("Dispersion Derivative functions")
-        plt.tight_layout()
-        plt.legend()
-        plt.savefig("QQD_trialDispDeriv_15.png")
+            ax.plot(results["opt"]["s_opt"][:minlen], results["opt"]["Dx_opt"][:minlen], '--', label=r'$D_x$ (opt)')
         
-        plt.figure(figsize=(10,6))
-        plt.plot(s_plot[:minlen], results["Kx"][:minlen], label=r'$K_x$')
-        plt.plot(s_plot[:minlen], results["Ky"][:minlen], label=r'$K_y$')
-        if "opt" in results:
-            plt.plot(results["opt"]["s_opt"][:minlen], results["opt"]["Kx_opt"][:minlen], '--', label=r'$K_x$ (opt)')
-            plt.plot(results["opt"]["s_opt"][:minlen], results["opt"]["Ky_opt"][:minlen], '--', label=r'$K_y$ (opt)')
-        plt.xlabel("s [m]"); plt.ylabel(r"$K\;[1/m^2]$"); plt.legend(); plt.grid(True)
-        plt.title("Focusing functions")
+        ax.set_xlabel("s [m]")
+        ax.set_ylabel("Dispersion [m]"); 
+        ax.legend()
+        ax.grid(True)
+        ax.set_title("Dispersion functions")
         plt.tight_layout()
-        plt.legend()
-        plt.savefig("QQD_trialFocusing_15.png")
+        plt.savefig("QQD_trialDisp_17.png")
+        
+        fig, ax = plt.subplots(figsize=(10,6))
+        
+        ax.plot(s_plot[:minlen], results["Dxp"][:minlen], label=r'$D_xp$')
+        
+        shade_lattice(ax, lattice_spans)
+        
+        if "opt" in results:
+            ax.plot(results["opt"]["s_opt"][:minlen], results["opt"]["Dxp_opt"][:minlen], '--', label=r'$D_xp$ (opt)')
+            
+        ax.set_xlabel("s [m]")
+        ax.set_ylabel("Dispersion Derivative")
+        ax.grid(True)
+        ax.set_title("Dispersion Derivative functions")
+        ax.legend()
+        plt.tight_layout()
+        plt.savefig("QQD_trialDispDeriv_17.png")
+        
+        fig, ax = plt.subplots(figsize=(10,6))
+        
+        ax.plot(s_plot[:minlen], results["Kx"][:minlen], label=r'$K_x$')
+        ax.plot(s_plot[:minlen], results["Ky"][:minlen], label=r'$K_y$')
+        
+        shade_lattice(ax, lattice_spans)
+        
+        if "opt" in results:
+            ax.plot(results["opt"]["s_opt"][:minlen], results["opt"]["Kx_opt"][:minlen], '--', label=r'$K_x$ (opt)')
+            ax.plot(results["opt"]["s_opt"][:minlen], results["opt"]["Ky_opt"][:minlen], '--', label=r'$K_y$ (opt)')
+        ax.set_xlabel("s [m]")
+        ax.set_ylabel(r"$K\;[1/m^2]$")
+        ax.grid(True)
+        ax.set_title("Focusing functions")
+        ax.legend()
+        plt.tight_layout()
+        plt.savefig("QQD_trialFocusing_17.png")
         plt.show()
 
     return results
@@ -479,5 +555,5 @@ def run_all(particle_file=None, do_plots=True, do_optimize=True, ds=1e-3):
 # ------------------------
 if __name__ == "__main__":
     # change this to your post-wedge output if needed
-    post_wedge_filename = "out_1760039204_1614938.txt"
+    post_wedge_filename = "out_1760039204_1614938upt.txt"
     res = run_all(particle_file=post_wedge_filename, do_plots=True, do_optimize=True, ds=1e-3)

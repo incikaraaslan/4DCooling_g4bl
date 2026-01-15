@@ -1,0 +1,51 @@
+
+TITLE, "D-Q-D-Q-B Lattice Optimization";
+
+BEAM, PARTICLE=POSMUON, PC=0.88961842;
+
+! ---- Elements ----
+DR: DRIFT, L=0.1;
+
+QF: QUADRUPOLE, L=0.8, K1=0.5;
+QD: QUADRUPOLE, L=0.8, K1=-0.5;
+D: DRIFT, L=0.1;
+B: SBEND, L=1.25, ANGLE=0.1, K0=0.08;
+
+! ---- Sequence ----
+DQDQB: LINE=(QF, D, QD, D, B);
+
+
+USE, SEQUENCE=DQDQB;
+
+! ---- Initial optics (from POST-WEDGE distribution) ----
+TWISS,
+    BETX=0.04352034430332993, BETY=0.022433027940989454,
+    ALFX=-3.183116082131164, ALFY=-0.8078082388066774,
+    DX=0.015274752174883286, DPX=-0.16276468456961618;
+
+
+! ---- Optimization ----
+MATCH, SEQUENCE=DQDQB;
+
+    ! ---- Variables to vary ----
+    VARY, NAME=QF->K1, STEP=1e-3;
+    VARY, NAME=QD->K1, STEP=1e-3;
+    VARY, NAME=B->L, STEP=1e-4;
+    VARY, NAME=B->ANGLE, STEP=1e-4;
+    
+
+    ! ---- Constraints ----
+    ! Strongly prioritize dispersion at the end (must be ≥ 1e-3)
+    CONSTRAINT, RANGE=#E, DX=0.001, WEIGHT=5000;
+    CONSTRAINT, RANGE=#E, DPX=0.01, WEIGHT=500;
+
+    ! Lightly match beta functions at the end
+    CONSTRAINT, RANGE=#E, BETX=0.04352034430332993, BETY=0.022433027940989454, WEIGHT=1;
+
+    ! Use Jacobian optimizer
+    JACOBIAN, CALLS=300, TOLERANCE=1e-12;
+
+ENDMATCH;
+
+! ---- Final optics ----
+TWISS, FILE="dqdqb_optimized.tfs";
