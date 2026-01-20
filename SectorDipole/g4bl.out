@@ -1,0 +1,100 @@
+G4BL_DIR=/home/incik/G4beamline-3.08
+G4LEDATA=/home/incik/Geant4Data/G4EMLOW8.0
+G4ENSDFSTATEDATA=/home/incik/Geant4Data/G4ENSDFSTATE2.3
+G4PARTICLEXSDATA=/home/incik/Geant4Data/G4PARTICLEXS4.0
+G4LEVELGAMMADATA=/home/incik/Geant4Data/PhotonEvaporation5.7
+G4RADIOACTIVEDATA=/home/incik/Geant4Data/RadioactiveDecay5.6
+G4beamline Process ID 12387
+
+*************************************************************
+ g4beamline version: 3.08                        (Aug 11 2022)
+                      Copyright : Tom Roberts, Muons, Inc.
+                        License : Gnu Public License
+                            WWW : http://g4beamline.muonsinc.com
+
+          ################################
+          !!! G4Backtrace is activated !!!
+          ################################
+
+
+**************************************************************
+ Geant4 version Name: geant4-11-00-patch-02 [MT]   (25-May-2022)
+                       Copyright : Geant4 Collaboration
+                      References : NIM A 506 (2003), 250-303
+                                 : IEEE-TNS 53 (2006), 270-278
+                                 : NIM A 835 (2016), 186-225
+                             WWW : http://geant4.org/
+**************************************************************
+
+param        viewer        best,1
+geometry                   nPoints=100 printGeometry=0 visual=0
+                           tolerance=0.002
+param        zbegin        0.0
+start                      x=0 y=0 z=0 initialZ=0 rotation= radiusCut=300
+                           ring=0
+param        steppingFormat N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
+param        fieldVoxels   400,400,400
+param        maxStep       0.5
+param        minRangeCut   1
+G4PhysListFactory::GetReferencePhysList <QGSP_BERT>  EMoption= 0
+<<< Geant4 Physics List simulation engine: QGSP_BERT
+
+
+physics      QGSP_BERT     disable= inactivate= deactivate= doStochastics=1
+                           fluct=1 minRangeCut=1 list=0 gammaToMuPair=0
+                           spinTracking=1 synchrotronRadiation=1
+                           synchrotronRadiationMuon=0 maxTime=1e+06
+trackcuts                  kill= keep=mu+ killSecondaries=0 kineticEnergyCut=0
+                           kineticEnergyMax=1.798e+308 maxTime=1e+06
+                           keepPrimaries=0 steppingVerbose=0
+particlecolor              proton=1,1,1
+particlecolor              pi+=0,1,0
+particlecolor              mu+=1,0.5,0
+particlecolor              mu-=0,1,0
+particlecolor              e+=1,0,0
+particlecolor              gamma=0,0,1
+particlecolor              e-=1,0.5,0
+param        nparticles    2000
+param        beamfile      particles_afterupt.txt
+param        outname       particles_after_b.txt
+beam    ASCII   nEvents=2000 firstEvent=-1 lastEvent=2147483647 beamZ=0.0 maxR=1000000.0 renumber=0 weight=1.000000 
+		filename=particles_afterupt.txt format=BLTrackFile 
+		
+zntuple                    z=0.0 zloop= noSingles=0 format=ascii
+                           file=vd_start_dispsup.txt
+                           filename=vd_start_dispsup.txt require=PDGid==-13
+                           referenceParticle=0 coordinates=Centerline
+genericsectorbend B1       angle=10 fieldCenterRadius=1000
+                           fieldInnerRadius=950 fieldOuterRadius=1050
+                           fieldHeight=100 ironInnerRadius=949
+                           ironOuterRadius=1051 ironHeight=110
+                           fieldMaterial=Vacuum fieldColor=0,0,1
+                           ironMaterial=Fe ironColor=0.6,0.6,0.6 maxStep=0.5
+                           kill=1 SolenoidalField=0 DipoleField=1.5
+                           QuadrupoleField=0 SkewQuadrupoleField=0
+                           SextupoleField=0 SkewSextupoleField=0
+                           OctupoleField=0 SkewOctupoleField=0 fringe=0
+                           fringeFactor=1
+place   B1      copies=1 x=0.0 y=0.0 z=0.0 
+**************************************************************************
+*** G4Exception: printError
+***    severity: Warning
+***   issued by: 
+*** description: Invalid argument 'radius' to command 'zntuple'
+**************************************************************************
+zntuple                    z=174.31148549531633 zloop= noSingles=0
+                           format=ascii file=particles_after_b.txt
+                           filename=particles_after_b.txt require=PDGid==-13
+                           referenceParticle=0 coordinates=Centerline
+**************************************************************************
+*** G4Exception: Input Errors
+***    severity: Fatal Exception
+***   issued by: main
+*** description: There were 1 errors in the input
+**************************************************************************
+g4beamline: attempting to close up after fatal G4Exception...
+
+Exceptions: 1 Fatal, 0 Events Aborted, 0 Stuck Tracks (stopped), 1 Warnings
+      1 times: Input Errors
+      1 times: printError
+g4beamline: simulation aborted

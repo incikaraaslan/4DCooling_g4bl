@@ -69,7 +69,7 @@ place Q1 z={Q1_z}
 zntuple vd_Q1 z={Q1_end} file=vd_Q1_dispsup.txt format=ascii require=PDGid==-13
 
 # --- Drift 1 between Q1 and Q2
-box Drift1 width={Drift1_width} height={Drift1_height} length={Drift1_length} material=Vacuum color=0.6,0.6,0.6 kill=1
+box Drift1 width={Drift1_width} height={Drift1_height} length={Drift1_length} material=Vacuum color=0.6,0.6,0.6
 place Drift1 z={Drift1_z}
 zntuple vd_D1 z={D1_end} file=vd_D1_dispsup.txt format=ascii require=PDGid==-13
 
@@ -93,4 +93,4 @@ zntuple vd_Q2 z={Q2_end} file=$outname format=ascii require=PDGid==-13
 #-------------------------------
 # FIELD MAP OUTPUT
 #-------------------------------
-printfield type=grid file=field_cellQ2.dat field=By X0=0 Y0=0 Z0=0 nX=1 dX=1 nY=1 dY=1 nZ=246 dZ=5
+# printfield type=grid file=field_cellQ2.dat field=By X0=0 Y0=0 Z0=0 nX=1 dX=1 nY=1 dY=1 nZ=246 dZ=5

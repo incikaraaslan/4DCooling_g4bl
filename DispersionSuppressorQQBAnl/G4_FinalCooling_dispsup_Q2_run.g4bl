@@ -54,43 +54,43 @@ zntuple vd_start z=0.0 file=vd_start_dispsup.txt format=ascii require=PDGid==-13
 
 # --- Quadrupole (Q1)
 genericquad Q1 \
-    gradient=1.000000000000 \
-    fieldLength=50.000000000000 \
-    ironLength=50.000000000000 \
-    ironRadius=88.271785327227+5.000000000000 \
-    apertureRadius=88.271785327227 \
+    gradient=0.059311566517 \
+    fieldLength=135.189633344705 \
+    ironLength=135.189633344705 \
+    ironRadius=6.771330624128+5.000000000000 \
+    apertureRadius=6.771330624128 \
     maxStep=0.5 \
     ironMaterial=Fe fieldMaterial=Vacuum \
     ironColor=0.4,0.8,0.4 \
     kill=1 \
     fringe=0
 
-place Q1 z=397.882429646524
-zntuple vd_Q1 z=422.882429646524 file=vd_Q1_dispsup.txt format=ascii require=PDGid==-13
+place Q1 z=75.489362125489
+zntuple vd_Q1 z=143.084178797842 file=vd_Q1_dispsup.txt format=ascii require=PDGid==-13
 
 # --- Drift 1 between Q1 and Q2
-box Drift1 width=176.543570654453 height=176.543570654453 length=20.000000000000 material=Vacuum color=0.6,0.6,0.6 kill=1
-place Drift1 z=432.882429646524
-zntuple vd_D1 z=442.882429646524 file=vd_D1_dispsup.txt format=ascii require=PDGid==-13
+box Drift1 width=13.542661248255 height=13.542661248255 length=15.154424667715 material=Vacuum color=0.6,0.6,0.6
+place Drift1 z=150.661391131699
+zntuple vd_D1 z=158.238603465557 file=vd_D1_dispsup.txt format=ascii require=PDGid==-13
 
 # --- Quadrupole (Q2)
 genericquad Q2 \
-    gradient=-1.000000000000 \
-    fieldLength=50.000000000000 \
-    ironLength=50.000000000000 \
-    ironRadius=88.271785327227+5.000000000000 \
-    apertureRadius=88.271785327227 \
+    gradient=-50.277089739229 \
+    fieldLength=46.958400867503 \
+    ironLength=46.958400867503 \
+    ironRadius=6.771330624128+5.000000000000 \
+    apertureRadius=6.771330624128 \
     maxStep=0.5 \
     ironMaterial=Fe fieldMaterial=Vacuum \
     ironColor=0.4,0.8,0.4 \
     kill=1 \
     fringe=0
 
-place Q2 z=467.882429646524
-zntuple vd_Q2 z=492.882429646524 file=$outname format=ascii require=PDGid==-13
+place Q2 z=181.717803899308
+zntuple vd_Q2 z=205.197004333060 file=$outname format=ascii require=PDGid==-13
 
 
 #-------------------------------
 # FIELD MAP OUTPUT
 #-------------------------------
-printfield type=grid file=field_cellQ2.dat field=By X0=0 Y0=0 Z0=0 nX=1 dX=1 nY=1 dY=1 nZ=246 dZ=5
+# printfield type=grid file=field_cellQ2.dat field=By X0=0 Y0=0 Z0=0 nX=1 dX=1 nY=1 dY=1 nZ=246 dZ=5

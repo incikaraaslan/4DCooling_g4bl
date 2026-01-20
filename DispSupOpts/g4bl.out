@@ -4,7 +4,7 @@ G4ENSDFSTATEDATA=/home/incik/Geant4Data/G4ENSDFSTATE2.3
 G4PARTICLEXSDATA=/home/incik/Geant4Data/G4PARTICLEXS4.0
 G4LEVELGAMMADATA=/home/incik/Geant4Data/PhotonEvaporation5.7
 G4RADIOACTIVEDATA=/home/incik/Geant4Data/RadioactiveDecay5.6
-G4beamline Process ID 22345
+G4beamline Process ID 28214
 
 *************************************************************
  g4beamline version: 3.08                        (Aug 11 2022)
@@ -54,37 +54,32 @@ particlecolor              mu-=0,1,0
 particlecolor              e+=1,0,0
 particlecolor              gamma=0,0,1
 particlecolor              e-=1,0.5,0
-param        nparticles    5000
-param        beamfile      particles_before_new.txt
-beam    ASCII   nEvents=5000 firstEvent=-1 lastEvent=2147483647 beamZ=0.0 maxR=1000000.0 renumber=0 weight=1.000000 
-		filename=particles_before_new.txt format=BLTrackFile 
+param        nparticles    2000
+param        beamfile      particles_before.txt
+beam    ASCII   nEvents=2000 firstEvent=-1 lastEvent=2147483647 beamZ=0.0 maxR=1000000.0 renumber=0 weight=1.000000 
+		filename=particles_before.txt format=BLTrackFile 
 		
 material Diamond1 Mixture: 1.00*C
                 density=3.510 temperature=273 pressure=1.0
 param        pi            3.141592654
 param        degrad        0.017453293
-param        abshgt        3.11483108026904
+param        abshgt        10
 param        abswidth      100
-param        absLEN3       6.547448752123179
-param        abshalfangle3 47.35747644447838
-param        absoffset3    3.2737243760615895
-param        wedge_z       3.2737244
+param        absLEN3       18.0
+param        abshalfangle3 45.0
+param        absoffset3    3.2
+param        wedge_z       9
 extrusion    LHextrDS3     length=100 vertices=0,0;
-                           -6.547448752123179/2,6.547448752123179/2/tan(47.35747644447838*0.017453293);
-                           -6.547448752123179/2,3.11483108026904;
-                           0,3.11483108026904 scale1=1 scale2=1 maxStep=0.1
+                           -18.0/2,18.0/2/tan(45.0*0.017453293); -18.0/2,10;
+                           0,10 scale1=1 scale2=1 maxStep=0.1
                            material=Diamond1 color=1,0,1 kill=0 vertexes=0,0;
-                           -6.547448752123179/2,6.547448752123179/2/tan(47.35747644447838*0.017453293);
-                           -6.547448752123179/2,3.11483108026904;
-                           0,3.11483108026904
-extrusion    LHextrUS3     length=100 vertices=0,0; 0,3.11483108026904;
-                           6.547448752123179/2,3.11483108026904;
-                           6.547448752123179/2,6.547448752123179/2/tan(47.35747644447838*0.017453293)
-                           scale1=1 scale2=1 maxStep=0.1 material=Diamond1
-                           color=1,0,1 kill=0 vertexes=0,0;
-                           0,3.11483108026904;
-                           6.547448752123179/2,3.11483108026904;
-                           6.547448752123179/2,6.547448752123179/2/tan(47.35747644447838*0.017453293)
+                           -18.0/2,18.0/2/tan(45.0*0.017453293); -18.0/2,10;
+                           0,10
+extrusion    LHextrUS3     length=100 vertices=0,0; 0,10; 18.0/2,10;
+                           18.0/2,18.0/2/tan(45.0*0.017453293) scale1=1
+                           scale2=1 maxStep=0.1 material=Diamond1 color=1,0,1
+                           kill=0 vertexes=0,0; 0,10; 18.0/2,10;
+                           18.0/2,18.0/2/tan(45.0*0.017453293)
 param        VDRad         60.0
 virtualdetector VD         radius=60 innerRadius=0 height=120 width=120
                            length=0.2 maxStep=0.5 material= color=1,1,1
@@ -93,79 +88,82 @@ virtualdetector VD         radius=60 innerRadius=0 height=120 width=120
                            kill=0
 param        wedgeAxis     0
 param        noWedge       0
-place   LHextrDS3 copies=1 x=3.3 y=0.0 z=3.3 rotation='Z90,Y00,X90'
-place   LHextrUS3 copies=1 x=3.3 y=0.0 z=3.3 rotation='Z90,Y00,X90'
+place   LHextrDS3 copies=1 x=3.2 y=0.0 z=9.0 rotation='Z90,Y00,X90'
+place   LHextrUS3 copies=1 x=3.2 y=0.0 z=9.0 rotation='Z90,Y00,X90'
 zntuple                    z=0.0 zloop= noSingles=0 format=ascii
                            file=vd_start_dispsup.txt
                            filename=vd_start_dispsup.txt require=PDGid==-13
                            referenceParticle=0 coordinates=Centerline
-zntuple                    z=52.59333921123373 zloop= noSingles=0 format=ascii
-                           file=vd_wedge_end_achromat.txt
+zntuple                    z=25.455844122715714 zloop= noSingles=0
+                           format=ascii file=vd_wedge_end_achromat.txt
                            filename=vd_wedge_end_achromat.txt
                            require=PDGid==-13 referenceParticle=0
                            coordinates=Centerline
-genericquad  Q1            fieldLength=200 ironLength=200 ironRadius=110
-                           apertureRadius=100 poleTipRadius=0 coilRadius=0
-                           coilHalfwidth=0 coilHalfWidth=0 gradient=-3
+genericquad  Q1            fieldLength=1750 ironLength=1750 ironRadius=4300
+                           apertureRadius=1750 poleTipRadius=0 coilRadius=0
+                           coilHalfwidth=0 coilHalfWidth=0 gradient=0
                            maxStep=0.5 ironMaterial=Fe fieldMaterial=Vacuum
                            ironColor=0.4,0.8,0.4 kill=0 fringe= fringeFactor=1
                            openAperture=0
-place   Q1      copies=1 x=0.0 y=0.0 z=252.6 
-zntuple                    z=352.59333921123374 zloop= noSingles=0
+place   Q1      copies=1 x=0.0 y=0.0 z=905.5 
+zntuple                    z=1780.4558441227157 zloop= noSingles=0
                            format=ascii file=vd_Q1_dispsup.txt
                            filename=vd_Q1_dispsup.txt require=PDGid==-13
                            referenceParticle=0 coordinates=Centerline
-box          Drift1        height=100 width=100 length=100 maxStep=0.5
-                           material=Vacuum color=0.6,0.6,0.6 kill=0
-place   Drift1  copies=1 x=0.0 y=0.0 z=402.6 
-zntuple                    z=452.5934392112337 zloop= noSingles=0 format=ascii
+box          Drift1        height=1.505e+04 width=1.505e+04 length=1.505e+04
+                           maxStep=0.5 material=Vacuum color=0.6,0.6,0.6
+                           kill=0
+place   Drift1  copies=1 x=0.0 y=0.0 z=9305.6 
+zntuple                    z=16830.55584412272 zloop= noSingles=0 format=ascii
                            file=vd_D1_dispsup.txt filename=vd_D1_dispsup.txt
                            require=PDGid==-13 referenceParticle=0
                            coordinates=Centerline
-genericquad  Q2            fieldLength=200 ironLength=200 ironRadius=110
-                           apertureRadius=100 poleTipRadius=0 coilRadius=0
-                           coilHalfwidth=0 coilHalfWidth=0 gradient=-6
+genericquad  Q2            fieldLength=1750 ironLength=1750 ironRadius=4300
+                           apertureRadius=1750 poleTipRadius=0 coilRadius=0
+                           coilHalfwidth=0 coilHalfWidth=0 gradient=0
                            maxStep=0.5 ironMaterial=Fe fieldMaterial=Vacuum
-                           ironColor=0.4,0.8,0.4 kill=1 fringe=0
-                           fringeFactor=1 openAperture=0
-place   Q2      copies=1 x=0.0 y=0.0 z=552.6 
-zntuple                    z=652.5935392112337 zloop= noSingles=0 format=ascii
-                           file=vd_Q2_dispsup.txt filename=vd_Q2_dispsup.txt
-                           require=PDGid==-13 referenceParticle=0
-                           coordinates=Centerline
-box          Drift2        height=100 width=100 length=100 maxStep=0.5
-                           material=Vacuum color=0.6,0.6,0.6 kill=0
-place   Drift2  copies=1 x=0.0 y=0.0 z=702.6 
-zntuple                    z=752.5936392112337 zloop= noSingles=0 format=ascii
-                           file=vd_D2_dispsup.txt filename=vd_D2_dispsup.txt
-                           require=PDGid==-13 referenceParticle=0
-                           coordinates=Centerline
-genericbend  B1            fieldWidth=100 fieldHeight=100 fieldLength=282
-                           ironWidth=110 ironHeight=110 ironLength=282 By=0.3
+                           ironColor=0.4,0.8,0.4 kill=0 fringe= fringeFactor=1
+                           openAperture=0
+place   Q2      copies=1 x=0.0 y=0.0 z=17705.7 
+zntuple                    z=18580.655844122717 zloop= noSingles=0
+                           format=ascii file=vd_Q2_dispsup.txt
+                           filename=vd_Q2_dispsup.txt require=PDGid==-13
+                           referenceParticle=0 coordinates=Centerline
+box          Drift2        height=1.505e+04 width=1.505e+04 length=1.505e+04
+                           maxStep=0.5 material=Vacuum color=0.6,0.6,0.6
+                           kill=0
+place   Drift2  copies=1 x=0.0 y=0.0 z=26105.8 
+zntuple                    z=33630.755844122716 zloop= noSingles=0
+                           format=ascii file=vd_D2_dispsup.txt
+                           filename=vd_D2_dispsup.txt require=PDGid==-13
+                           referenceParticle=0 coordinates=Centerline
+genericbend  B1            fieldWidth=1.505e+04 fieldHeight=1.505e+04
+                           fieldLength=1050 ironWidth=1.506e+04
+                           ironHeight=1.506e+04 ironLength=1050 By=0
                            maxStep=0.5 fieldMaterial=Vacuum fieldColor=0,0,1
-                           ironMaterial=Fe ironColor=0.6,0.6,0.6 kill=1
-                           fringe=0 fringeFactor=1 openAperture=0
-place   B1      copies=1 x=0.0 y=0.0 z=893.6 
-zntuple                    z=1034.5937392112337 zloop= noSingles=0
+                           ironMaterial=Fe ironColor=0.6,0.6,0.6 kill=0
+                           fringe= fringeFactor=1 openAperture=0
+place   B1      copies=1 x=0.0 y=0.0 z=34155.9 
+zntuple                    z=34680.855844122714 zloop= noSingles=0
                            format=ascii file=vd_B1_dispsup.txt
                            filename=vd_B1_dispsup.txt require=PDGid==-13
                            referenceParticle=0 coordinates=Centerline
-zntuple                    z=944.5938392112337 zloop= noSingles=0 format=ascii
+zntuple                    z=34690.95584412271 zloop= noSingles=0 format=ascii
                            file=vd_dispsup.txt filename=vd_dispsup.txt
                            require=PDGid==-13 referenceParticle=0
                            coordinates=Centerline
 
-World size (before incrementing by 201.357 mm): 220.0 H  220.0 W  2069.2 L
+World size (before incrementing by 201.357 mm): 15060.0 H  15060.0 W  69361.7 L
 
 PARAMETERS:
           VDRad=60.0
-            Zcl=1034.59
-        absLEN3=6.547448752123179
-  abshalfangle3=47.35747644447838
-         abshgt=3.11483108026904
-     absoffset3=3.2737243760615895
+            Zcl=34680.9
+        absLEN3=18.0
+  abshalfangle3=45.0
+         abshgt=10
+     absoffset3=3.2
        abswidth=100
-       beamfile=particles_before_new.txt
+       beamfile=particles_before.txt
          degrad=0.017453293
      deltaChord=3.0
 deltaIntersection=0.1
@@ -180,53 +178,53 @@ deltaIntersection=0.1
     minRangeCut=1
         minStep=0.01
         noWedge=0
-     nparticles=5000
+     nparticles=2000
              pi=3.141592654
  steppingFormat=N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
 steppingVerbose=0
          viewer=best,1
  wallClockLimit=-1
       wedgeAxis=0
-        wedge_z=3.2737244
+        wedge_z=9
   worldMaterial=Vacuum
      zTolerance=2.0
          zbegin=0.0
 Checking overlaps for volume LHextrDS3:0 (G4ExtrudedSolid) ... OK! 
-BLCMDextrusion::Construct LHextrDS3 parent= relZ=3.3 globZ=3.3
-	zmin=-46.7 zmax=53.3 kill=0
+BLCMDextrusion::Construct LHextrDS3 parent= relZ=9.0 globZ=9.0
+	zmin=-41.0 zmax=59.0 kill=0
 Checking overlaps for volume LHextrUS3:0 (G4ExtrudedSolid) ... OK! 
-BLCMDextrusion::Construct LHextrUS3 parent= relZ=3.3 globZ=3.3
-	zmin=-46.7 zmax=53.3 kill=0
+BLCMDextrusion::Construct LHextrUS3 parent= relZ=9.0 globZ=9.0
+	zmin=-41.0 zmax=59.0 kill=0
 Checking overlaps for volume Q1:0 (G4Tubs) ... OK! 
 Checking overlaps for volume Q1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct Q1 parent= relZ=252.6 globZ=252.6
+BLCMDgenericquad::Construct Q1 parent= relZ=905.5 globZ=905.5
 Checking overlaps for volume Drift1:0 (G4Box) ... OK! 
-BLCMDbox::Construct Drift1 parent= relZ=402.6 globZ=402.6
-	zmin=352.6 zmax=452.6
+BLCMDbox::Construct Drift1 parent= relZ=9305.6 globZ=9305.6
+	zmin=1780.6 zmax=16830.6
 Checking overlaps for volume Q2:0 (G4Tubs) ... OK! 
 Checking overlaps for volume Q2:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct Q2 parent= relZ=552.6 globZ=552.6
+BLCMDgenericquad::Construct Q2 parent= relZ=17705.7 globZ=17705.7
 Checking overlaps for volume Drift2:0 (G4Box) ... OK! 
-BLCMDbox::Construct Drift2 parent= relZ=702.6 globZ=702.6
-	zmin=652.6 zmax=752.6
-**************************************************************************
-*** G4Exception: GeomVol1002
-***    severity: Warning
-***   issued by: G4PVPlacement::CheckOverlaps()
-*** description: Overlap with volume already placed !
-          Overlap is detected for volume B1:0 (G4Box) with Drift2:0 (G4Box)
-          overlap at local point (-43.7558,13.5966,49.9001) by 99.9 um  (max of 81 cases)
-NOTE: Reached maximum fixed number -1- of overlaps reports for this volume !
-**************************************************************************
-Checking overlaps for volume B1:0 (G4Box) ... Checking overlaps for volume B1:0 (G4SubtractionSolid) ... OK! 
-BLCMDgenericbend::Construct B1 parent= relZ=893.6 globZ=893.6
-	zmin=752.6 zmax=1034.6
+BLCMDbox::Construct Drift2 parent= relZ=26105.8 globZ=26105.8
+	zmin=18580.8 zmax=33630.8
+Checking overlaps for volume B1:0 (G4Box) ... OK! 
+Checking overlaps for volume B1:0 (G4SubtractionSolid) ... OK! 
+BLCMDgenericbend::Construct B1 parent= relZ=34155.9 globZ=34155.9
+	zmin=33630.9 zmax=34680.9
 ### Adding tracking cuts for neutron  TimeCut(ns)= 10000  KinEnergyCut(MeV)= 0
 
 Geometry test nPoints=100 tolerance=0.002 mm:
 Testing geometry for children of group 'World':
 Total geometry errors = 0  0 seconds
 
+**************************************************************************
+*** G4Exception: EM Field Extends Outside World
+***    severity: Warning
+***   issued by: BLGlobalField
+*** description: May give inaccurate tracking near world boundary.
+**************************************************************************
+fieldVoxels: nx=38 ny=38 nz=105, 151620 voxels, 3 fields
+fieldVoxels: max field count is 2 fields, # voxels >5: 0, >10: 0, >20: 0
 ================== Prepare Visualization ==================
 Stochastic processes are enabled.
 Available UI session types: [ Qt, tcsh, csh ]
@@ -319,8 +317,8 @@ BLVisManager init: /vis/viewer/set/hiddenMarker true
 WARNING: No extent set for user vis action "DrawMarkers".
 WARNING: User Vis Action "DrawMarkers" extent is null.
  Changing export format to "jpg"
-fieldVoxels: nx=1 ny=1 nz=4, 4 voxels, 3 fields
-fieldVoxels: max field count is 2 fields, # voxels >5: 0, >10: 0, >20: 0
+WARNING: Viewpoint direction is very close to the up vector direction.
+  Change the up vector or "/vis/viewer/set/rotationStyle freeRotation".
 SynRad:  Incoherent Synchrotron Radiation
 Good description for long magnets at all energies.
 100 events have been kept for refreshing and/or reviewing.
@@ -331,5 +329,5 @@ Graphics systems deleted.
 Visualization Manager deleting...
 
 Exceptions: 0 Fatal, 0 Events Aborted, 0 Stuck Tracks (stopped), 1 Warnings
-      1 times: GeomVol1002
+      1 times: EM Field Extends Outside World
 g4beamline: simulation complete

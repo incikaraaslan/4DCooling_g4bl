@@ -59,7 +59,7 @@ place Drift2 z={Drift2_z}
 genericbend B1 \
     By={B1_field} \
     fieldWidth={B1_width} fieldHeight={B1_height} fieldLength={B1_length} \
-    ironWidth={B1_width}+10 ironHeight={B1_height}+10 ironLength={B1_length} \
+    ironWidth={B1_width}+10 ironHeight={B1_height}+10 ironLength={B1_length}+10 \
     maxStep=0.5 \
     fieldMaterial=Vacuum fieldColor=0,0,1 \
     ironMaterial=Fe ironColor=0.6,0.6,0.6 \
@@ -72,4 +72,4 @@ zntuple vd_B1 z={B1_end} file=$outname format=ascii require=PDGid==-13
 #-------------------------------
 # FIELD MAP OUTPUT
 #-------------------------------
-printfield type=grid file=field_cellB.dat field=By X0=0 Y0=0 Z0=0 nX=1 dX=1 nY=1 dY=1 nZ=246 dZ=5
+# printfield type=grid file=field_cellB.dat field=By X0=0 Y0=0 Z0=0 nX=1 dX=1 nY=1 dY=1 nZ=246 dZ=5

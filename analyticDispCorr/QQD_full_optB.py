@@ -135,8 +135,11 @@ def build_piecewise_optics(optics, Brho, ds=1e-3):
 def beta_rhs(s, y, s_positions, K_vals):
     beta, bp = y
     K = np.interp(s, s_positions, K_vals)
-    bpp = bp * bp / (2.0 * beta + 1e-30) - 2.0 * K * beta + 2.0 / (beta + 1e-30)
-    return [bp, bpp]
+    if beta <= 0:
+        raise RuntimeError("Beta function became non-positive")
+    else:
+        bpp = bp * bp / (2.0 * beta) - 2.0 * K * beta + 2.0 / (beta)
+        return [bp, bpp]
 
 def disp_rhs(s, y, s_positions, K_vals, h_vals):
     eta, etap = y
@@ -165,7 +168,7 @@ def fundamental_matrix(s_positions, K_vals):
 # Propagation helpers
 # ------------------------
 def propagate_beta(beta0, alpha0, s_positions, K_vals):
-    bp0 = -2.0 * alpha0
+    bp0 = -2.0 * alpha0 # Accelerator physics software convention, with diffeqs being defines as x'' + Kx and not -Kx.
     sN = s_positions[-1]
     t_eval = np.concatenate(([0.0], s_positions))
     sol = solve_ivp(beta_rhs, (0.0, sN), [beta0, bp0], args=(s_positions, K_vals), t_eval=t_eval, rtol=1e-8, atol=1e-9)
@@ -186,8 +189,8 @@ def sigma_from_twiss(beta, alpha, emit_m):
     return Sigma
 
 def twiss_from_sigma(Sigma, emit_m):
-    beta = Sigma[0, 0] / (emit_m + 1e-30)
-    alpha = -Sigma[0, 1] / (emit_m + 1e-30)
+    beta = Sigma[0, 0] / (emit_m)
+    alpha = -Sigma[0, 1] / (emit_m)
     return beta, alpha, (1.0 + alpha * alpha) / beta
 
 # ------------------------
