@@ -54,40 +54,40 @@ zntuple vd_start z=0.0 file=vd_start_dispsup.txt format=ascii require=PDGid==-13
 
 # --- Quadrupole (Q1)
 genericquad Q1 \
-    gradient=0.059311566517 \
-    fieldLength=135.189633344705 \
-    ironLength=135.189633344705 \
-    ironRadius=6.771330624128+5.000000000000 \
-    apertureRadius=6.771330624128 \
+    gradient=13.155316434444 \
+    fieldLength=154.927570321542 \
+    ironLength=154.927570321542 \
+    ironRadius=90.658679740930+5.000000000000 \
+    apertureRadius=90.658679740930 \
     maxStep=0.5 \
     ironMaterial=Fe fieldMaterial=Vacuum \
     ironColor=0.4,0.8,0.4 \
     kill=1 \
     fringe=0
 
-place Q1 z=75.489362125489
-zntuple vd_Q1 z=143.084178797842 file=vd_Q1_dispsup.txt format=ascii require=PDGid==-13
+place Q1 z=85.358330613908
+zntuple vd_Q1 z=162.822115774679 file=vd_Q1_dispsup.txt format=ascii require=PDGid==-13
 
 # --- Drift 1 between Q1 and Q2
-box Drift1 width=13.542661248255 height=13.542661248255 length=15.154424667715 material=Vacuum color=0.6,0.6,0.6
-place Drift1 z=150.661391131699
-zntuple vd_D1 z=158.238603465557 file=vd_D1_dispsup.txt format=ascii require=PDGid==-13
+box Drift1 width=181.317359481859 height=181.317359481859 length=114.483995914404 material=Vacuum color=0.6,0.6,0.6
+place Drift1 z=220.064113731881
+zntuple vd_D1 z=277.306111689083 file=vd_D1_dispsup.txt format=ascii require=PDGid==-13
 
 # --- Quadrupole (Q2)
 genericquad Q2 \
-    gradient=-50.277089739229 \
-    fieldLength=46.958400867503 \
-    ironLength=46.958400867503 \
-    ironRadius=6.771330624128+5.000000000000 \
-    apertureRadius=6.771330624128 \
+    gradient=-12.853203283144 \
+    fieldLength=93.836689423884 \
+    ironLength=93.836689423884 \
+    ironRadius=90.658679740930+5.000000000000 \
+    apertureRadius=90.658679740930 \
     maxStep=0.5 \
     ironMaterial=Fe fieldMaterial=Vacuum \
     ironColor=0.4,0.8,0.4 \
     kill=1 \
     fringe=0
 
-place Q2 z=181.717803899308
-zntuple vd_Q2 z=205.197004333060 file=$outname format=ascii require=PDGid==-13
+place Q2 z=324.224456401024
+zntuple vd_Q2 z=371.142801112966 file=$outname format=ascii require=PDGid==-13
 
 
 #-------------------------------

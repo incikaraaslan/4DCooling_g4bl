@@ -1,2 +1,0 @@
-#BLTrackFile2 VD
-#x y z Px Py Pz t PDGid EventID TrackID ParentID Weight Bx By Bz Ex Ey Ez ProperTime PathLength PolX PolY PolZ InitX InitY InitZ InitT InitKE

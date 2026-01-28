@@ -4,7 +4,7 @@ G4ENSDFSTATEDATA=/home/incik/Geant4Data/G4ENSDFSTATE2.3
 G4PARTICLEXSDATA=/home/incik/Geant4Data/G4PARTICLEXS4.0
 G4LEVELGAMMADATA=/home/incik/Geant4Data/PhotonEvaporation5.7
 G4RADIOACTIVEDATA=/home/incik/Geant4Data/RadioactiveDecay5.6
-G4beamline Process ID 13995
+G4beamline Process ID 31748
 
 *************************************************************
  g4beamline version: 3.08                        (Aug 11 2022)
@@ -54,35 +54,51 @@ particlecolor              mu-=0,1,0
 particlecolor              e+=1,0,0
 particlecolor              gamma=0,0,1
 particlecolor              e-=1,0.5,0
-param        nparticles    2000
-param        beamfile      particles_after_q2upt.txt
-param        outname       particles_after_b.txt
-beam    ASCII   nEvents=2000 firstEvent=-1 lastEvent=2147483647 beamZ=0.0 maxR=1000000.0 renumber=0 weight=1.000000 
-		filename=particles_after_q2upt.txt format=BLTrackFile 
+param        nparticles    500
+param        beamfile      particles_afterupt.txt
+param        outname       particles_after_q2.txt
+beam    ASCII   nEvents=500 firstEvent=-1 lastEvent=2147483647 beamZ=0.0 maxR=1000000.0 renumber=0 weight=1.000000 
+		filename=particles_afterupt.txt format=BLTrackFile 
 		
 zntuple                    z=0.0 zloop= noSingles=0 format=ascii
                            file=vd_start_dispsup.txt
                            filename=vd_start_dispsup.txt require=PDGid==-13
                            referenceParticle=0 coordinates=Centerline
-box          Drift2        height=100 width=100 length=1000 maxStep=0.5
-                           material=Vacuum color=0.6,0.6,0.6 kill=0
-place   Drift2  copies=1 x=0.0 y=0.0 z=500.0 
-genericbend  B1            fieldWidth=100 fieldHeight=100 fieldLength=500
-                           ironWidth=110 ironHeight=110 ironLength=510 By=3
-                           maxStep=0.5 fieldMaterial=Vacuum fieldColor=0,1,1
-                           ironMaterial=Fe ironColor=1,1,0.6 kill=1 fringe=
+genericquad  Q1            fieldLength=135.2 ironLength=135.2 ironRadius=11.77
+                           apertureRadius=6.771 poleTipRadius=0 coilRadius=0
+                           coilHalfwidth=0 coilHalfWidth=0 gradient=0.05931
+                           maxStep=0.5 ironMaterial=Fe fieldMaterial=Vacuum
+                           ironColor=0.4,0.8,0.4 kill=1 fringe=0
                            fringeFactor=1 openAperture=0
-place   B1      copies=1 x=0.0 y=0.0 z=1250.0 
-zntuple                    z=1500.0 zloop= noSingles=0 format=ascii
-                           file=particles_after_b.txt
-                           filename=particles_after_b.txt require=PDGid==-13
+place   Q1      copies=1 x=0.0 y=0.0 z=75.5 
+zntuple                    z=143.084178797842 zloop= noSingles=0 format=ascii
+                           file=vd_Q1_dispsup.txt filename=vd_Q1_dispsup.txt
+                           require=PDGid==-13 referenceParticle=0
+                           coordinates=Centerline
+box          Drift1        height=13.54 width=13.54 length=15.15 maxStep=0.5
+                           material=Vacuum color=0.6,0.6,0.6 kill=0
+place   Drift1  copies=1 x=0.0 y=0.0 z=150.7 
+zntuple                    z=158.238603465557 zloop= noSingles=0 format=ascii
+                           file=vd_D1_dispsup.txt filename=vd_D1_dispsup.txt
+                           require=PDGid==-13 referenceParticle=0
+                           coordinates=Centerline
+genericquad  Q2            fieldLength=46.96 ironLength=46.96 ironRadius=11.77
+                           apertureRadius=6.771 poleTipRadius=0 coilRadius=0
+                           coilHalfwidth=0 coilHalfWidth=0 gradient=-50.28
+                           maxStep=0.5 ironMaterial=Fe fieldMaterial=Vacuum
+                           ironColor=0.4,0.8,0.4 kill=1 fringe=0
+                           fringeFactor=1 openAperture=0
+place   Q2      copies=1 x=0.0 y=0.0 z=181.7 
+zntuple                    z=205.197004333060 zloop= noSingles=0 format=ascii
+                           file=particles_after_q2.txt
+                           filename=particles_after_q2.txt require=PDGid==-13
                            referenceParticle=0 coordinates=Centerline
 
-World size (before incrementing by 201.357 mm): 110.0 H  110.0 W  3010.0 L
+World size (before incrementing by 201.357 mm): 23.5 H  23.5 W  410.4 L
 
 PARAMETERS:
-            Zcl=1505
-       beamfile=particles_after_q2upt.txt
+            Zcl=205.197
+       beamfile=particles_afterupt.txt
      deltaChord=3.0
 deltaIntersection=0.1
    deltaOneStep=0.01
@@ -95,8 +111,8 @@ deltaIntersection=0.1
         maxStep=0.5
     minRangeCut=1
         minStep=0.01
-     nparticles=2000
-        outname=particles_after_b.txt
+     nparticles=500
+        outname=particles_after_q2.txt
  steppingFormat=N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
 steppingVerbose=0
          viewer=best,1
@@ -104,38 +120,20 @@ steppingVerbose=0
   worldMaterial=Vacuum
      zTolerance=2.0
          zbegin=0.0
-Checking overlaps for volume Drift2:0 (G4Box) ... OK! 
-BLCMDbox::Construct Drift2 parent= relZ=500.0 globZ=500.0
-	zmin=0.0 zmax=1000.0
-**************************************************************************
-*** G4Exception: GeomVol1002
-***    severity: Warning
-***   issued by: G4PVPlacement::CheckOverlaps()
-*** description: Overlap with volume already placed !
-          Overlap is detected for volume B1:0 (G4Box) with Drift2:0 (G4Box)
-          overlap at local point (32.5539,-11.1072,494.9) by 5.1 mm  (max of 49 cases)
-NOTE: Reached maximum fixed number -1- of overlaps reports for this volume !
-**************************************************************************
-Checking overlaps for volume B1:0 (G4Box) ... Checking overlaps for volume B1:0 (G4SubtractionSolid) ... OK! 
-BLCMDgenericbend::Construct B1 parent= relZ=1250.0 globZ=1250.0
-	zmin=995.0 zmax=1505.0
+Checking overlaps for volume Q1:0 (G4Tubs) ... OK! 
+Checking overlaps for volume Q1:0 (G4Tubs) ... OK! 
+BLCMDgenericquad::Construct Q1 parent= relZ=75.5 globZ=75.5
+Checking overlaps for volume Drift1:0 (G4Box) ... OK! 
+BLCMDbox::Construct Drift1 parent= relZ=150.7 globZ=150.7
+	zmin=143.1 zmax=158.2
+Checking overlaps for volume Q2:0 (G4Tubs) ... OK! 
+Checking overlaps for volume Q2:0 (G4Tubs) ... OK! 
+BLCMDgenericquad::Construct Q2 parent= relZ=181.7 globZ=181.7
 ### Adding tracking cuts for neutron  TimeCut(ns)= 10000  KinEnergyCut(MeV)= 0
 
 Geometry test nPoints=100 tolerance=0.002 mm:
 Testing geometry for children of group 'World':
-**************************************************************************
-*** G4Exception: Geometry Error
-***    severity: Warning
-***   issued by: geometry
-*** description: box 'Drift2' intersects genericbend 'B1'
-**************************************************************************
-**************************************************************************
-*** G4Exception: Geometry Error
-***    severity: Warning
-***   issued by: geometry
-*** description: genericbend 'B1' intersects box 'Drift2'
-**************************************************************************
-Total geometry errors = 2  0 seconds
+Total geometry errors = 0  0 seconds
 
 ================== Prepare Visualization ==================
 Stochastic processes are enabled.
@@ -229,26 +227,14 @@ BLVisManager init: /vis/viewer/set/hiddenMarker true
 WARNING: No extent set for user vis action "DrawMarkers".
 WARNING: User Vis Action "DrawMarkers" extent is null.
  Changing export format to "jpg"
-WARNING: Viewpoint direction is very close to the up vector direction.
-  Change the up vector or "/vis/viewer/set/rotationStyle freeRotation".
-**************************************************************************
-*** G4Exception: EM Field Extends Outside World
-***    severity: Warning
-***   issued by: BLGlobalField
-*** description: May give inaccurate tracking near world boundary.
-***     EventID: 1     TrackID: 1   mu+  KE=27.09 MeV
-**************************************************************************
 SynRad:  Incoherent Synchrotron Radiation
 Good description for long magnets at all energies.
-13 events have been kept for refreshing and/or reviewing.
+100 events have been kept for refreshing and/or reviewing.
   "/vis/reviewKeptEvents" to review them one by one.
   "/vis/enable", then "/vis/viewer/flush" or "/vis/viewer/rebuild" to see them accumulated.
 
 Graphics systems deleted.
 Visualization Manager deleting...
 
-Exceptions: 0 Fatal, 0 Events Aborted, 0 Stuck Tracks (stopped), 4 Warnings
-      1 times: EM Field Extends Outside World
-      1 times: GeomVol1002
-      2 times: Geometry Error
+Exceptions: 0 Fatal, 0 Events Aborted, 0 Stuck Tracks (stopped), 0 Warnings
 g4beamline: simulation complete

@@ -1,0 +1,76 @@
+# Simulates Final Cooling Dispersion Suppressor
+
+# Created by: Inci Karaaslan
+# Updated: November 21, 2025
+
+# COLORS:  100 red, 010 green, 111 white, 110 yellow, 001 blue, 101 magenta, 011 cyan
+
+# VERSION HISTORY
+
+# v304: Creates distributions at entrance of Q20 and Q21
+
+######################### DEFINE PHYSICS MODEL
+ 
+# randomseed time
+  
+param zbegin=0.0
+start initialZ=$zbegin  y=0.000   x=0.00   z=0.00    radiusCut=300
+param steppingFormat=N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
+param fieldVoxels=400,400,400 
+param maxStep=0.5
+
+param -unset minRangeCut=1
+
+physics QGSP_BERT doStochastics=1 spinTracking=1 synchrotronRadiation=1 minRangeCut=$minRangeCut # disable=Decay
+# physics FTFP_BERT doStochastics=1 spinTracking=1 synchrotronRadiation=1 # disable=Decay
+
+trackcuts keep=mu+
+
+particlecolor proton=1,1,1 
+particlecolor pi+=0,1,0 
+particlecolor mu+=1,0.5,0   # orange
+particlecolor mu-=0,1,0   # green
+particlecolor e+=1,0,0      # red
+particlecolor gamma=0,0,1   # blue
+particlecolor e-=1,0.5,0    # orange
+
+######################### DEFINE INPUT BEAM
+
+  param nparticles=2000
+
+  param -unset beamfile=particles_afterupt.txt
+  param -unset outname=particles_after_b
+  param VDRad=100.0
+  beam ascii filename=$beamfile nEvents=$nparticles beamZ=0
+  trace nTrace=1 format=ascii oneNTuple=1  
+  virtualdetector VD    radius=$VDRad    length=0.2  color=1,1,1 format=asciiExtended coordinates=centerline
+                                   
+######################### DEFINE ELEMENTS
+
+#-------------------------------
+# MAGNETS (DISPERSION SUPPRESSOR SETUP)
+#-------------------------------
+
+zntuple vd_start z=0.0 file=vd_start_dispsup.txt format=ascii require=PDGid==-13
+
+# --- First dipole (B1)
+genericsectorbend B1 \
+    angle={B1_angle} \
+    DipoleField={B1_field} \
+    fieldCenterRadius={B1_radius} fieldInnerRadius={B1_radius}-{B1_thickness} fieldOuterRadius={B1_radius}+{B1_thickness} \
+    fieldHeight={B1_height} \
+    ironInnerRadius={B1_radius}-{B1_thickness}-1 ironOuterRadius={B1_radius}+{B1_thickness}+1 \
+    ironHeight={B1_height}+10 \
+    maxStep=0.5 \
+    fieldMaterial=Vacuum fieldColor=0,0,1 \
+    ironMaterial=Fe ironColor=0.6,0.6,0.6 \
+    kill=1
+place B1 z={B1_z}
+corner B1_exit z={B1_z} rotation=Y{B1_angle}
+
+place VD front=1 rename=$outname format=ascii x={B1_x_end} z={B1_z_end}
+
+#-------------------------------
+# FIELD MAP OUTPUT
+#-------------------------------
+printfield type=grid file=field_cellB.dat field=By X0=0 Y0=0 Z0=0 nX=1 dX=1 nY=1 dY=1 nZ=1000 dZ=0.5
