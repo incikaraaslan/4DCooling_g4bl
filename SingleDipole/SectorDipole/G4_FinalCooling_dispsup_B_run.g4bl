@@ -72,4 +72,4 @@ place VD front=1 rename=$outname format=ascii x=-4.357768649654164 z=127.5245789
 #-------------------------------
 # FIELD MAP OUTPUT
 #-------------------------------
-printfield type=grid file=field_cellB.dat field=By X0=0 Y0=0 Z0=0 nX=1 dX=1 nY=1 dY=1 nZ=1000 dZ=0.5
+printfield type=grid file=field_cellB.dat field=By X0=0 Y0=0 Z0=0 nX=1 dX=1 nY=1 dY=1 nZ=1000 dZ=0.05

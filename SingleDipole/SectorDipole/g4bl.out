@@ -4,7 +4,7 @@ G4ENSDFSTATEDATA=/home/incik/Geant4Data/G4ENSDFSTATE2.3
 G4PARTICLEXSDATA=/home/incik/Geant4Data/G4PARTICLEXS4.0
 G4LEVELGAMMADATA=/home/incik/Geant4Data/PhotonEvaporation5.7
 G4RADIOACTIVEDATA=/home/incik/Geant4Data/RadioactiveDecay5.6
-G4beamline Process ID 24333
+G4beamline Process ID 29220
 
 *************************************************************
  g4beamline version: 3.08                        (Aug 11 2022)
@@ -61,6 +61,9 @@ param        VDRad         100.0
 beam    ASCII   nEvents=2000 firstEvent=-1 lastEvent=2147483647 beamZ=0.0 maxR=1000000.0 renumber=0 weight=1.000000 
 		filename=particles_afterupt.txt format=BLTrackFile 
 		
+trace                      nTrace=1 format=asciiTrace oneNTuple=1
+                           primaryOnly=0 traceTune=1 filename=AllTracks
+                           file=AllTracks require= coordinates=Centerline
 virtualdetector VD         radius=100 innerRadius=0 height=200 width=200
                            length=0.2 maxStep=0.5 material= color=1,1,1
                            noSingles=0 format=asciiextended filename= file=
@@ -70,27 +73,29 @@ zntuple                    z=0.0 zloop= noSingles=0 format=ascii
                            file=vd_start_dispsup.txt
                            filename=vd_start_dispsup.txt require=PDGid==-13
                            referenceParticle=0 coordinates=Centerline
-genericsectorbend B1       angle=0.5 fieldCenterRadius=100 fieldInnerRadius=50
-                           fieldOuterRadius=150 fieldHeight=100
-                           ironInnerRadius=49 ironOuterRadius=151
-                           ironHeight=110 fieldMaterial=Vacuum
-                           fieldColor=0,0,1 ironMaterial=Fe
-                           ironColor=0.6,0.6,0.6 maxStep=0.5 kill=1
-                           SolenoidalField=0 DipoleField=3 QuadrupoleField=0
-                           SkewQuadrupoleField=0 SextupoleField=0
-                           SkewSextupoleField=0 OctupoleField=0
-                           SkewOctupoleField=0 fringe=0 fringeFactor=1
+genericsectorbend B1       angle=10 fieldCenterRadius=730.1
+                           fieldInnerRadius=680.1 fieldOuterRadius=780.1
+                           fieldHeight=100 ironInnerRadius=679.1
+                           ironOuterRadius=781.1 ironHeight=110
+                           fieldMaterial=Vacuum fieldColor=0,0,1
+                           ironMaterial=Fe ironColor=0.6,0.6,0.6 maxStep=0.5
+                           kill=1 SolenoidalField=0 DipoleField=0.1
+                           QuadrupoleField=0 SkewQuadrupoleField=0
+                           SextupoleField=0 SkewSextupoleField=0
+                           OctupoleField=0 SkewOctupoleField=0 fringe=0
+                           fringeFactor=1
 place   B1      copies=1 x=0.0 y=0.0 z=0.0 
-corner       B1_exit       z=0 rotation=Y0.5 radiusCut=300 radius=0 height=0
-                           width=0 length=1 maxStep=0.5 material=Vacuum color=
-place   VD      copies=1 x=-0.2 y=0.0 z=1.1 rename='particles_after_b'
+corner       B1_exit       z=0 rotation=Y9.999957467376227 radiusCut=300
+                           radius=0 height=0 width=0 length=1 maxStep=0.5
+                           material=Vacuum color=
+place   VD      copies=1 x=-4.4 y=0.0 z=127.6 rename='particles_after_b'
                 format=ascii
 
-World size (before incrementing by 201.357 mm): 200.0 H  200.4 W  4.1 L
+World size (before incrementing by 201.357 mm): 200.0 H  1460.2 W  287.8 L
 
 PARAMETERS:
           VDRad=100.0
-            Zcl=1.17266
+            Zcl=127.725
        beamfile=particles_afterupt.txt
      deltaChord=3.0
 deltaIntersection=0.1
@@ -116,17 +121,9 @@ steppingVerbose=0
 Checking overlaps for volume B1:0 (G4Tubs) ... OK! 
 Checking overlaps for volume B1:0 (G4SubtractionSolid) ... OK! 
 BLCMDgenericsectorbend::Construct B1 parent= relZ=0.0 globZ=0.0
-**************************************************************************
-*** G4Exception: GeomVol1002
-***    severity: Warning
-***   issued by: G4PVPlacement::CheckOverlaps()
-*** description: Overlap with volume already placed !
-          Overlap is detected for volume particles_after_b:0 (G4Tubs) with B1:0 (G4Tubs)
-          overlap at local point (-149.008,-1.40039,34.6319) by 49.0039 um  (max of 78 cases)
-NOTE: Reached maximum fixed number -1- of overlaps reports for this volume !
-**************************************************************************
-BLCMDvirtualdetector::Construct particles_after_b parent= relZ=1.1 globZ=1.1
-Checking overlaps for volume particles_after_b:0 (G4Tubs) ... ### Adding tracking cuts for neutron  TimeCut(ns)= 10000  KinEnergyCut(MeV)= 0
+Checking overlaps for volume particles_after_b:0 (G4Tubs) ... OK! 
+BLCMDvirtualdetector::Construct particles_after_b parent= relZ=126.4 globZ=121.4
+### Adding tracking cuts for neutron  TimeCut(ns)= 10000  KinEnergyCut(MeV)= 0
 
 Geometry test nPoints=100 tolerance=0.002 mm:
 Testing geometry for children of group 'World':
@@ -232,7 +229,7 @@ WARNING: Viewpoint direction is very close to the up vector direction.
 ***    severity: Warning
 ***   issued by: BLGlobalField
 *** description: May give inaccurate tracking near world boundary.
-***     EventID: 1     TrackID: 1   mu+  KE=36.92 MeV
+***     EventID: 1     TrackID: 1   mu+  KE=30.98 MeV
 **************************************************************************
 SynRad:  Incoherent Synchrotron Radiation
 Good description for long magnets at all energies.
@@ -243,7 +240,6 @@ Good description for long magnets at all energies.
 Graphics systems deleted.
 Visualization Manager deleting...
 
-Exceptions: 0 Fatal, 0 Events Aborted, 0 Stuck Tracks (stopped), 2 Warnings
+Exceptions: 0 Fatal, 0 Events Aborted, 0 Stuck Tracks (stopped), 1 Warnings
       1 times: EM Field Extends Outside World
-      1 times: GeomVol1002
 g4beamline: simulation complete

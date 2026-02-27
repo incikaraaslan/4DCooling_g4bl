@@ -1,0 +1,20 @@
+
+# ===============================
+# Beam
+# ===============================
+
+beam file
+    filename=particles_after_bupt.txt
+    particle=mu+
+
+
+# ===============================
+# Lattice
+# ===============================
+include matching_lattice.g4bl
+
+# ===============================
+# Tracking
+# ===============================
+reference z=16.0
+track

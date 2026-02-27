@@ -1,0 +1,170 @@
+# Modified Quadrupole Channel for Drift
+
+# Created by: Inci Karaaslan
+# Updated: February 17, 2026
+
+# COLORS:  100 red, 010 green, 111 white, 110 yellow, 001 blue, 101 magenta, 011 cyan
+
+######################### DEFINE PHYSICS MODEL
+  
+param zbegin=0.0
+start initialZ=$zbegin  y=0.000   x=0.00   z=0.00    radiusCut=120
+param steppingFormat=N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
+param fieldVoxels=400,400,400 
+param -unset maxStep=0.5
+param -unset maxStepInWedge=0.1
+
+param -unset minRangeCut=1
+
+physics QGSP_BERT doStochastics=1 spinTracking=1 synchrotronRadiation=1 minRangeCut=$minRangeCut # disable=Decay
+# physics FTFP_BERT doStochastics=1 spinTracking=1 synchrotronRadiation=1 # disable=Decay
+
+trackcuts keep=mu+
+
+particlecolor proton=1,1,1 
+particlecolor pi+=0,1,0 
+particlecolor mu+=1,0.5,0   # orange
+particlecolor mu-=0,1,0   # green
+particlecolor e+=1,0,0      # red
+particlecolor gamma=0,0,1   # blue
+particlecolor e-=1,0.5,0    # orange
+
+######################### DEFINE INPUT BEAM
+
+param -unset nparticles=12000
+param -unset beamfile=particles_after_bupt.txt
+param -unset outfile=particles_after_driftm.txt
+beam ascii filename=$beamfile nEvents=$nparticles beamZ=0  
+
+# ===============================
+# Parameters (FILLED BY PYTHON)
+# ===============================
+
+param -unset g_k_q1=-44.586774
+param -unset g_k_q2=6.540592
+param -unset g_k_q3=-5.486275
+param -unset g_k_q4=40.493140
+param -unset g_k_q5=22.337849
+param -unset g_k_q6=-10.017953
+param -unset g_k_q7=6.382154
+param -unset g_k_q8=-5.997504
+param -unset g_k_qf1=5.613316663
+param -unset g_k_qd1=-5.613316663
+
+param -unset q1_z=400.000000 
+param -unset q2_z=950.000000 
+param -unset q3_z=1500.000000
+param -unset q4_z=2300.000000
+param -unset qf1h_1_z=2450.000000
+param -unset q5_z=14400.000000
+param -unset q6_z=14650.000000
+param -unset q7_z=15200.000000
+param -unset q8_z=15750.000000
+
+param -unset radius_quads=285.73014469373476+10
+
+# ===============================
+# Magnet definitions
+# ===============================
+
+genericquad QF1H \
+  fieldLength=75 \
+  ironLength=75 \
+  apertureRadius=$radius_quads \
+  ironRadius=$radius_quads+5 \
+  gradient=$g_k_qf1
+
+genericquad QD1H \
+  fieldLength=75 \
+  ironLength=75 \
+  apertureRadius=$radius_quads \
+  ironRadius=$radius_quads+5 \
+  gradient=$g_k_qd1
+
+genericquad Q1 \
+  fieldLength=150 \
+  ironLength=150 \
+  apertureRadius=$radius_quads \
+  ironRadius=$radius_quads+5 \
+  gradient=$g_k_q1
+
+genericquad Q2 \
+  fieldLength=150 \
+  ironLength=150 \
+  apertureRadius=$radius_quads \
+  ironRadius=$radius_quads+5 \
+  gradient=$g_k_q2
+
+genericquad Q3 \
+  fieldLength=150 \
+  ironLength=150 \
+  apertureRadius=$radius_quads \
+  ironRadius=$radius_quads+5 \
+  gradient=$g_k_q3
+
+genericquad Q4 \
+  fieldLength=150 \
+  ironLength=150 \
+  apertureRadius=$radius_quads \
+  ironRadius=$radius_quads+5 \
+  gradient=$g_k_q4
+
+genericquad Q5 \
+  fieldLength=150 \
+  ironLength=150 \
+  apertureRadius=$radius_quads \
+  ironRadius=$radius_quads+5 \
+  gradient=$g_k_q5
+
+genericquad Q6 \
+  fieldLength=150 \
+  ironLength=150 \
+  apertureRadius=$radius_quads \
+  ironRadius=$radius_quads+5 \
+  gradient=$g_k_q6
+
+genericquad Q7 \
+  fieldLength=150 \
+  ironLength=150 \
+  apertureRadius=$radius_quads \
+  ironRadius=$radius_quads+5 \
+  gradient=$g_k_q7
+
+genericquad Q8 \
+  fieldLength=150 \
+  ironLength=150 \
+  apertureRadius=$radius_quads \
+  ironRadius=$radius_quads+5 \
+  gradient=$g_k_q8
+
+##########################################################################################################
+############################################  PLACE ELEMENTS  ############################################
+##########################################################################################################
+
+place Q1 z=$q1_z front=1
+place Q2 z=$q2_z front=1
+place Q3 z=$q3_z front=1
+place Q4 z=$q4_z front=1
+
+# place QF1H z=$qf1h_1_z front=1
+for i 0 1 2 3 4 5 6 7 8 9
+    place QF1H z=$qf1h_1_z+75+$i*1100 front=1
+    place QD1H z=$qf1h_1_z+475+$i*1100 front=1
+    place QD1H z=$qf1h_1_z+550+$i*1100 front=1
+    place QF1H z=$qf1h_1_z+1025+$i*1100 front=1
+endfor
+# place QF1H z=$qf1h_1_z+10*1100 front=1
+
+place Q5 z=$q5_z front=1
+place Q6 z=$q6_z front=1
+place Q7 z=$q7_z front=1
+place Q8 z=$q8_z front=1
+
+param -unset slice=0  # 1 to composite detections from each cell
+
+if $slice==1
+    zntuple zloop=0:10*1100:550
+    ntuple TestNTuple detectors="Z*" union=1 file=$outfile format=ascii
+else
+    zntuple z=10*1100 filename=$outfile
+endif

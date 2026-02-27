@@ -1,0 +1,75 @@
+# Simulates Final Cooling Dispersion Suppressor
+
+# Created by: Inci Karaaslan
+# Updated: November 21, 2025
+
+# COLORS:  100 red, 010 green, 111 white, 110 yellow, 001 blue, 101 magenta, 011 cyan
+
+# VERSION HISTORY
+
+# v304: Creates distributions at entrance of Q20 and Q21
+
+######################### DEFINE PHYSICS MODEL
+ 
+# randomseed time
+  
+param zbegin=0.0
+start initialZ=$zbegin  y=0.000   x=0.00   z=0.00    radiusCut=300
+param steppingFormat=N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
+param fieldVoxels=400,400,400 
+param maxStep=0.5
+
+param -unset minRangeCut=1
+
+physics QGSP_BERT doStochastics=1 spinTracking=1 synchrotronRadiation=1 minRangeCut=$minRangeCut # disable=Decay
+# physics FTFP_BERT doStochastics=1 spinTracking=1 synchrotronRadiation=1 # disable=Decay
+
+trackcuts keep=mu+
+
+particlecolor proton=1,1,1 
+particlecolor pi+=0,1,0 
+particlecolor mu+=1,0.5,0   # orange
+particlecolor mu-=0,1,0   # green
+particlecolor e+=1,0,0      # red
+particlecolor gamma=0,0,1   # blue
+particlecolor e-=1,0.5,0    # orange
+
+######################### DEFINE INPUT BEAM
+
+  param nparticles=2000
+
+  param -unset beamfile=particles_after_q2upt_kts.txt
+  param -unset outname=particles_after_b_kts.txt
+  trace nTrace=1 format=ascii oneNTuple=1
+  beam ascii filename=$beamfile nEvents=$nparticles beamZ=0  
+                                   
+######################### DEFINE ELEMENTS
+
+#-------------------------------
+# MAGNETS (DISPERSION SUPPRESSOR SETUP)
+#-------------------------------
+
+zntuple vd_start z=0.0 file=vd_start_dispsup.txt format=ascii require=PDGid==-13
+
+# --- Drift 2 between Q2 and B1
+box Drift2 width=5.3348689296749905 height=5.95320753770823 length=246.4099827601217 material=Vacuum color=0.6,0.6,0.6
+place Drift2 z=123.20499138006085
+
+# --- First dipole (B1)
+genericbend B1 \
+    By=0.2410255738967551 \
+    fieldWidth=5.3348689296749905 fieldHeight=5.95320753770823 fieldLength=50.0 \
+    ironWidth=5.3348689296749905+10 ironHeight=5.95320753770823+10 ironLength=50.0+10 \
+    maxStep=0.5 \
+    fieldMaterial=Vacuum fieldColor=0,0,1 \
+    ironMaterial=Fe ironColor=0.6,0.6,0.6 \
+    kill=1
+place B1 z=271.4099827601217
+
+zntuple vd_B1 z=296.4099827601217 file=$outname format=ascii require=PDGid==-13
+
+
+#-------------------------------
+# FIELD MAP OUTPUT
+#-------------------------------
+# printfield type=grid file=field_cellB.dat field=By X0=0 Y0=0 Z0=0 nX=1 dX=1 nY=1 dY=1 nZ=246 dZ=5

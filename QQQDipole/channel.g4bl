@@ -1,0 +1,7 @@
+# AUTO-GENERATED FROM layout.tfs
+
+param zbegin=0
+start z=$zbegin x=0 y=0 radiusCut=300
+physics QGSP_BERT spinTracking=1
+trackcuts keep=mu+
+

@@ -1,0 +1,198 @@
+
+# ============================================================
+# Simulates Final Cooling Drift Channel post Dispersion Suppressor
+# Created by: Inci Karaaslan
+# Auto-generated quad strengths from MAD-X
+# ============================================================
+
+param zbegin=0.0
+start initialZ=$zbegin  y=0.000   x=0.00   z=0.00    radiusCut=300
+param steppingFormat=N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
+param fieldVoxels=400,400,400 
+param maxStep=0.5
+
+param -unset minRangeCut=1
+
+physics QGSP_BERT doStochastics=1 spinTracking=1 synchrotronRadiation=1 minRangeCut=$minRangeCut
+
+trackcuts keep=mu+
+
+######################### DEFINE INPUT BEAM
+
+param nparticles=12000
+param -unset beamfile=particles_after_bupt.txt
+param -unset outname=particles_after_drift.txt
+param zEnd=16
+trace nTrace=1 format=ascii oneNTuple=1
+beam ascii filename=$beamfile nEvents=$nparticles beamZ=0  
+
+######################### DEFINE ELEMENTS
+
+zntuple vd_start z=0.0 file=vd_start_drift_dispsup.txt format=ascii require=PDGid==-13
+
+
+### BEGIN AUTO-GENERATED MAD-X QUADS ###
+
+# ===============================
+# Parameters (FILLED BY PYTHON)
+# ===============================
+param k_q1=0
+param k_q2=0
+param k_q3=0
+param k_q4=0
+param k_q5=0
+param k_q6=0
+param k_q7=0
+param k_q8=0
+param k_qf1=0
+param k_qd1=0
+
+param g_k_q1=0
+param g_k_q2=0
+param g_k_q3=0
+param g_k_q4=0
+param g_k_q5=0
+param g_k_q6=0
+param g_k_q7=0
+param g_k_q8=0
+param g_k_qf1=0
+param g_k_qd1=0
+
+# ===============================
+# Magnet definitions
+# ===============================
+
+genericquad QF1h
+  fieldLength=75
+  ironLength=75
+  apertureRadius=300
+  gradient=$g_k_qf1
+
+genericquad QD1h
+  fieldLength=75
+  ironLength=75
+  apertureRadius=300
+  gradient=$g_k_qd1
+
+genericquad Q1
+  fieldLength=150
+  ironLength=150
+  apertureRadius=300
+  gradient=$g_k_q1
+
+genericquad Q2
+  fieldLength=150
+  ironLength=150
+  apertureRadius=300
+  gradient=$g_k_q2
+
+genericquad Q3
+  fieldLength=150
+  ironLength=150
+  apertureRadius=300
+  gradient=$g_k_q3
+
+genericquad Q4
+  fieldLength=150
+  ironLength=150
+  apertureRadius=300
+  gradient=$g_k_q4
+
+genericquad Q5
+  fieldLength=150
+  ironLength=150
+  apertureRadius=300
+  gradient=$g_k_q5
+
+genericquad Q6
+  fieldLength=150
+  ironLength=150
+  apertureRadius=300
+  gradient=$g_k_q6
+
+genericquad Q7
+  fieldLength=150
+  ironLength=150
+  apertureRadius=300
+  gradient=$g_k_q7
+
+genericquad Q8
+  fieldLength=150
+  ironLength=150
+  apertureRadius=300
+  gradient=$g_k_q8
+
+# ===============================
+# Placement — EXACT MAD-X AT VALUES
+# ===============================
+
+# ---- UP END ----
+place Q1  z=75+250
+place Q2  z=625+250
+place Q3  z=1175+25
+place Q4  z=1725+500
+place QF1h z=1725+75+400+37.5+500
+
+# ---- FODO START ----
+place QF1h z=2812.5
+place QD1h z=3287.5
+place QD1h z=3362.5
+place QF1h z=3837.5
+
+place QF1h z=3912.5
+place QD1h z=4387.5
+place QD1h z=4462.5
+place QF1h z=4937.5
+
+place QF1h z=5012.5
+place QD1h z=5487.5
+place QD1h z=5562.5
+place QF1h z=6037.5
+
+place QF1h z=6112.5
+place QD1h z=6587.5
+place QD1h z=6662.5
+place QF1h z=7137.5
+
+place QF1h z=7212.5
+place QD1h z=7687.5
+place QD1h z=7762.5
+place QF1h z=8237.5
+
+place QF1h z=8312.5
+place QD1h z=8787.5
+place QD1h z=8862.5
+place QF1h z=9337.5
+
+place QF1h z=9412.5
+place QD1h z=9887.5
+place QD1h z=9962.5
+place QF1h z=10437.5
+
+place QF1h z=10512.5
+place QD1h z=10987.5
+place QD1h z=11062.5
+place QF1h z=11537.5
+
+place QF1h z=11612.5
+place QD1h z=12087.5
+place QD1h z=12162.5
+place QF1h z=12637.5
+
+place QF1h z=12712.5
+place QD1h z=13187.5
+place QD1h z=13262.5
+place QF1h z=13737.5
+
+# ---- DOWN END ----
+place QF1h z=13812.5
+place Q5   z=14325
+place Q6   z=14575
+place Q7   z=15125
+place Q8   z=15675
+
+
+### END AUTO-GENERATED MAD-X QUADS ###
+
+zntuple vd_end z=$zEnd file=$outname format=ascii require=PDGid==-13
+

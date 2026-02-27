@@ -1,0 +1,111 @@
+# Auto-generated from MAD-X
+param zbegin=0.0
+start initialZ=$zbegin x=0 y=0 z=0 radiusCut=120
+
+physics QGSP_BERT spinTracking=1
+trackcuts keep=mu-,mu+
+
+
+genericquad Q1 fieldLength=150.000000 ironLength=150.000000 ironRadius=120.0 apertureRadius=100.0 gradient=-44.586774
+genericquad Q2 fieldLength=150.000000 ironLength=150.000000 ironRadius=120.0 apertureRadius=100.0 gradient=6.540592
+genericquad Q3 fieldLength=150.000000 ironLength=150.000000 ironRadius=120.0 apertureRadius=100.0 gradient=-5.486275
+genericquad Q4 fieldLength=150.000000 ironLength=150.000000 ironRadius=120.0 apertureRadius=100.0 gradient=40.493140
+genericquad QF1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=5.606113
+genericquad QF1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=5.606113
+genericquad QD1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=-5.606113
+genericquad QD1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=-5.606113
+genericquad QF1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=5.606113
+genericquad QF1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=5.606113
+genericquad QD1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=-5.606113
+genericquad QD1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=-5.606113
+genericquad QF1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=5.606113
+genericquad QF1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=5.606113
+genericquad QD1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=-5.606113
+genericquad QD1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=-5.606113
+genericquad QF1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=5.606113
+genericquad QF1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=5.606113
+genericquad QD1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=-5.606113
+genericquad QD1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=-5.606113
+genericquad QF1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=5.606113
+genericquad QF1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=5.606113
+genericquad QD1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=-5.606113
+genericquad QD1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=-5.606113
+genericquad QF1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=5.606113
+genericquad QF1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=5.606113
+genericquad QD1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=-5.606113
+genericquad QD1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=-5.606113
+genericquad QF1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=5.606113
+genericquad QF1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=5.606113
+genericquad QD1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=-5.606113
+genericquad QD1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=-5.606113
+genericquad QF1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=5.606113
+genericquad QF1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=5.606113
+genericquad QD1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=-5.606113
+genericquad QD1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=-5.606113
+genericquad QF1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=5.606113
+genericquad QF1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=5.606113
+genericquad QD1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=-5.606113
+genericquad QD1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=-5.606113
+genericquad QF1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=5.606113
+genericquad QF1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=5.606113
+genericquad QD1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=-5.606113
+genericquad QD1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=-5.606113
+genericquad QF1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=5.606113
+genericquad QF1H fieldLength=75.000000 ironLength=75.000000 ironRadius=120.0 apertureRadius=100.0 gradient=5.606113
+genericquad Q5 fieldLength=150.000000 ironLength=150.000000 ironRadius=120.0 apertureRadius=100.0 gradient=22.337849
+genericquad Q6 fieldLength=150.000000 ironLength=150.000000 ironRadius=120.0 apertureRadius=100.0 gradient=-10.017953
+genericquad Q7 fieldLength=150.000000 ironLength=150.000000 ironRadius=120.0 apertureRadius=100.0 gradient=6.382154
+genericquad Q8 fieldLength=150.000000 ironLength=150.000000 ironRadius=120.0 apertureRadius=100.0 gradient=-5.997504
+
+# --- Placement ---
+
+place Q1 z=325.000000 front=1
+place Q2 z=875.000000 front=1
+place Q3 z=1425.000000 front=1
+place Q4 z=2225.000000 front=1
+place QF1H z=2737.500000 front=1 
+place QF1H z=2812.500000 front=1 #+75 mm
+place QD1H z=3287.500000 front=1 #+475 mm
+place QD1H z=3362.500000 front=1 #+75 mm
+place QF1H z=3837.500000 front=1 #+475 mm
+place QF1H z=3912.500000 front=1
+place QD1H z=4387.500000 front=1
+place QD1H z=4462.500000 front=1
+place QF1H z=4937.500000 front=1
+place QF1H z=5012.500000 front=1
+place QD1H z=5487.500000 front=1
+place QD1H z=5562.500000 front=1
+place QF1H z=6037.500000 front=1
+place QF1H z=6112.500000 front=1
+place QD1H z=6587.500000 front=1
+place QD1H z=6662.500000 front=1
+place QF1H z=7137.500000 front=1
+place QF1H z=7212.500000 front=1
+place QD1H z=7687.500000 front=1
+place QD1H z=7762.500000 front=1
+place QF1H z=8237.500000 front=1
+place QF1H z=8312.500000 front=1
+place QD1H z=8787.500000 front=1
+place QD1H z=8862.500000 front=1
+place QF1H z=9337.500000 front=1
+place QF1H z=9412.500000 front=1
+place QD1H z=9887.500000 front=1
+place QD1H z=9962.500000 front=1
+place QF1H z=10437.500000 front=1
+place QF1H z=10512.500000 front=1
+place QD1H z=10987.500000 front=1
+place QD1H z=11062.500000 front=1
+place QF1H z=11537.500000 front=1
+place QF1H z=11612.500000 front=1
+place QD1H z=12087.500000 front=1
+place QD1H z=12162.500000 front=1
+place QF1H z=12637.500000 front=1
+place QF1H z=12712.500000 front=1
+place QD1H z=13187.500000 front=1
+place QD1H z=13262.500000 front=1
+place QF1H z=13737.500000 front=1
+place QF1H z=13812.500000 front=1
+place Q5 z=14325.000000 front=1
+place Q6 z=14575.000000 front=1
+place Q7 z=15125.000000 front=1
+place Q8 z=15675.000000 front=1

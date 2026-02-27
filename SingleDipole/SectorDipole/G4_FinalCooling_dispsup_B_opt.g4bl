@@ -55,20 +55,20 @@ zntuple vd_start z=0.0 file=vd_start_dispsup.txt format=ascii require=PDGid==-13
 
 # --- First dipole (B1)
 genericsectorbend B1 \
-    angle=9.999957467376227 \
-    DipoleField=0.10000000000000003 \
-    fieldCenterRadius=730.0921630128173 fieldInnerRadius=730.0921630128173-50 fieldOuterRadius=730.0921630128173+50 \
+    angle=10 \
+    DipoleField=0.1 \
+    fieldCenterRadius=730.1 fieldInnerRadius=730.1-50 fieldOuterRadius=730.1+50 \
     fieldHeight=100 \
-    ironInnerRadius=730.0921630128173-50-1 ironOuterRadius=730.0921630128173+50+1 \
+    ironInnerRadius=730.1-50-1 ironOuterRadius=730.1+50+1 \
     ironHeight=100+10 \
     maxStep=0.5 \
     fieldMaterial=Vacuum fieldColor=0,0,1 \
     ironMaterial=Fe ironColor=0.6,0.6,0.6 \
     kill=1
 place B1 z=0.0
-corner B1_exit z=0.0 rotation=Y9.999957467376227
+corner B1_exit z=0.0 rotation=Y10
 
-place VD front=1 rename=$outname format=ascii x=-4.357768649644655 z=127.5245789033357
+place VD front=1 rename=$outname format=ascii x=-4.357787137382909 z=127.52648868810599
 
 #-------------------------------
 # FIELD MAP OUTPUT

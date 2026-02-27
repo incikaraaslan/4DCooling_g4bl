@@ -1,0 +1,43 @@
+# Auto-generated from MAD-X
+
+
+                    quadrupole Q1
+                        z=0.325000
+                        length=0.15
+                        gradient=-11.514451
+                    
+                    quadrupole Q2
+                        z=0.875000
+                        length=0.15
+                        gradient=5.756163
+                    
+                    quadrupole Q3
+                        z=1.425000
+                        length=0.15
+                        gradient=-5.079875
+                    
+                    quadrupole Q4
+                        z=2.225000
+                        length=0.15
+                        gradient=7.407605
+                    
+                    quadrupole Q5
+                        z=14.325000
+                        length=0.15
+                        gradient=22.384785
+                    
+                    quadrupole Q6
+                        z=14.575000
+                        length=0.15
+                        gradient=-10.045733
+                    
+                    quadrupole Q7
+                        z=15.125000
+                        length=0.15
+                        gradient=6.401353
+                    
+                    quadrupole Q8
+                        z=15.675000
+                        length=0.15
+                        gradient=-6.018117
+                    

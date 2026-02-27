@@ -1,0 +1,124 @@
+G4BL_DIR=/home/incik/G4beamline-3.08
+G4LEDATA=/home/incik/Geant4Data/G4EMLOW8.0
+G4ENSDFSTATEDATA=/home/incik/Geant4Data/G4ENSDFSTATE2.3
+G4PARTICLEXSDATA=/home/incik/Geant4Data/G4PARTICLEXS4.0
+G4LEVELGAMMADATA=/home/incik/Geant4Data/PhotonEvaporation5.7
+G4RADIOACTIVEDATA=/home/incik/Geant4Data/RadioactiveDecay5.6
+G4beamline Process ID 20163
+
+*************************************************************
+ g4beamline version: 3.08                        (Aug 11 2022)
+                      Copyright : Tom Roberts, Muons, Inc.
+                        License : Gnu Public License
+                            WWW : http://g4beamline.muonsinc.com
+
+          ################################
+          !!! G4Backtrace is activated !!!
+          ################################
+
+
+**************************************************************
+ Geant4 version Name: geant4-11-00-patch-02 [MT]   (25-May-2022)
+                       Copyright : Geant4 Collaboration
+                      References : NIM A 506 (2003), 250-303
+                                 : IEEE-TNS 53 (2006), 270-278
+                                 : NIM A 835 (2016), 186-225
+                             WWW : http://geant4.org/
+**************************************************************
+
+geometry                   nPoints=100 printGeometry=0 visual=0
+                           tolerance=0.002
+**************************************************************************
+*** G4Exception: printError
+***    severity: Warning
+***   issued by: 
+*** description: beam: invalid type 'file'
+**************************************************************************
+beam    NONE    Invalid beam command
+**************************************************************************
+*** G4Exception: printError
+***    severity: Warning
+***   issued by: 
+*** description: Syntax Error 1
+**************************************************************************
+**************************************************************************
+*** G4Exception: printError
+***    severity: Warning
+***   issued by: 
+*** description: Syntax Error 1
+**************************************************************************
+**************************************************************************
+*** G4Exception: printError
+***    severity: Warning
+***   issued by: 
+*** description: Unknown command 'quadrupole'
+**************************************************************************
+**************************************************************************
+*** G4Exception: printError
+***    severity: Warning
+***   issued by: 
+*** description: Syntax Error 1
+**************************************************************************
+**************************************************************************
+*** G4Exception: printError
+***    severity: Warning
+***   issued by: 
+*** description: Syntax Error 1
+**************************************************************************
+**************************************************************************
+*** G4Exception: printError
+***    severity: Warning
+***   issued by: 
+*** description: Syntax Error 1
+**************************************************************************
+**************************************************************************
+*** G4Exception: printError
+***    severity: Warning
+***   issued by: 
+*** description: Unknown command 'quadrupole'
+**************************************************************************
+**************************************************************************
+*** G4Exception: printError
+***    severity: Warning
+***   issued by: 
+*** description: Syntax Error 1
+**************************************************************************
+**************************************************************************
+*** G4Exception: printError
+***    severity: Warning
+***   issued by: 
+*** description: Syntax Error 1
+***    printing: every 10-th occurrence
+**************************************************************************
+**************************************************************************
+*** G4Exception: printError
+***    severity: Warning
+***   issued by: 
+*** description: Unknown command 'quadrupole'
+***    printing: every 10-th occurrence
+**************************************************************************
+**************************************************************************
+*** G4Exception: printError
+***    severity: Warning
+***   issued by: 
+*** description: Syntax Error 1
+***    printing: every 10-th occurrence
+**************************************************************************
+reference                  particle=mu+ beamX=0 beamY=0 beamZ=0 beamT=0
+                           rotation= referenceMomentum=-3.7e+21 beamXp=0
+                           beamYp=0 meanMomentum=-3.7e+21 meanXp=0 meanYp=0
+                           tuneZ=-3.7e+21 tuneMomentum=-3.7e+21
+                           tolerance=0.001 noEfield=0 noBfield=0 noEloss=0
+                           P=-3.7e+21
+**************************************************************************
+*** G4Exception: Input Errors
+***    severity: Fatal Exception
+***   issued by: main
+*** description: There were 38 errors in the input
+**************************************************************************
+g4beamline: attempting to close up after fatal G4Exception...
+
+Exceptions: 1 Fatal, 0 Events Aborted, 0 Stuck Tracks (stopped), 38 Warnings
+      1 times: Input Errors
+     38 times: printError
+g4beamline: simulation aborted

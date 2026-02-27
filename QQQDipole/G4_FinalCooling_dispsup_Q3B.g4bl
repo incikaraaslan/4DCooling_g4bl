@@ -1,0 +1,133 @@
+# Simulates Final Cooling Dispersion Suppressor Quadrupole
+
+# Created by: Inci Karaaslan
+# Updated: January 30, 2026
+
+# COLORS:  100 red, 010 green, 111 white, 110 yellow, 001 blue, 101 magenta, 011 cyan
+
+# VERSION HISTORY
+
+# v304: Creates distributions at entrance of Q20 and Q21
+
+######################### DEFINE PHYSICS MODEL
+ 
+# randomseed time
+  
+param zbegin=0.0
+start initialZ=$zbegin  y=0.000   x=0.00   z=0.00    radiusCut=300
+param steppingFormat=N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
+param fieldVoxels=400,400,400 
+param maxStep=0.5
+
+param -unset minRangeCut=1
+
+physics QGSP_BERT doStochastics=1 spinTracking=1 synchrotronRadiation=1 minRangeCut=$minRangeCut # disable=Decay
+# physics FTFP_BERT doStochastics=1 spinTracking=1 synchrotronRadiation=1 # disable=Decay
+
+trackcuts keep=mu+
+
+particlecolor proton=1,1,1 
+particlecolor pi+=0,1,0 
+particlecolor mu+=1,0.5,0   # orange
+particlecolor mu-=0,1,0   # green
+particlecolor e+=1,0,0      # red
+particlecolor gamma=0,0,1   # blue
+particlecolor e-=1,0.5,0    # orange
+
+######################### DEFINE INPUT BEAM
+
+  param nparticles=500
+
+  param -unset beamfile=particles_afterupt.txt
+  param -unset outname=particles_after_q3.txt
+  trace nTrace=1 format=ascii oneNTuple=1
+  beam ascii filename=$beamfile nEvents=$nparticles beamZ=0  
+                                   
+######################### DEFINE ELEMENTS
+
+#-------------------------------
+# MAGNETS (DISPERSION SUPPRESSOR SETUP)
+#-------------------------------
+
+zntuple vd_start z=0.0 file=vd_start_dispsup.txt format=ascii require=PDGid==-13
+
+
+# --- Quadrupole (Q1)
+genericquad Q1 \
+    gradient={Q1_gradient} \
+    fieldLength={Q1_length} \
+    ironLength={Q1_length} \
+    ironRadius={radius_q1}+{thickness} \
+    apertureRadius={radius_q1} \
+    maxStep=0.5 \
+    ironMaterial=Fe fieldMaterial=Vacuum \
+    ironColor=0.4,0.8,0.4 \
+    kill=1 \
+    fringe=0
+
+place Q1 z={Q1_z}
+zntuple vd_Q1 z={Q1_end} file=vd_Q1_dispsup.txt format=ascii require=PDGid==-13
+
+# --- Drift 1 between Q1 and Q2
+box Drift1 width={Drift1_width} height={Drift1_height} length={Drift1_length} material=Vacuum color=0.6,0.6,0.6
+place Drift1 z={Drift1_z}
+zntuple vd_D1 z={D1_end} file=vd_D1_dispsup.txt format=ascii require=PDGid==-13
+
+# --- Quadrupole (Q2)
+genericquad Q2 \
+    gradient={Q2_gradient} \
+    fieldLength={Q2_length} \
+    ironLength={Q2_length} \
+    ironRadius={radius_q2}+{thickness} \
+    apertureRadius={radius_q2} \
+    maxStep=0.5 \
+    ironMaterial=Fe fieldMaterial=Vacuum \
+    ironColor=0.4,0.8,0.4 \
+    kill=1 \
+    fringe=0
+
+place Q2 z={Q2_z}
+zntuple vd_Q2 z={Q2_end} file=vd_Q2_dispsup.txt format=ascii require=PDGid==-13
+
+# --- Drift 2 between Q2 and Q3
+box Drift2 width={Drift2_width} height={Drift2_height} length={Drift2_length} material=Vacuum color=0.6,0.6,0.6
+place Drift2 z={Drift2_z}
+zntuple vd_D2 z={D2_end} file=vd_D2_dispsup.txt format=ascii require=PDGid==-13
+
+# --- Quadrupole (Q3)
+genericquad Q3 \
+    gradient={Q3_gradient} \
+    fieldLength={Q3_length} \
+    ironLength={Q3_length} \
+    ironRadius={radius_q3}+{thickness} \
+    apertureRadius={radius_q3} \
+    maxStep=0.5 \
+    ironMaterial=Fe fieldMaterial=Vacuum \
+    ironColor=0.4,0.8,0.4 \
+    kill=1 \
+    fringe=0
+
+place Q3 z={Q3_z}
+zntuple vd_Q3 z={Q3_end} file=vd_Q3_dispsup.txt format=ascii require=PDGid==-13
+
+# --- Drift 3 between Q2 and B1
+box Drift3 width={Drift3_width} height={Drift3_height} length={Drift3_length} material=Vacuum color=0.6,0.6,0.6
+place Drift3 z={Drift3_z}
+
+# --- First dipole (B1)
+genericbend B1 \
+    By={B1_field} \
+    fieldWidth={B1_width} fieldHeight={B1_height} fieldLength={B1_length} \
+    ironWidth={B1_width}+10 ironHeight={B1_height}+10 ironLength={B1_length}+10 \
+    maxStep=0.5 \
+    fieldMaterial=Vacuum fieldColor=0,0,1 \
+    ironMaterial=Fe ironColor=0.6,0.6,0.6 \
+    kill=1
+place B1 z={B1_z}
+
+zntuple vd_B1 z={B1_end} file=$outname format=ascii require=PDGid==-13
+
+#-------------------------------
+# FIELD MAP OUTPUT
+#-------------------------------
+# printfield type=grid file=field_cellQ3.dat field=By X0=0 Y0=0 Z0=0 nX=1 dX=1 nY=1 dY=1 nZ=246 dZ=5

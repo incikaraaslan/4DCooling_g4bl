@@ -1,0 +1,66 @@
+# Test for quadrupoles
+
+# Created by: Daniel Fu
+# Updated: February 5, 2025
+
+# COLORS:  100 red, 010 green, 111 white, 110 yellow, 001 blue, 101 magenta, 011 cyan
+
+######################### DEFINE PHYSICS MODEL
+  
+param zbegin=0.0
+start initialZ=$zbegin  y=0.000   x=0.00   z=0.00    radiusCut=120
+param steppingFormat=N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
+param fieldVoxels=400,400,400 
+param -unset maxStep=0.5
+param -unset maxStepInWedge=0.1
+
+param -unset minRangeCut=1
+
+physics QGSP_BERT doStochastics=1 spinTracking=1 synchrotronRadiation=1 minRangeCut=$minRangeCut # disable=Decay
+# physics FTFP_BERT doStochastics=1 spinTracking=1 synchrotronRadiation=1 # disable=Decay
+
+trackcuts keep=mu-,mu+
+
+particlecolor proton=1,1,1 
+particlecolor pi+=0,1,0 
+particlecolor mu+=1,0.5,0   # orange
+particlecolor mu-=0,1,0   # green
+particlecolor e+=1,0,0      # red
+particlecolor gamma=0,0,1   # blue
+particlecolor e-=1,0.5,0    # orange
+
+######################### DEFINE INPUT BEAM
+
+param -unset nparticles=12000
+param -unset beamfile=particles_after_q3upt.txt
+param -unset outfile=particles_after_driftm.txt
+beam ascii filename=$beamfile nEvents=$nparticles beamZ=0  
+
+######################### DEFINE QUAD
+
+param -unset fodo_grad=5.932
+
+genericquad QF1 fieldLength=75.0 ironLength=75.0 ironRadius=120.0 apertureRadius=100.0 gradient=$fodo_grad ironColor=0,1,0
+genericquad QD1 fieldLength=75.0 ironLength=75.0 ironRadius=120.0 apertureRadius=100.0 gradient=-1*$fodo_grad ironColor=1,0,0
+
+##########################################################################################################
+############################################  PLACE ELEMENTS  ############################################
+##########################################################################################################
+
+place QF1 z=-75 front=1
+for i 0 1 2 3 4 5 6 7 8 9
+    place QF1 z=$i*1100 front=1
+    place QD1 z=475+$i*1100 front=1
+    place QD1 z=550+$i*1100 front=1
+    place QF1 z=1025+$i*1100 front=1
+endfor
+place QF1 z=10*1100 front=1
+
+param -unset slice=0  # 1 to composite detections from each cell
+
+if $slice==1
+    zntuple zloop=0:10*1100:550
+    ntuple TestNTuple detectors="Z*" union=1 file=$outfile format=ascii
+else
+    zntuple z=10*1100 filename=$outfile
+endif

@@ -1,0 +1,153 @@
+
+# ============================================================
+# Simulates Final Cooling Drift Channel post Dispersion Suppressor
+# Created by: Inci Karaaslan
+# Auto-generated quad strengths from MAD-X
+# ============================================================
+
+param zbegin=0.0
+start initialZ=$zbegin  y=0.000   x=0.00   z=0.00    radiusCut=300
+param steppingFormat=N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
+param fieldVoxels=400,400,400 
+param maxStep=0.5
+
+param -unset minRangeCut=1
+
+physics QGSP_BERT doStochastics=1 spinTracking=1 synchrotronRadiation=1 minRangeCut=$minRangeCut
+
+trackcuts keep=mu+
+
+######################### DEFINE INPUT BEAM
+
+param nparticles=12000
+param -unset beamfile=particles_after_bupt.txt
+param -unset outname=particles_after_driftm.txt
+param zEnd=16
+trace nTrace=1 format=ascii oneNTuple=1
+beam ascii filename=$beamfile nEvents=$nparticles beamZ=0  
+
+######################### DEFINE ELEMENTS
+
+zntuple vd_start z=0.0 file=vd_start_drift_dispsup.txt format=ascii require=PDGid==-13
+
+
+### BEGIN AUTO-GENERATED MAD-X QUADS ###
+
+# ===============================
+# Parameters (FILLED BY PYTHON)
+# ===============================
+param k_q1=0
+param k_q2=0
+param k_q3=0
+param k_q4=0
+param k_q5=0
+param k_q6=0
+param k_q7=0
+param k_q8=0
+param k_qf1=0
+param k_qd1=0
+
+param g_k_q1=0
+param g_k_q2=0
+param g_k_q3=0
+param g_k_q4=0
+param g_k_q5=0
+param g_k_q6=0
+param g_k_q7=0
+param g_k_q8=0
+param g_k_qf1=0
+param g_k_qd1=0
+
+# ===============================
+# Magnet definitions
+# ===============================
+
+genericquad QF1h
+  fieldLength=75
+  ironLength=75
+  ironRadius=120
+  apertureRadius=100
+  apertureRadius=300
+  gradient=$g_k_qf1
+
+genericquad QD1h
+  fieldLength=75
+  ironLength=75
+  ironRadius=120
+  apertureRadius=100
+  gradient=$g_k_qd1
+
+genericquad Q1
+  fieldLength=150
+  ironLength=150
+  apertureRadius=300
+  gradient=$g_k_q1
+
+genericquad Q2
+  fieldLength=150
+  ironLength=150
+  apertureRadius=300
+  gradient=$g_k_q2
+
+genericquad Q3
+  fieldLength=150
+  ironLength=150
+  apertureRadius=300
+  gradient=$g_k_q3
+
+genericquad Q4
+  fieldLength=150
+  ironLength=150
+  apertureRadius=300
+  gradient=$g_k_q4
+
+genericquad Q5
+  fieldLength=150
+  ironLength=150
+  apertureRadius=300
+  gradient=$g_k_q5
+
+genericquad Q6
+  fieldLength=150
+  ironLength=150
+  apertureRadius=300
+  gradient=$g_k_q6
+
+genericquad Q7
+  fieldLength=150
+  ironLength=150
+  apertureRadius=300
+  gradient=$g_k_q7
+
+genericquad Q8
+  fieldLength=150
+  ironLength=150
+  apertureRadius=300
+  gradient=$g_k_q8
+
+# ===============================
+# Placement — EXACT MAD-X AT VALUES
+# ===============================
+
+place QF1h z=-75 front=1
+for i 0 1 2 3 4 5 6 7 8 9
+    place QF1h z=$i*1100 front=1
+    place QD1h z=475+$i*1100 front=1
+    place QD1h z=550+$i*1100 front=1
+    place QF1h z=1025+$i*1100 front=1
+endfor
+place QF1h z=10*1100 front=1
+
+param -unset slice=0  # 1 to composite detections from each cell
+
+if $slice==1
+    zntuple zloop=0:10*1100:550
+    ntuple TestNTuple detectors="Z*" union=1 file=$outfile format=ascii
+else
+    zntuple z=10*1100 filename=$outfile
+endif
+
+### END AUTO-GENERATED MAD-X QUADS ###
+
+zntuple vd_end z=$zEnd file=$outname format=ascii require=PDGid==-13
+

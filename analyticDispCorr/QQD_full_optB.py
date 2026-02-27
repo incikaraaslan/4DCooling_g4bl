@@ -110,7 +110,7 @@ def build_piecewise_optics(optics, Brho, ds=1e-3):
             s_cursor += L
 
         elif typ == "dipole":
-            # Option C: dipole carries geometry (width,height) but bending radius from field
+            # dipole carries geometry (width,height) but bending radius from field
             _, L, B_dip, width, height = elem
             if abs(B_dip) < 1e-30:
                 rho = 1e30  # effectively straight

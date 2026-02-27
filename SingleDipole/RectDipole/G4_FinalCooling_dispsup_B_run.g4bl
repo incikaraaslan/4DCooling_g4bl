@@ -68,4 +68,4 @@ zntuple vd_B1 z=101.2130402907023 file=$outname format=ascii require=PDGid==-13
 #-------------------------------
 # FIELD MAP OUTPUT
 #-------------------------------
-printfield type=grid file=field_cellB.dat field=By X0=0 Y0=0 Z0=0 nX=1 dX=1 nY=1 dY=1 nZ=246 dZ=5
+# printfield type=grid file=field_cellB.dat field=By X0=0 Y0=0 Z0=0 nX=1 dX=1 nY=1 dY=1 nZ=246 dZ=5

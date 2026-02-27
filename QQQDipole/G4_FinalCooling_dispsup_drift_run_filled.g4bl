@@ -1,0 +1,207 @@
+
+# ============================================================
+# Simulates Final Cooling Drift Channel post Dispersion Suppressor
+# Created by: Inci Karaaslan
+# Auto-generated quad strengths from MAD-X
+# ============================================================
+
+param zbegin=0.0
+start initialZ=$zbegin  y=0.000   x=0.00   z=(0.00    )-2775.0radiusCut=300
+param steppingFormat=N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
+param fieldVoxels=400,400,400 
+param maxStep=0.5
+
+param -unset minRangeCut=1
+
+physics QGSP_BERT doStochastics=1 spinTracking=1 synchrotronRadiation=1 minRangeCut=$minRangeCut
+
+trackcuts keep=mu+
+
+######################### DEFINE INPUT BEAM
+
+param nparticles=12000
+param -unset beamfile=particles_after_bupt.txt
+param -unset outname=particles_after_drift.txt
+param zEnd=16
+trace nTrace=1 format=ascii oneNTuple=1
+beam ascii filename=$beamfile nEvents=$nparticles beamZ=0  
+
+######################### DEFINE ELEMENTS
+
+zntuple vd_start z=(0.0 )-2775.0file=vd_start_drift_dispsup.txt format=ascii require=PDGid==-13
+
+
+### BEGIN AUTO-GENERATED MAD-X QUADS ###
+
+# ===============================
+# Parameters (FILLED BY PYTHON)
+# ===============================
+param k_q1=-38.9083
+param k_q2=19.4506
+param k_q3=-17.1653
+param k_q4=25.0309
+param k_q5=75.6401
+param k_q6=-33.9454
+param k_q7=21.6307
+param k_q8=-20.3357
+param k_qf1=19
+param k_qd1=-19
+
+param g_k_q1=-11.49497941
+param g_k_q2=5.746440899
+param g_k_q3=-5.07127708
+param g_k_q4=7.395072003
+param g_k_q5=22.34693862
+param g_k_q6=-10.02875155
+param g_k_q7=6.390524671
+param g_k_q8=-6.007932825
+param g_k_qf1=5.613316663
+param g_k_qd1=-5.613316663
+
+# ===============================
+# Magnet definitions
+# ===============================
+
+genericquad QF1h \
+  fieldLength=75 \
+  ironLength=75 \
+  apertureRadius=300 \
+  ironRadius=305 \
+  gradient=$g_k_qf1
+
+genericquad QD1h \
+  fieldLength=75 \
+  ironLength=75 \
+  apertureRadius=300 \
+  ironRadius=305 \
+  gradient=$g_k_qd1
+
+genericquad Q1 \
+  fieldLength=150 \
+  ironLength=150 \
+  apertureRadius=300 \
+  ironRadius=305 \
+  gradient=$g_k_q1
+
+genericquad Q2 \
+  fieldLength=150 \
+  ironLength=150 \
+  apertureRadius=300 \
+  ironRadius=305 \
+  gradient=$g_k_q2
+
+genericquad Q3 \
+  fieldLength=150 \
+  ironLength=150 \
+  apertureRadius=300 \
+  ironRadius=305 \
+  gradient=$g_k_q3
+
+genericquad Q4 \
+  fieldLength=150 \
+  ironLength=150 \
+  apertureRadius=300 \
+  ironRadius=305 \
+  gradient=$g_k_q4
+
+genericquad Q5 \
+  fieldLength=150 \
+  ironLength=150 \
+  apertureRadius=300 \
+  ironRadius=305 \
+  gradient=$g_k_q5
+
+genericquad Q6 \
+  fieldLength=150 \
+  ironLength=150 \
+  apertureRadius=300 \
+  ironRadius=305 \
+  gradient=$g_k_q6
+
+genericquad Q7 \
+  fieldLength=150 \
+  ironLength=150 \
+  apertureRadius=300 \
+  ironRadius=305 \
+  gradient=$g_k_q7
+
+genericquad Q8 \
+  fieldLength=150 \
+  ironLength=150 \
+  apertureRadius=300 \
+  ironRadius=305 \
+  gradient=$g_k_q8
+
+# ===============================
+# Placement — EXACT MAD-X AT VALUES
+# ===============================
+
+# ---- UP END ----
+place Q1  z=(75+250)-2775.0
+place Q2  z=(625+250)-2775.0
+place Q3  z=(1175+25)-2775.0
+place Q4  z=(1725+500)-2775.0
+place QF1h rename=QF1h_01 z=(1725+75+400+37.5+500)-2775.0
+
+# ---- FODO START ----
+place QF1h rename=QF1h_02 z=(2812.5)-2775.0
+place QD1h rename=QD1h_01 z=(3287.5)-2775.0
+place QD1h rename=QD1h_02 z=(3362.5)-2775.0
+place QF1h rename=QF1h_03 z=(3837.5)-2775.0
+
+place QF1h rename=QF1h_04 z=(3912.5)-2775.0
+place QD1h rename=QD1h_03 z=(4387.5)-2775.0
+place QD1h rename=QD1h_04 z=(4462.5)-2775.0
+place QF1h rename=QF1h_05 z=(4937.5)-2775.0
+
+place QF1h rename=QF1h_06 z=(5012.5)-2775.0
+place QD1h rename=QD1h_05 z=(5487.5)-2775.0
+place QD1h rename=QD1h_06 z=(5562.5)-2775.0
+place QF1h rename=QF1h_07 z=(6037.5)-2775.0
+
+place QF1h rename=QF1h_08 z=(6112.5)-2775.0
+place QD1h rename=QD1h_07 z=(6587.5)-2775.0
+place QD1h rename=QD1h_08 z=(6662.5)-2775.0
+place QF1h rename=QF1h_09 z=(7137.5)-2775.0
+
+place QF1h rename=QF1h_10 z=(7212.5)-2775.0
+place QD1h rename=QD1h_09 z=(7687.5)-2775.0
+place QD1h rename=QD1h_10 z=(7762.5)-2775.0
+place QF1h rename=QF1h_11 z=(8237.5)-2775.0
+
+place QF1h rename=QF1h_12 z=(8312.5)-2775.0
+place QD1h rename=QD1h_11 z=(8787.5)-2775.0
+place QD1h rename=QD1h_12 z=(8862.5)-2775.0
+place QF1h rename=QF1h_13 z=(9337.5)-2775.0
+
+place QF1h rename=QF1h_14 z=(9412.5)-2775.0
+place QD1h rename=QD1h_13 z=(9887.5)-2775.0
+place QD1h rename=QD1h_14 z=(9962.5)-2775.0
+place QF1h rename=QF1h_15 z=(10437.5)-2775.0
+
+place QF1h rename=QF1h_16 z=(10512.5)-2775.0
+place QD1h rename=QD1h_15 z=(10987.5)-2775.0
+place QD1h rename=QD1h_16 z=(11062.5)-2775.0
+place QF1h rename=QF1h_17 z=(11537.5)-2775.0
+
+place QF1h rename=QF1h_18 z=(11612.5)-2775.0
+place QD1h rename=QD1h_17 z=(12087.5)-2775.0
+place QD1h rename=QD1h_18 z=(12162.5)-2775.0
+place QF1h rename=QF1h_19 z=(12637.5)-2775.0
+
+place QF1h rename=QF1h_20 z=(12712.5)-2775.0
+place QD1h rename=QD1h_19 z=(13187.5)-2775.0
+place QD1h rename=QD1h_20 z=(13262.5)-2775.0
+place QF1h rename=QF1h_21 z=(13737.5)-2775.0
+
+# ---- DOWN END ----
+place QF1h rename=QF1h_22 z=(13812.5)-2775.0
+place Q5   z=(14325)-2775.0
+place Q6   z=(14575)-2775.0
+place Q7   z=(15125)-2775.0
+place Q8   z=(15675)-2775.0
+
+
+### END AUTO-GENERATED MAD-X QUADS ###
+
+zntuple vd_end z=$zEnd file=$outname format=ascii require=PDGid==-13

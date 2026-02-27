@@ -1,0 +1,179 @@
+G4BL_DIR=/home/incik/G4beamline-3.08
+G4LEDATA=/home/incik/Geant4Data/G4EMLOW8.0
+G4ENSDFSTATEDATA=/home/incik/Geant4Data/G4ENSDFSTATE2.3
+G4PARTICLEXSDATA=/home/incik/Geant4Data/G4PARTICLEXS4.0
+G4LEVELGAMMADATA=/home/incik/Geant4Data/PhotonEvaporation5.7
+G4RADIOACTIVEDATA=/home/incik/Geant4Data/RadioactiveDecay5.6
+G4beamline Process ID 27181
+
+*************************************************************
+ g4beamline version: 3.08                        (Aug 11 2022)
+                      Copyright : Tom Roberts, Muons, Inc.
+                        License : Gnu Public License
+                            WWW : http://g4beamline.muonsinc.com
+
+          ################################
+          !!! G4Backtrace is activated !!!
+          ################################
+
+
+**************************************************************
+ Geant4 version Name: geant4-11-00-patch-02 [MT]   (25-May-2022)
+                       Copyright : Geant4 Collaboration
+                      References : NIM A 506 (2003), 250-303
+                                 : IEEE-TNS 53 (2006), 270-278
+                                 : NIM A 835 (2016), 186-225
+                             WWW : http://geant4.org/
+**************************************************************
+
+geometry                   nPoints=100 printGeometry=0 visual=0
+                           tolerance=0.002
+param        zbegin        0.0
+start                      x=0 y=0 z=0 initialZ=0 rotation= radiusCut=300
+                           ring=0
+param        steppingFormat N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
+param        fieldVoxels   400,400,400
+param        maxStep       0.5
+param        minRangeCut   1
+G4PhysListFactory::GetReferencePhysList <QGSP_BERT>  EMoption= 0
+<<< Geant4 Physics List simulation engine: QGSP_BERT
+
+
+physics      QGSP_BERT     disable= inactivate= deactivate= doStochastics=1
+                           fluct=1 minRangeCut=1 list=0 gammaToMuPair=0
+                           spinTracking=1 synchrotronRadiation=1
+                           synchrotronRadiationMuon=0 maxTime=1e+06
+trackcuts                  kill= keep=mu+ killSecondaries=0 kineticEnergyCut=0
+                           kineticEnergyMax=1.798e+308 maxTime=1e+06
+                           keepPrimaries=0 steppingVerbose=0
+particlecolor              proton=1,1,1
+particlecolor              pi+=0,1,0
+particlecolor              mu+=1,0.5,0
+particlecolor              mu-=0,1,0
+particlecolor              e+=1,0,0
+particlecolor              gamma=0,0,1
+particlecolor              e-=1,0.5,0
+param        nparticles    2000
+param        beamfile      particles_after_firstwedgeupt.txt
+param        outname       particles_after_q.txt
+trace                      nTrace=1 format=asciiTrace oneNTuple=1
+                           primaryOnly=0 traceTune=1 filename=AllTracks
+                           file=AllTracks require= coordinates=Centerline
+beam    ASCII   nEvents=2000 firstEvent=-1 lastEvent=2147483647 beamZ=0.0 maxR=1000000.0 renumber=0 weight=1.000000 
+		filename=particles_after_firstwedgeupt.txt format=BLTrackFile 
+		
+param        Drift1_kill_width 60.568225
+param        Drift1_kill_height 60.568225
+param        wall_clearance 1.0
+param        Drift1_kill_length 428.18957
+zntuple                    z=0.0 zloop= noSingles=0 format=ascii
+                           file=vd_start_dispsup.txt
+                           filename=vd_start_dispsup.txt require=PDGid==-13
+                           referenceParticle=0 coordinates=Centerline
+genericquad  Q1            fieldLength=100 ironLength=100 ironRadius=34.28
+                           apertureRadius=29.28 poleTipRadius=0 coilRadius=0
+                           coilHalfwidth=0 coilHalfWidth=0 gradient=-9.008
+                           maxStep=0.5 ironMaterial=Fe fieldMaterial=Vacuum
+                           ironColor=0.4,0.8,0.4 kill=1 fringe=0
+                           fringeFactor=1 openAperture=0
+place   Q1      copies=1 x=0.0 y=0.0 z=75.0 
+zntuple                    z=125.000000000000 zloop= noSingles=0 format=ascii
+                           file=vd_Q1_dispsup.txt filename=vd_Q1_dispsup.txt
+                           require=PDGid==-13 referenceParticle=0
+                           coordinates=Centerline
+box          Drift1        height=58.57 width=58.57 length=430.2 maxStep=0.5
+                           material=Vacuum color=0.6,0.6,0.6 kill=0
+zntuple                    z=555.189571575000 zloop= noSingles=0 format=ascii
+                           file=vd_D1_dispsup.txt filename=vd_D1_dispsup.txt
+                           require=PDGid==-13 referenceParticle=0
+                           coordinates=Centerline
+box          Drift1_outer  height=60.57 width=60.57 length=428.2 maxStep=0.5
+                           material=Vacuum color=1,0,0 kill=0
+boolean      Drift1_wall   maxStep=0.5 material=Vacuum color=1,1,1 kill=1
+                           op=subtraction x=0 y=0 z=0 rotation=
+place   Drift1_wall copies=1 x=0.0 y=0.0 z=340.1 
+
+World size (before incrementing by 201.357 mm): 68.6 H  68.6 W  1108.4 L
+
+PARAMETERS:
+Drift1_kill_height=60.568225
+Drift1_kill_length=428.18957
+Drift1_kill_width=60.568225
+            Zcl=554.19
+       beamfile=particles_after_firstwedgeupt.txt
+     deltaChord=3.0
+deltaIntersection=0.1
+   deltaOneStep=0.01
+         epsMax=0.05
+         epsMin=2.5e-7
+ eventTimeLimit=30
+    fieldVoxels=400,400,400
+      histoFile=g4beamline
+    histoUpdate=0
+        maxStep=0.5
+    minRangeCut=1
+        minStep=0.01
+     nparticles=2000
+        outname=particles_after_q.txt
+ steppingFormat=N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
+steppingVerbose=0
+         viewer=none
+ wallClockLimit=-1
+ wall_clearance=1.0
+  worldMaterial=Vacuum
+     zTolerance=2.0
+         zbegin=0.0
+Checking overlaps for volume Q1:0 (G4Tubs) ... OK! 
+Checking overlaps for volume Q1:0 (G4Tubs) ... OK! 
+BLCMDgenericquad::Construct Q1 parent= relZ=75.0 globZ=75.0
+Checking overlaps for volume Drift1_wall:0 (G4SubtractionSolid) ... OK! 
+BLCMDboolean::Construct Drift1_wall parent= relZ=340.1 globZ=340.1
+	zmin=126.0 zmax=554.2
+### Adding tracking cuts for neutron  TimeCut(ns)= 10000  KinEnergyCut(MeV)= 0
+
+Geometry test nPoints=100 tolerance=0.002 mm:
+Testing geometry for children of group 'World':
+Total geometry errors = 0  0 seconds
+
+================== Prepare Tracking Beam ==================
+Stochastic processes are enabled.
+================== Begin Tracking Beam ===============
+Event 1 Completed  1 events  realTime=1 sec  1.0 ev/sec
+Event 2 Completed  2 events  realTime=1 sec  2.0 ev/sec
+Event 3 Completed  3 events  realTime=1 sec  3.0 ev/sec
+Event 4 Completed  4 events  realTime=1 sec  4.0 ev/sec
+Event 5 Completed  5 events  realTime=1 sec  5.0 ev/sec
+Event 6 Completed  6 events  realTime=1 sec  6.0 ev/sec
+Event 7 Completed  7 events  realTime=1 sec  7.0 ev/sec
+Event 8 Completed  8 events  realTime=1 sec  8.0 ev/sec
+Event 9 Completed  9 events  realTime=1 sec  9.0 ev/sec
+Event 10 Completed  10 events  realTime=1 sec  10.0 ev/sec
+Event 20 Completed  20 events  realTime=1 sec  20.0 ev/sec
+Event 30 Completed  30 events  realTime=1 sec  30.0 ev/sec
+Event 40 Completed  40 events  realTime=1 sec  40.0 ev/sec
+Event 50 Completed  50 events  realTime=1 sec  50.0 ev/sec
+Event 60 Completed  60 events  realTime=1 sec  60.0 ev/sec
+Event 70 Completed  70 events  realTime=1 sec  70.0 ev/sec
+Event 80 Completed  80 events  realTime=1 sec  80.0 ev/sec
+Event 90 Completed  90 events  realTime=1 sec  90.0 ev/sec
+Event 100 Completed  100 events  realTime=1 sec  100.0 ev/sec
+Event 200 Completed  200 events  realTime=1 sec  200.0 ev/sec
+Event 300 Completed  300 events  realTime=1 sec  300.0 ev/sec
+Event 400 Completed  400 events  realTime=1 sec  400.0 ev/sec
+Event 500 Completed  500 events  realTime=1 sec  500.0 ev/sec
+Event 600 Completed  600 events  realTime=1 sec  600.0 ev/sec
+Event 700 Completed  700 events  realTime=1 sec  700.0 ev/sec
+Event 800 Completed  800 events  realTime=1 sec  800.0 ev/sec
+Event 900 Completed  900 events  realTime=1 sec  900.0 ev/sec
+Event 1000 Completed  1000 events  realTime=1 sec  1000.0 ev/sec
+Event 2000 Completed  2000 events  realTime=1 sec  2000.0 ev/sec
+Run complete  2000 Events  1 seconds
+NTuple Z0                  2000 entries
+NTuple Z125                1723 entries
+NTuple Z555                 285 entries
+NTuple AllTracks            419 entries
+
+Exceptions: 0 Fatal, 0 Events Aborted, 0 Stuck Tracks (stopped), 0 Warnings
+g4beamline: simulation complete
+SynRad:  Incoherent Synchrotron Radiation
+Good description for long magnets at all energies.
