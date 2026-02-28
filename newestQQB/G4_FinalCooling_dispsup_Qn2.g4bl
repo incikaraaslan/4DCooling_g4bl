@@ -38,17 +38,17 @@ particlecolor e-=1,0.5,0    # orange
 
   param nparticles=2000
 
-  param -unset beamfile=particles_after_firstwedgeupt.txt
-  param -unset outname=particles_after_q.txt
+  param -unset beamfile=particles_after_q1upt.txt
+  param -unset outname=particles_after_q2
   trace nTrace=1 format=ascii oneNTuple=1
   beam ascii filename=$beamfile nEvents=$nparticles beamZ=0  
                                    
 ######################### DEFINE ELEMENTS
 
-param Drift1_kill_width=107.861788333668+2
-param Drift1_kill_height=107.861788333668+2
+param Drift1_kill_width={Drift1_width}+2
+param Drift1_kill_height={Drift1_height}+2
 param wall_clearance=1.0   # mm
-param Drift1_kill_length=20.000000000000-2*$wall_clearance
+param Drift1_kill_length={Drift1_length}-2*$wall_clearance
 
 #-------------------------------
 # MAGNETS (DISPERSION SUPPRESSOR SETUP)
@@ -59,30 +59,30 @@ zntuple vd_start z=0.0 file=vd_start_dispsup.txt format=ascii require=PDGid==-13
 
 # --- Quadrupole (Q1)
 genericquad Q1 \
-    gradient=23.544899193715 \
-    fieldLength=100.000000000000 \
-    ironLength=100.000000000000 \
-    ironRadius=53.930894166834+5.000000000000 \
-    apertureRadius=53.930894166834 \
+    gradient={Q1_gradient} \
+    fieldLength={Q1_length} \
+    ironLength={Q1_length} \
+    ironRadius={radius_q1}+{thickness} \
+    apertureRadius={radius_q1} \
     maxStep=0.5 \
     ironMaterial=Fe fieldMaterial=Vacuum \
     ironColor=0.4,0.8,0.4 \
     kill=1 \
     fringe=0
 
-place Q1 z=75.000000000000
-zntuple vd_Q1 z=125.000000000000 file=vd_Q1_dispsup.txt format=ascii require=PDGid==-13
+place Q1 z={Q1_z}
+zntuple vd_Q1 z={Q1_end} file=vd_Q2_dispsup.txt format=ascii require=PDGid==-13
 
 # --- Drift 1 between Q1 and Q2
-box Drift1 width=107.861788333668 height=107.861788333668 length=20.000000000000 material=Vacuum color=0.6,0.6,0.6
-# place Drift1 z=135.000000000000
-zntuple vd_D1 z=145.000000000000 file=$outname format=ascii require=PDGid==-13
+box Drift1 width={Drift1_width} height={Drift1_height} length={Drift1_length} material=Vacuum color=0.6,0.6,0.6
+# place Drift1 z={Drift1_z}
+zntuple vd_D1 z={D1_end} file=$outname format=ascii require=PDGid==-13
 
 # --- Killing walls for Drift 1
 box Drift1_outer width=$Drift1_kill_width height=$Drift1_kill_height length=$Drift1_kill_length material=Vacuum color=1,0,0
 
 boolean op=subtraction Drift1_wall Drift1_outer Drift1 kill=1
-place Drift1_wall z=135.000000000000
+place Drift1_wall z={Drift1_z}
 
 #-------------------------------
 # FIELD MAP OUTPUT
