@@ -1,0 +1,286 @@
+G4BL_DIR=/home/incik/G4beamline-3.08
+G4LEDATA=/home/incik/Geant4Data/G4EMLOW8.0
+G4ENSDFSTATEDATA=/home/incik/Geant4Data/G4ENSDFSTATE2.3
+G4PARTICLEXSDATA=/home/incik/Geant4Data/G4PARTICLEXS4.0
+G4LEVELGAMMADATA=/home/incik/Geant4Data/PhotonEvaporation5.7
+G4RADIOACTIVEDATA=/home/incik/Geant4Data/RadioactiveDecay5.6
+G4beamline Process ID 1013
+
+*************************************************************
+ g4beamline version: 3.08                        (Aug 11 2022)
+                      Copyright : Tom Roberts, Muons, Inc.
+                        License : Gnu Public License
+                            WWW : http://g4beamline.muonsinc.com
+
+          ################################
+          !!! G4Backtrace is activated !!!
+          ################################
+
+
+**************************************************************
+ Geant4 version Name: geant4-11-00-patch-02 [MT]   (25-May-2022)
+                       Copyright : Geant4 Collaboration
+                      References : NIM A 506 (2003), 250-303
+                                 : IEEE-TNS 53 (2006), 270-278
+                                 : NIM A 835 (2016), 186-225
+                             WWW : http://geant4.org/
+**************************************************************
+
+geometry                   nPoints=100 printGeometry=0 visual=0
+                           tolerance=0.002
+param        zbegin        0.0
+start                      x=0 y=0 z=0 initialZ=0 rotation= radiusCut=300
+                           ring=0
+param        steppingFormat N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
+param        fieldVoxels   400,400,400
+param        maxStep       0.5
+param        minRangeCut   1
+G4PhysListFactory::GetReferencePhysList <QGSP_BERT>  EMoption= 0
+<<< Geant4 Physics List simulation engine: QGSP_BERT
+
+
+physics      QGSP_BERT     disable= inactivate= deactivate= doStochastics=1
+                           fluct=1 minRangeCut=1 list=0 gammaToMuPair=0
+                           spinTracking=1 synchrotronRadiation=1
+                           synchrotronRadiationMuon=0 maxTime=1e+06
+trackcuts                  kill= keep=mu-,mu+ killSecondaries=0
+                           kineticEnergyCut=0 kineticEnergyMax=1.798e+308
+                           maxTime=1e+06 keepPrimaries=0 steppingVerbose=0
+particlecolor              proton=1,1,1
+particlecolor              pi+=0,1,0
+particlecolor              mu+=1,0.5,0
+particlecolor              mu-=0,1,0
+particlecolor              e+=1,0,0
+particlecolor              gamma=0,0,1
+particlecolor              e-=1,0.5,0
+param        nparticles    12000
+param        beamfile      particles_before.txt
+beam    ASCII   nEvents=12000 firstEvent=-1 lastEvent=2147483647 beamZ=0.0 maxR=1000000.0 renumber=0 weight=1.000000 
+		filename=particles_before.txt format=BLTrackFile 
+		
+param        VDRad         300
+virtualdetector VD         radius=300 innerRadius=0 height=600 width=600
+                           length=0.2 maxStep=0.5 material= color=1,1,1
+                           noSingles=0 format=asciiextended filename= file=
+                           require= referenceParticle=0 coordinates=centerline
+                           kill=0
+material Diamond1 Mixture: 1.00*C
+                density=3.510 temperature=273 pressure=1.0
+param        pi            3.141592654
+param        degrad        0.017453293
+param        abshgt        11.212121838821835
+param        abswidth      100
+param        absLEN3       24
+param        abshalfangle3 47.2
+param        absoffset3    3.2780759424524413
+param        wedge_z       12
+extrusion    LHextrDS3     length=100 vertices=0,0;
+                           -24/2,24/2/tan(47.2*0.017453293);
+                           -24/2,11.212121838821835; 0,11.212121838821835
+                           scale1=1 scale2=1 maxStep=0.1 material=Diamond1
+                           color=1,0,1 kill=0 vertexes=0,0;
+                           -24/2,24/2/tan(47.2*0.017453293);
+                           -24/2,11.212121838821835; 0,11.212121838821835
+extrusion    LHextrUS3     length=100 vertices=0,0; 0,11.212121838821835;
+                           24/2,11.212121838821835;
+                           24/2,24/2/tan(47.2*0.017453293) scale1=1 scale2=1
+                           maxStep=0.1 material=Diamond1 color=1,0,1 kill=0
+                           vertexes=0,0; 0,11.212121838821835;
+                           24/2,11.212121838821835;
+                           24/2,24/2/tan(47.2*0.017453293)
+param        wedgeAxis     0
+param        noWedge       0
+place   LHextrDS3 copies=1 x=3.3 y=0.0 z=12.0 rotation='Z90,Y00,X90'
+place   LHextrUS3 copies=1 x=3.3 y=0.0 z=12.0 rotation='Z90,Y00,X90'
+place   VD      copies=1 x=0.0 y=0.0 z=25.1 rename='particles_after_first_wedge'
+param        wedgeend      25
+param        Drift1_kill_width 61.056593
+param        Drift1_kill_height 61.056593
+param        wall_clearance 1.0
+param        Drift1_kill_length 41.95095
+genericquad  Q1            fieldLength=100 ironLength=100 ironRadius=34.53
+                           apertureRadius=29.53 poleTipRadius=0 coilRadius=0
+                           coilHalfwidth=0 coilHalfWidth=0 gradient=-2.556
+                           maxStep=0.5 ironMaterial=Fe fieldMaterial=Vacuum
+                           ironColor=0.4,0.8,0.4 kill=1 fringe=0
+                           fringeFactor=1 openAperture=0
+place   Q1      copies=1 x=0.0 y=0.0 z=100.0 
+zntuple                    z=125.000000000000+25 zloop= noSingles=0
+                           format=ascii file=vd_Q1_dispsup.txt
+                           filename=vd_Q1_dispsup.txt require=PDGid==-13
+                           referenceParticle=0 coordinates=Centerline
+box          Drift1        height=59.06 width=59.06 length=43.95 maxStep=0.5
+                           material=Vacuum color=0.6,0.6,0.6 kill=0
+zntuple                    z=168.950950397025+25 zloop= noSingles=0
+                           format=ascii file=vd_D1_dispsup.txt
+                           filename=vd_D1_dispsup.txt require=PDGid==-13
+                           referenceParticle=0 coordinates=Centerline
+box          Drift1_outer  height=61.06 width=61.06 length=41.95 maxStep=0.5
+                           material=Vacuum color=1,0,0 kill=0
+boolean      Drift1_wall   maxStep=0.5 material=Vacuum color=1,1,1 kill=1
+                           op=subtraction x=0 y=0 z=0 rotation=
+place   Drift1_wall copies=1 x=0.0 y=0.0 z=172.0 
+genericquad  Q2            fieldLength=100 ironLength=100 ironRadius=34.53
+                           apertureRadius=29.53 poleTipRadius=0 coilRadius=0
+                           coilHalfwidth=0 coilHalfWidth=0 gradient=28.58
+                           maxStep=0.5 ironMaterial=Fe fieldMaterial=Vacuum
+                           ironColor=0.4,0.8,0.4 kill=1 fringe=0
+                           fringeFactor=1 openAperture=0
+place   Q2      copies=1 x=0.0 y=0.0 z=244.0 
+zntuple                    z=268.950950397025+25 zloop= noSingles=0
+                           format=ascii file=vd_Q2_dispsup.txt
+                           filename=vd_Q2_dispsup.txt require=PDGid==-13
+                           referenceParticle=0 coordinates=Centerline
+param        quadsend      293.95095
+genericsectorbend B1       angle=2.001 fieldCenterRadius=1042
+                           fieldInnerRadius=991.8 fieldOuterRadius=1092
+                           fieldHeight=100 ironInnerRadius=990.8
+                           ironOuterRadius=1093 ironHeight=110
+                           fieldMaterial=Vacuum fieldColor=0,0,1
+                           ironMaterial=Fe ironColor=0.6,0.6,0.6 maxStep=0.5
+                           kill=1 SolenoidalField=0 DipoleField=0.628
+                           QuadrupoleField=0 SkewQuadrupoleField=0
+                           SextupoleField=0 SkewSextupoleField=0
+                           OctupoleField=0 SkewOctupoleField=0 fringe=0
+                           fringeFactor=1
+place   B1      copies=1 x=0.0 y=0.0 z=295.2 
+corner       B1_exit       z=295.2 rotation=Y2.0011147001062293 radiusCut=300
+                           radius=0 height=0 width=0 length=1 maxStep=0.5
+                           material=Vacuum color=
+place   VD      copies=1 x=0.4 y=0.0 z=331.8 rename='vd_B1_dispsup.txt'
+                format=ascii
+
+World size (before incrementing by 201.357 mm): 600.0 H  2083.7 W  684.7 L
+
+PARAMETERS:
+Drift1_kill_height=61.056593
+Drift1_kill_length=41.95095
+Drift1_kill_width=61.056593
+          VDRad=300
+            Zcl=331.917
+        absLEN3=24
+  abshalfangle3=47.2
+         abshgt=11.212121838821835
+     absoffset3=3.2780759424524413
+       abswidth=100
+       beamfile=particles_before.txt
+         degrad=0.017453293
+     deltaChord=3.0
+deltaIntersection=0.1
+   deltaOneStep=0.01
+         epsMax=0.05
+         epsMin=2.5e-7
+ eventTimeLimit=30
+    fieldVoxels=400,400,400
+      histoFile=g4beamline
+    histoUpdate=0
+        maxStep=0.5
+    minRangeCut=1
+        minStep=0.01
+        noWedge=0
+     nparticles=12000
+             pi=3.141592654
+       quadsend=293.95095
+ steppingFormat=N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
+steppingVerbose=0
+         viewer=none
+ wallClockLimit=-1
+ wall_clearance=1.0
+      wedgeAxis=0
+        wedge_z=12
+       wedgeend=25
+  worldMaterial=Vacuum
+     zTolerance=2.0
+         zbegin=0.0
+Checking overlaps for volume LHextrDS3:0 (G4ExtrudedSolid) ... OK! 
+BLCMDextrusion::Construct LHextrDS3 parent= relZ=12.0 globZ=12.0
+	zmin=-38.0 zmax=62.0 kill=0
+Checking overlaps for volume LHextrUS3:0 (G4ExtrudedSolid) ... OK! 
+BLCMDextrusion::Construct LHextrUS3 parent= relZ=12.0 globZ=12.0
+	zmin=-38.0 zmax=62.0 kill=0
+Checking overlaps for volume particles_after_first_wedge:0 (G4Tubs) ... OK! 
+BLCMDvirtualdetector::Construct particles_after_first_wedge parent= relZ=25.1 globZ=25.1
+Checking overlaps for volume Q1:0 (G4Tubs) ... OK! 
+Checking overlaps for volume Q1:0 (G4Tubs) ... OK! 
+BLCMDgenericquad::Construct Q1 parent= relZ=100.0 globZ=100.0
+Checking overlaps for volume Drift1_wall:0 (G4SubtractionSolid) ... OK! 
+BLCMDboolean::Construct Drift1_wall parent= relZ=172.0 globZ=172.0
+	zmin=151.0 zmax=193.0
+Checking overlaps for volume Q2:0 (G4Tubs) ... OK! 
+Checking overlaps for volume Q2:0 (G4Tubs) ... OK! 
+BLCMDgenericquad::Construct Q2 parent= relZ=244.0 globZ=244.0
+Checking overlaps for volume B1:0 (G4Tubs) ... OK! 
+Checking overlaps for volume B1:0 (G4SubtractionSolid) ... OK! 
+BLCMDgenericsectorbend::Construct B1 parent= relZ=295.2 globZ=295.2
+Checking overlaps for volume vd_B1_dispsup.txt:0 (G4Tubs) ... OK! 
+BLCMDvirtualdetector::Construct vd_B1_dispsup.txt parent= relZ=331.8 globZ=331.5
+### Adding tracking cuts for neutron  TimeCut(ns)= 10000  KinEnergyCut(MeV)= 0
+
+Geometry test nPoints=100 tolerance=0.002 mm:
+Testing geometry for children of group 'World':
+BLCMDgenericsectorbend does not participate in the geometry test
+Total geometry errors = 0  0 seconds
+
+================== Prepare Tracking Beam ==================
+Stochastic processes are enabled.
+================== Begin Tracking Beam ===============
+**************************************************************************
+*** G4Exception: EM Field Extends Outside World
+***    severity: Warning
+***   issued by: BLGlobalField
+*** description: May give inaccurate tracking near world boundary.
+***     EventID: 1     TrackID: 1   mu+  KE=39.98 MeV
+**************************************************************************
+fieldVoxels: nx=6 ny=3 nz=3, 54 voxels, 3 fields
+fieldVoxels: max field count is 3 fields, # voxels >5: 0, >10: 0, >20: 0
+Event 1 Completed  1 events  realTime=1 sec  1.0 ev/sec
+Event 2 Completed  2 events  realTime=1 sec  2.0 ev/sec
+Event 3 Completed  3 events  realTime=1 sec  3.0 ev/sec
+Event 4 Completed  4 events  realTime=1 sec  4.0 ev/sec
+Event 5 Completed  5 events  realTime=1 sec  5.0 ev/sec
+Event 6 Completed  6 events  realTime=1 sec  6.0 ev/sec
+Event 7 Completed  7 events  realTime=1 sec  7.0 ev/sec
+Event 8 Completed  8 events  realTime=1 sec  8.0 ev/sec
+Event 9 Completed  9 events  realTime=1 sec  9.0 ev/sec
+Event 10 Completed  10 events  realTime=1 sec  10.0 ev/sec
+Event 20 Completed  20 events  realTime=1 sec  20.0 ev/sec
+Event 30 Completed  30 events  realTime=1 sec  30.0 ev/sec
+Event 40 Completed  40 events  realTime=1 sec  40.0 ev/sec
+Event 50 Completed  50 events  realTime=1 sec  50.0 ev/sec
+Event 60 Completed  60 events  realTime=1 sec  60.0 ev/sec
+Event 70 Completed  70 events  realTime=1 sec  70.0 ev/sec
+Event 80 Completed  80 events  realTime=1 sec  80.0 ev/sec
+Event 90 Completed  90 events  realTime=1 sec  90.0 ev/sec
+Event 100 Completed  100 events  realTime=1 sec  100.0 ev/sec
+Event 200 Completed  200 events  realTime=1 sec  200.0 ev/sec
+Event 300 Completed  300 events  realTime=1 sec  300.0 ev/sec
+Event 400 Completed  400 events  realTime=1 sec  400.0 ev/sec
+Event 500 Completed  500 events  realTime=1 sec  500.0 ev/sec
+Event 600 Completed  600 events  realTime=1 sec  600.0 ev/sec
+Event 700 Completed  700 events  realTime=1 sec  700.0 ev/sec
+Event 800 Completed  800 events  realTime=1 sec  800.0 ev/sec
+Event 900 Completed  900 events  realTime=1 sec  900.0 ev/sec
+Event 1000 Completed  1000 events  realTime=1 sec  1000.0 ev/sec
+Event 2000 Completed  2000 events  realTime=2 sec  1000.0 ev/sec
+Event 3000 Completed  3000 events  realTime=4 sec  750.0 ev/sec
+Event 4000 Completed  4000 events  realTime=5 sec  800.0 ev/sec
+Event 5000 Completed  5000 events  realTime=6 sec  833.3 ev/sec
+Event 6000 Completed  6000 events  realTime=7 sec  857.1 ev/sec
+Event 7000 Completed  7000 events  realTime=8 sec  875.0 ev/sec
+Event 8000 Completed  8000 events  realTime=9 sec  888.9 ev/sec
+Event 9000 Completed  9000 events  realTime=11 sec  818.2 ev/sec
+Event 10000 Completed  10000 events  realTime=12 sec  833.3 ev/sec
+Event 11000 Completed  11000 events  realTime=13 sec  846.2 ev/sec
+Event 12000 Completed  12000 events  realTime=14 sec  857.1 ev/sec
+Run complete  12000 Events  14 seconds
+NTuple particles_after_first_wedge    11999 entries
+NTuple vd_B1_dispsup.txt     5086 entries
+NTuple Z150               10628 entries
+NTuple Z194                8841 entries
+NTuple Z294                5135 entries
+
+Exceptions: 0 Fatal, 0 Events Aborted, 0 Stuck Tracks (stopped), 1 Warnings
+      1 times: EM Field Extends Outside World
+g4beamline: simulation complete
+SynRad:  Incoherent Synchrotron Radiation
+Good description for long magnets at all energies.

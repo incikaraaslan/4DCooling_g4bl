@@ -1,64 +1,48 @@
-BEAM, particle=POSMUON, PC=0.08867773923236165;
-b_start: beta0, betx=0.23484239968359552, bety=1.0297716634079053, alfx=0.8173711459179888, alfy=-6.6273639026127285, dx=4.5849830257607524e-08, dpx=-0.04557222448990703, dy=-0.008338933297010106,  dpy=-0.06175483057866619;
-!
+BEAM, particle=POSMUON, PC={avg_mom};
+b_start: beta0, betx={beta_x}, bety={beta_y}, alfx={alpha_x}, alfy={alpha_y}, dx={D_x}, dpx={Dp_x}, dy={D_y},  dpy={Dp_y};
 !b_goal: beta0,  betx=0.0442, bety=0.0261;
 
 !Starting guess from Ryan
-k_qf1= 19;
-k_qd1=-19;
+k_qf1= 20;
+k_qd1=-20;
 FODO: sequence, l=1.1;
     MF0: marker, at=0;
-    QF1h: Quadrupole, K1=k_qf1, L=0.075, AT=0.0375;
-    QD1h: Quadrupole, K1=k_qd1, L=0.075, AT=0.5125;
+    QF1h: Quadrupole, K1:=k_qf1, L=0.075, AT=0.0375;
+    QD1h: Quadrupole, K1:=k_qd1, L=0.075, AT=0.5125;
     MD: Marker, AT=0.55;
     QD1h: QD1h, AT=0.5875;
     QF1h: QF1h, AT=1.0625;
     MF1: Marker, at=1.1;
 endsequence;
 
-!use, sequence=fodo;
-!select,flag=twiss,clear;
-!twiss, file="madXDriftChannel/fodo.tfs";
+use, sequence=fodo;
+select,flag=twiss,clear;
+select,flag=twiss,column=name,s,l,betx,bety;
+twiss, file="madXDriftChannel/fodo.tfs";
 
 !find periodic starting Twiss for the given layout
 USE, sequence=FODO;
-
 MATCH, sequence=FODO;
-
-    vary, name=k_qf1, step=1e-5;
-    vary, name=k_qd1, step=1e-5;
-
-    constraint, range=MF1, betx=table(twiss,MF0,betx);
-    constraint, range=MF1, bety=table(twiss,MF0,bety);
-    constraint, range=MF1, dx=table(twiss,MF0,dx);
-    constraint, range=MF1, dy=table(twiss,MF0,dy);
-    constraint, range=MF1, alfx=table(twiss,MF0,alfx);
-    constraint, range=MF1, alfy=table(twiss,MF0,alfy);
-
-    simplex, calls=5000, tolerance=1e-14;
-!    
-!    
+vary, name=k_qf1, step=.00001;
+vary, name=k_qd1, step=.00001;
+constraint, range=MD, ALFX=0.0, ALFY=0.0;
+simplex, calls=1000,  tolerance=1E-13;
 ENDMATCH;
-
 select,flag=twiss,clear;
 select,flag=twiss;
 twiss, file="madXDriftChannel/fodo_periodic.tfs";
-
 
 bx0f=table(twiss,MF0,betx);
 by0f=table(twiss,MF0,bety);
 ax0f=table(twiss,MF0,alfx);
 ay0f=table(twiss,MF0,alfy);
-dx0f=table(twiss,MF0,dx);
-dy0f=table(twiss,MF0,dy);
 bx1f=table(twiss,MF1,betx);!=bx0f if convergence
 by1f=table(twiss,MF1,bety);!=by0f if convergence
 ax1f=table(twiss,MF1,alfx);!=0 if converged 
-ay1f=table(twiss,MF1,alfy);!=0 if converged
-dx1f=table(twiss,MF1,dx);!=dx0f if convergence
-dy1f=table(twiss,MF1,dy);!=dy0f if convergence 
-b_fodo: beta0, betx=bx1f,bety=by1f,alfx=ax1f,alfy=ay1f,dx=dx1f, dy=dy1f;
-! 
+ay1f=table(twiss,MF1,alfy);!=0 if converged 
+b_fodo: beta0, betx=bx1f,bety=by1f,alfx=ax1f,alfy=ay1f;
+
+!stop;
 
 !Upper part
 !first guess
@@ -77,19 +61,19 @@ endsequence;
 
 USE, sequence=UP_end;
 MATCH, sequence=UP_end,beta0=b_start;
-    vary, name=k_q1, step=.00001;
-    vary, name=k_q2, step=.00001;
-    vary, name=k_q3, step=.00001;
-    vary, name=k_q4, step=.00001;
-    constraint, range=MF0, betx=bx0f, bety=by0f, alfx=ax0f, alfy=ay0f,dx=dx0f, dy=dy0f;
-    simplex, calls=100000,  tolerance=1E-13;
-    !lmdif,calls=10000,  tolerance=1E-13;
-    !JACOBIAN, calls=20000, tolerance=1E-3;
+vary, name=k_q1, step=.00001;
+vary, name=k_q2, step=.00001;
+vary, name=k_q3, step=.00001;
+vary, name=k_q4, step=.00001;
+!constraint, range=MF0, betx=1.865009534, bety=0.2908218752, ALFX=0.0, ALFY=0.0;
+constraint, range=MF0, betx=bx0f, bety=by0f, alfx=ax0f, alfy=ay0;
+simplex, calls=100000,  tolerance=1E-13;
+!lmdif,calls=10000,  tolerance=1E-13;
+!    JACOBIAN, calls=20000, tolerance=1E-3;
 ENDMATCH;
 select,flag=twiss,clear;
 select,flag=twiss;
 twiss,file="madXDriftChannel/up_end.tfs", beta0=b_start;
-! 
 
 !Final part
 !first guess
@@ -109,17 +93,18 @@ endsequence;
 
 USE, sequence=DOWN_end;
 MATCH, sequence=DOWN_end,beta0=b_fodo;
-    vary, name=k_q5, step=.00001;
-    vary, name=k_q6, step=.00001;
-    vary, name=k_q7, step=.00001;
-    vary, name=k_q8, step=.00001;
-    constraint, range=#END, betx=0.0442, bety=0.0261, alfx=0,alfy=0, dx=4.5849830257607524e-08, dy=-0.008338933297010106;
-    simplex, calls=100000,  tolerance=1E-13;
+vary, name=k_q5, step=.00001;
+vary, name=k_q6, step=.00001;
+vary, name=k_q7, step=.00001;
+vary, name=k_q8, step=.00001;
+constraint, range=#END, betx=0.0442, bety=0.0261, alfx=0,alfy=0;
+simplex, calls=100000,  tolerance=1E-13;
+!lmdif,calls=10000,  tolerance=1E-13;
+!    JACOBIAN, calls=20000, tolerance=1E-3;
 ENDMATCH;
 select,flag=twiss,clear;
 select,flag=twiss;
 twiss,file="madXDriftChannel/down_end.tfs", beta0=b_fodo;
-!
 
 !each FODO Cell is of length 0.475
 
@@ -158,6 +143,9 @@ whole: sequence, l=16;
     QD1h: QD1h, AT=5.5625;
     QF1h: QF1h, AT=6.0375;
     M5: Marker, At=6.075; 
+
+    !! THis is the last place that I checkeed
+
 
     QF1h: QF1h, AT=6.1125;
     QD1h: QD1h, AT=6.5875;
@@ -241,9 +229,7 @@ select,flag=twiss,clear;
 select,flag=twiss;
 twiss,file="madXDriftChannel/layout.tfs", beta0=b_start;
 
-value, k_q1, k_q2, k_q3, k_q4;
-value, k_q5, k_q6, k_q7, k_q8;
-value, k_qf1, k_qd1;
-
-
+VALUE, k_q1, k_q2, k_q3, k_q4;
+VALUE, k_q5, k_q6, k_q7, k_q8;
+VALUE, k_qf1, k_qd1;
 stop;

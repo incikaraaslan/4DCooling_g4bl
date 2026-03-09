@@ -35,7 +35,7 @@ particlecolor e-=1,0.5,0    # orange
 
 param -unset nparticles=12000
 param -unset beamfile=particles_after_bupt.txt
-param VDRad=268.9593658303102
+param VDRad=281.6283447677115
 param -unset outname=particles_after_driftm.txt
 beam ascii filename=$beamfile nEvents=$nparticles beamZ=0
 trace nTrace=1 format=ascii oneNTuple=1  
@@ -49,72 +49,72 @@ virtualdetector VD    radius=$VDRad    length=0.2  color=1,1,1 format=asciiExten
             genericquad Q1 \
             fieldLength=150.000 \
             ironLength=150.000 \
-            apertureRadius=268.9593658303102 \
-            ironRadius=273.9593658303102 \
-            gradient=-4.273270
+            apertureRadius=281.6283447677115 \
+            ironRadius=286.6283447677115 \
+            gradient=-5.377255
             
             genericquad Q2 \
             fieldLength=150.000 \
             ironLength=150.000 \
-            apertureRadius=268.9593658303102 \
-            ironRadius=273.9593658303102 \
-            gradient=5.142288
+            apertureRadius=281.6283447677115 \
+            ironRadius=286.6283447677115 \
+            gradient=5.524701
             
             genericquad Q3 \
             fieldLength=150.000 \
             ironLength=150.000 \
-            apertureRadius=268.9593658303102 \
-            ironRadius=273.9593658303102 \
-            gradient=-4.296375
+            apertureRadius=281.6283447677115 \
+            ironRadius=286.6283447677115 \
+            gradient=-4.077421
             
             genericquad Q4 \
             fieldLength=150.000 \
             ironLength=150.000 \
-            apertureRadius=268.9593658303102 \
-            ironRadius=273.9593658303102 \
-            gradient=5.367016
+            apertureRadius=281.6283447677115 \
+            ironRadius=286.6283447677115 \
+            gradient=4.278042
             
             genericquad QF1H \
             fieldLength=150.000 \
             ironLength=150.000 \
-            apertureRadius=268.9593658303102 \
-            ironRadius=273.9593658303102 \
-            gradient=5.656504
+            apertureRadius=281.6283447677115 \
+            ironRadius=286.6283447677115 \
+            gradient=5.620076
             
             genericquad QD1H \
             fieldLength=150.000 \
             ironLength=150.000 \
-            apertureRadius=268.9593658303102 \
-            ironRadius=273.9593658303102 \
-            gradient=-5.656504
+            apertureRadius=281.6283447677115 \
+            ironRadius=286.6283447677115 \
+            gradient=-5.620076
             
             genericquad Q5 \
             fieldLength=150.000 \
             ironLength=150.000 \
-            apertureRadius=268.9593658303102 \
-            ironRadius=273.9593658303102 \
-            gradient=22.415589
+            apertureRadius=281.6283447677115 \
+            ironRadius=286.6283447677115 \
+            gradient=22.373338
             
             genericquad Q6 \
             fieldLength=150.000 \
             ironLength=150.000 \
-            apertureRadius=268.9593658303102 \
-            ironRadius=273.9593658303102 \
-            gradient=-10.095484
+            apertureRadius=281.6283447677115 \
+            ironRadius=286.6283447677115 \
+            gradient=-10.040843
             
             genericquad Q7 \
             fieldLength=150.000 \
             ironLength=150.000 \
-            apertureRadius=268.9593658303102 \
-            ironRadius=273.9593658303102 \
-            gradient=6.440189
+            apertureRadius=281.6283447677115 \
+            ironRadius=286.6283447677115 \
+            gradient=6.398172
             
             genericquad Q8 \
             fieldLength=150.000 \
             ironLength=150.000 \
-            apertureRadius=268.9593658303102 \
-            ironRadius=273.9593658303102 \
-            gradient=-6.062036
+            apertureRadius=281.6283447677115 \
+            ironRadius=286.6283447677115 \
+            gradient=-6.014378
             
 
 #########################

@@ -1,0 +1,165 @@
+BEAM, particle=POSMUON, PC={avg_mom};
+b_start: beta0, betx={beta_x}, bety={beta_y}, alfx={alpha_x}, alfy={alpha_y}, dx={D_x}, dpx={Dp_x}, dy={D_y},  dpy={Dp_y};
+
+! ===========================================================
+! PERIODIC FODO CELL
+! ===========================================================
+
+k_qf1 = 19;
+k_qd1 = -19;
+
+FODO: SEQUENCE, L=1.1;
+
+    MF0: MARKER, AT=0.0;
+
+    QF1: QUADRUPOLE, L=0.075, K1=k_qf1, AT=0.0375;
+    QD1: QUADRUPOLE, L=0.075, K1=k_qd1, AT=0.5125;
+
+    QD1b: QD1, AT=0.5875;
+    QF1b: QF1, AT=1.0625;
+
+    MF1: MARKER, AT=1.1;
+
+ENDSEQUENCE;
+
+USE, SEQUENCE=FODO;
+
+MATCH, SEQUENCE=FODO;
+
+    VARY, NAME=k_qf1, STEP=1e-6;
+    VARY, NAME=k_qd1, STEP=1e-6;
+
+    CONSTRAINT, RANGE=MF1,
+        BETX=TABLE(TWISS,MF0,BETX),
+        BETY=TABLE(TWISS,MF0,BETY),
+        ALFX=TABLE(TWISS,MF0,ALFX),
+        ALFY=TABLE(TWISS,MF0,ALFY);
+
+    SIMPLEX, CALLS=5000, TOLERANCE=1e-14;
+
+ENDMATCH;
+
+TWISS;
+
+bxp = TABLE(TWISS,MF0,BETX);
+byp = TABLE(TWISS,MF0,BETY);
+axp = TABLE(TWISS,MF0,ALFX);
+ayp = TABLE(TWISS,MF0,ALFY);
+
+b_periodic: BETA0,
+    BETX=bxp, BETY=byp,
+    ALFX=axp, ALFY=ayp;
+
+! ===========================================================
+! UPPER MATCH SECTION
+! ===========================================================
+
+k_q1 = k_qd1;
+k_q2 = k_qf1;
+k_q3 = k_qd1;
+k_q4 = k_qf1;
+
+Q1: QUADRUPOLE, L=0.15, K1:=k_q1;
+Q2: QUADRUPOLE, L=0.15, K1:=k_q2;
+Q3: QUADRUPOLE, L=0.15, K1:=k_q3;
+Q4: QUADRUPOLE, L=0.15, K1:=k_q4;
+
+! ===========================================================
+! DOWN MATCH SECTION
+! ===========================================================
+
+k_q5 = k_q4;
+k_q6 = k_q3;
+k_q7 = k_q2;
+k_q8 = k_q1;
+
+Q5: QUADRUPOLE, L=0.15, K1:=k_q5;
+Q6: QUADRUPOLE, L=0.15, K1:=k_q6;
+Q7: QUADRUPOLE, L=0.15, K1:=k_q7;
+Q8: QUADRUPOLE, L=0.15, K1:=k_q8;
+
+! ===========================================================
+! FULL MACHINE
+! UP (2.775 m) + 10 FODO (11 m) + DOWN (2.225 m)
+! TOTAL = 16.0 m
+! ===========================================================
+
+WHOLE: SEQUENCE, L=16.0;
+
+    MFstart: MARKER, AT=0.0;
+
+    ! ---- UP SECTION ----
+    Q1, AT=0.325;
+    Q2, AT=0.875;
+    Q3, AT=1.425;
+    Q4, AT=1.975;
+
+    ! ---- 10 PERIODIC FODO CELLS ----
+    FODO, AT=2.775 + 0.55;
+    FODO, AT=2.775 + 1.65;
+    FODO, AT=2.775 + 2.75;
+    FODO, AT=2.775 + 3.85;
+    FODO, AT=2.775 + 4.95;
+    FODO, AT=2.775 + 6.05;
+    FODO, AT=2.775 + 7.15;
+    FODO, AT=2.775 + 8.25;
+    FODO, AT=2.775 + 9.35;
+    FODO, AT=2.775 + 10.45;
+
+    ! ---- DOWN SECTION ----
+    Q5, AT=13.775 + 0.55;
+    Q6, AT=13.775 + 0.8;
+    Q7, AT=13.775 + 1.35;
+    Q8, AT=13.775 + 1.9;
+
+    MFend: MARKER, AT=16.0;
+
+ENDSEQUENCE;
+
+USE, SEQUENCE=WHOLE;
+
+! ===========================================================
+! MATCH UP INTO PERIODIC
+! ===========================================================
+
+MATCH, SEQUENCE=WHOLE, BETA0=b_start;
+
+    VARY, NAME=k_q1, STEP=1e-6;
+    VARY, NAME=k_q2, STEP=1e-6;
+    VARY, NAME=k_q3, STEP=1e-6;
+    VARY, NAME=k_q4, STEP=1e-6;
+
+    CONSTRAINT, RANGE=2.775,
+        BETX=bxp, BETY=byp,
+        ALFX=axp, ALFY=ayp;
+
+    SIMPLEX, CALLS=100000, TOLERANCE=1e-13;
+
+ENDMATCH;
+
+! ===========================================================
+! MATCH DOWN TO FINAL TARGET
+! ===========================================================
+
+MATCH, SEQUENCE=WHOLE, BETA0=b_start;
+
+    VARY, NAME=k_q5, STEP=1e-6;
+    VARY, NAME=k_q6, STEP=1e-6;
+    VARY, NAME=k_q7, STEP=1e-6;
+    VARY, NAME=k_q8, STEP=1e-6;
+
+    CONSTRAINT, RANGE=MFend,
+        BETX=0.0442, BETY=0.0261,
+        ALFX=0, ALFY=0;
+
+    SIMPLEX, CALLS=100000, TOLERANCE=1e-13;
+
+ENDMATCH;
+
+TWISS, FILE="madXDriftChannel/whole.tfs", BETA0=b_start;
+
+VALUE, k_q1, k_q2, k_q3, k_q4;
+VALUE, k_q5, k_q6, k_q7, k_q8;
+VALUE, k_qf1, k_qd1;
+
+STOP;
