@@ -108,19 +108,19 @@ genericquad Q1 \
     kill=1 \
     fringe=0
 
-place Q1 z=75.000000000000+$wedgeend
-zntuple vd_Q1 z=125.000000000000+$wedgeend file=vd_Q1_dispsup.txt format=ascii require=PDGid==-13
+place Q1 z=75.000000000000
+zntuple vd_Q1 z=125.000000000000 file=vd_Q1_dispsup.txt format=ascii require=PDGid==-13
 
 # --- Drift 1 between Q1 and Q2
 box Drift1 width=59.056592552349 height=59.056592552349 length=43.950950397025 material=Vacuum color=0.6,0.6,0.6
-# place Drift1 z=146.975475198512+$wedgeend
-zntuple vd_D1 z=168.950950397025+$wedgeend file=vd_D1_dispsup.txt format=ascii require=PDGid==-13
+# place Drift1 z=146.975475198512
+zntuple vd_D1 z=168.950950397025 file=vd_D1_dispsup.txt format=ascii require=PDGid==-13
 
 # --- Killing walls for Drift 1
 box Drift1_outer width=$Drift1_kill_width height=$Drift1_kill_height length=$Drift1_kill_length material=Vacuum color=1,0,0
 
 boolean op=subtraction Drift1_wall Drift1_outer Drift1 kill=1
-place Drift1_wall z=146.975475198512+$wedgeend
+place Drift1_wall z=146.975475198512
 
 # --- Quadrupole (Q2)
 genericquad Q2 \
@@ -135,11 +135,11 @@ genericquad Q2 \
     kill=1 \
     fringe=0
 
-place Q2 z=218.950950397025+$wedgeend
-zntuple vd_Q2 z=268.950950397025+$wedgeend file=vd_Q2_dispsup.txt format=ascii require=PDGid==-13
+place Q2 z=218.950950397025
+zntuple vd_Q2 z=268.950950397025 file=vd_Q2_dispsup.txt format=ascii require=PDGid==-13
 
 ######################### DEFINE DIPOLE
-param quadsend=268.950950397025+$wedgeend
+param quadsend=268.950950397025
 
 # --- First dipole (B1)
 genericsectorbend B1 \

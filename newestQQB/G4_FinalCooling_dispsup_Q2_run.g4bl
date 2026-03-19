@@ -45,10 +45,10 @@ particlecolor e-=1,0.5,0    # orange
                                    
 ######################### DEFINE ELEMENTS
 
-param Drift1_kill_width=58.706299815556+2
-param Drift1_kill_height=58.706299815556+2
+param Drift1_kill_width=57.596059987185+2
+param Drift1_kill_height=57.596059987185+2
 param wall_clearance=1.0   # mm
-param Drift1_kill_length=40.682803168724-2*$wall_clearance
+param Drift1_kill_length=2.732822265829-2*$wall_clearance
 
 #-------------------------------
 # MAGNETS (DISPERSION SUPPRESSOR SETUP)
@@ -59,11 +59,11 @@ zntuple vd_start z=0.0 file=vd_start_dispsup.txt format=ascii require=PDGid==-13
 
 # --- Quadrupole (Q1)
 genericquad Q1 \
-    gradient=-4.028756561762 \
+    gradient=-63.598626511591 \
     fieldLength=100.000000000000 \
     ironLength=100.000000000000 \
-    ironRadius=29.353149907778+5.000000000000 \
-    apertureRadius=29.353149907778 \
+    ironRadius=28.798029993592+5.000000000000 \
+    apertureRadius=28.798029993592 \
     maxStep=0.5 \
     ironMaterial=Fe fieldMaterial=Vacuum \
     ironColor=0.4,0.8,0.4 \
@@ -74,31 +74,31 @@ place Q1 z=75.000000000000
 zntuple vd_Q1 z=125.000000000000 file=vd_Q1_dispsup.txt format=ascii require=PDGid==-13
 
 # --- Drift 1 between Q1 and Q2
-box Drift1 width=58.706299815556 height=58.706299815556 length=40.682803168724 material=Vacuum color=0.6,0.6,0.6
-# place Drift1 z=145.341401584362
-zntuple vd_D1 z=165.682803168724 file=vd_D1_dispsup.txt format=ascii require=PDGid==-13
+box Drift1 width=57.596059987185 height=57.596059987185 length=2.732822265829 material=Vacuum color=0.6,0.6,0.6
+# place Drift1 z=126.366411132915
+zntuple vd_D1 z=127.732822265829 file=vd_D1_dispsup.txt format=ascii require=PDGid==-13
 
 # --- Killing walls for Drift 1
 box Drift1_outer width=$Drift1_kill_width height=$Drift1_kill_height length=$Drift1_kill_length material=Vacuum color=1,0,0
 
 boolean op=subtraction Drift1_wall Drift1_outer Drift1 kill=1
-place Drift1_wall z=145.341401584362
+place Drift1_wall z=126.366411132915
 
 # --- Quadrupole (Q2)
 genericquad Q2 \
-    gradient=35.021209793295 \
+    gradient=84.901718090729 \
     fieldLength=100.000000000000 \
     ironLength=100.000000000000 \
-    ironRadius=29.353149907778+5.000000000000 \
-    apertureRadius=29.353149907778 \
+    ironRadius=28.798029993592+5.000000000000 \
+    apertureRadius=28.798029993592 \
     maxStep=0.5 \
     ironMaterial=Fe fieldMaterial=Vacuum \
     ironColor=0.4,0.8,0.4 \
     kill=1 \
     fringe=0
 
-place Q2 z=215.682803168724
-zntuple vd_Q2 z=265.682803168724 file=$outname format=ascii require=PDGid==-13
+place Q2 z=177.732822265829
+zntuple vd_Q2 z=227.732822265829 file=$outname format=ascii require=PDGid==-13
 
 #-------------------------------
 # FIELD MAP OUTPUT

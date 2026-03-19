@@ -4,7 +4,7 @@ G4ENSDFSTATEDATA=/home/incik/Geant4Data/G4ENSDFSTATE2.3
 G4PARTICLEXSDATA=/home/incik/Geant4Data/G4PARTICLEXS4.0
 G4LEVELGAMMADATA=/home/incik/Geant4Data/PhotonEvaporation5.7
 G4RADIOACTIVEDATA=/home/incik/Geant4Data/RadioactiveDecay5.6
-G4beamline Process ID 15337
+G4beamline Process ID 31881
 
 *************************************************************
  g4beamline version: 3.08                        (Aug 11 2022)
@@ -26,16 +26,14 @@ G4beamline Process ID 15337
                              WWW : http://geant4.org/
 **************************************************************
 
-param        viewer        best,1
 geometry                   nPoints=100 printGeometry=0 visual=0
                            tolerance=0.002
 param        zbegin        0.0
-start                      x=0 y=0 z=0 initialZ=0 rotation= radiusCut=120
+start                      x=0 y=0 z=0 initialZ=0 rotation= radiusCut=300
                            ring=0
 param        steppingFormat N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
 param        fieldVoxels   400,400,400
-param        maxStep       100.0  (already defined)
-param        maxStepInWedge 0.1
+param        maxStep       0.5
 param        minRangeCut   1
 G4PhysListFactory::GetReferencePhysList <QGSP_BERT>  EMoption= 0
 <<< Geant4 Physics List simulation engine: QGSP_BERT
@@ -45,9 +43,9 @@ physics      QGSP_BERT     disable= inactivate= deactivate= doStochastics=1
                            fluct=1 minRangeCut=1 list=0 gammaToMuPair=0
                            spinTracking=1 synchrotronRadiation=1
                            synchrotronRadiationMuon=0 maxTime=1e+06
-trackcuts                  kill= keep=mu-,mu+ killSecondaries=0
-                           kineticEnergyCut=0 kineticEnergyMax=1.798e+308
-                           maxTime=1e+06 keepPrimaries=0 steppingVerbose=0
+trackcuts                  kill= keep=mu+ killSecondaries=0 kineticEnergyCut=0
+                           kineticEnergyMax=1.798e+308 maxTime=1e+06
+                           keepPrimaries=0 steppingVerbose=0
 particlecolor              proton=1,1,1
 particlecolor              pi+=0,1,0
 particlecolor              mu+=1,0.5,0
@@ -55,97 +53,54 @@ particlecolor              mu-=0,1,0
 particlecolor              e+=1,0,0
 particlecolor              gamma=0,0,1
 particlecolor              e-=1,0.5,0
-param        nparticles    12000
-param        beamfile      particles_after_bupt.txt
-param        outfile       particles_after_driftm
-param        VDRad         281.6283447677115
-beam    ASCII   nEvents=12000 firstEvent=-1 lastEvent=2147483647 beamZ=0.0 maxR=1000000.0 renumber=0 weight=1.000000 
-		filename=particles_after_bupt.txt format=BLTrackFile 
-		
+param        nparticles    2000
+param        beamfile      particles_after_firstwedgeupt.txt
+param        outname       particles_after_q.txt
 trace                      nTrace=1 format=asciiTrace oneNTuple=1
                            primaryOnly=0 traceTune=1 filename=AllTracks
                            file=AllTracks require= coordinates=Centerline
-virtualdetector VD         radius=281.6 innerRadius=0 height=563.3 width=563.3
-                           length=0.2 maxStep=100 material= color=1,1,1
-                           noSingles=0 format=asciiextended filename= file=
-                           require= referenceParticle=0 coordinates=centerline
-                           kill=0
-param        fodo_grad     5.932
-genericquad  QF1           fieldLength=75 ironLength=75 ironRadius=301.6
-                           apertureRadius=281.6 poleTipRadius=0 coilRadius=0
-                           coilHalfwidth=0 coilHalfWidth=0 gradient=5.932
-                           maxStep=100 ironMaterial=Fe fieldMaterial=Vacuum
-                           ironColor=0,1,0 kill=0 fringe= fringeFactor=1
-                           openAperture=0
-genericquad  QD1           fieldLength=75 ironLength=75 ironRadius=301.6
-                           apertureRadius=281.6 poleTipRadius=0 coilRadius=0
-                           coilHalfwidth=0 coilHalfWidth=0 gradient=-5.932
-                           maxStep=100 ironMaterial=Fe fieldMaterial=Vacuum
-                           ironColor=1,0,0 kill=0 fringe= fringeFactor=1
-                           openAperture=0
-place   QF1     copies=1 x=0.0 y=0.0 z=-37.5 
-for i='0' '1' '2' '3' '4' '5' '6' '7' '8' '9' 
-(for i='0')
-place   QF1     copies=1 x=0.0 y=0.0 z=37.5 
-place   QD1     copies=1 x=0.0 y=0.0 z=512.5 
-place   QD1     copies=1 x=0.0 y=0.0 z=587.5 
-place   QF1     copies=1 x=0.0 y=0.0 z=1062.5 
-(for i='1')
-place   QF1     copies=1 x=0.0 y=0.0 z=1137.5 
-place   QD1     copies=1 x=0.0 y=0.0 z=1612.5 
-place   QD1     copies=1 x=0.0 y=0.0 z=1687.5 
-place   QF1     copies=1 x=0.0 y=0.0 z=2162.5 
-(for i='2')
-place   QF1     copies=1 x=0.0 y=0.0 z=2237.5 
-place   QD1     copies=1 x=0.0 y=0.0 z=2712.5 
-place   QD1     copies=1 x=0.0 y=0.0 z=2787.5 
-place   QF1     copies=1 x=0.0 y=0.0 z=3262.5 
-(for i='3')
-place   QF1     copies=1 x=0.0 y=0.0 z=3337.5 
-place   QD1     copies=1 x=0.0 y=0.0 z=3812.5 
-place   QD1     copies=1 x=0.0 y=0.0 z=3887.5 
-place   QF1     copies=1 x=0.0 y=0.0 z=4362.5 
-(for i='4')
-place   QF1     copies=1 x=0.0 y=0.0 z=4437.5 
-place   QD1     copies=1 x=0.0 y=0.0 z=4912.5 
-place   QD1     copies=1 x=0.0 y=0.0 z=4987.5 
-place   QF1     copies=1 x=0.0 y=0.0 z=5462.5 
-(for i='5')
-place   QF1     copies=1 x=0.0 y=0.0 z=5537.5 
-place   QD1     copies=1 x=0.0 y=0.0 z=6012.5 
-place   QD1     copies=1 x=0.0 y=0.0 z=6087.5 
-place   QF1     copies=1 x=0.0 y=0.0 z=6562.5 
-(for i='6')
-place   QF1     copies=1 x=0.0 y=0.0 z=6637.5 
-place   QD1     copies=1 x=0.0 y=0.0 z=7112.5 
-place   QD1     copies=1 x=0.0 y=0.0 z=7187.5 
-place   QF1     copies=1 x=0.0 y=0.0 z=7662.5 
-(for i='7')
-place   QF1     copies=1 x=0.0 y=0.0 z=7737.5 
-place   QD1     copies=1 x=0.0 y=0.0 z=8212.5 
-place   QD1     copies=1 x=0.0 y=0.0 z=8287.5 
-place   QF1     copies=1 x=0.0 y=0.0 z=8762.5 
-(for i='8')
-place   QF1     copies=1 x=0.0 y=0.0 z=8837.5 
-place   QD1     copies=1 x=0.0 y=0.0 z=9312.5 
-place   QD1     copies=1 x=0.0 y=0.0 z=9387.5 
-place   QF1     copies=1 x=0.0 y=0.0 z=9862.5 
-(for i='9')
-place   QF1     copies=1 x=0.0 y=0.0 z=9937.5 
-place   QD1     copies=1 x=0.0 y=0.0 z=10412.5 
-place   QD1     copies=1 x=0.0 y=0.0 z=10487.5 
-place   QF1     copies=1 x=0.0 y=0.0 z=10962.5 
-endfor
-place   QF1     copies=1 x=0.0 y=0.0 z=11037.5 
-place   VD      copies=1 x=0.0 y=0.0 z=11075.1 rename='particles_after_driftm'
-                format=ascii
+beam    ASCII   nEvents=2000 firstEvent=-1 lastEvent=2147483647 beamZ=0.0 maxR=1000000.0 renumber=0 weight=1.000000 
+		filename=particles_after_firstwedgeupt.txt format=BLTrackFile 
+		
+param        Drift1_kill_width 59.799654
+param        Drift1_kill_height 59.799654
+param        wall_clearance 1.0
+param        Drift1_kill_length 8
+zntuple                    z=0.0 zloop= noSingles=0 format=ascii
+                           file=vd_start_dispsup.txt
+                           filename=vd_start_dispsup.txt require=PDGid==-13
+                           referenceParticle=0 coordinates=Centerline
+genericquad  Q1            fieldLength=100 ironLength=100 ironRadius=33.9
+                           apertureRadius=28.9 poleTipRadius=0 coilRadius=0
+                           coilHalfwidth=0 coilHalfWidth=0 gradient=-68.82
+                           maxStep=0.5 ironMaterial=Fe fieldMaterial=Vacuum
+                           ironColor=0.4,0.8,0.4 kill=1 fringe=0
+                           fringeFactor=1 openAperture=0
+place   Q1      copies=1 x=0.0 y=0.0 z=75.0 
+zntuple                    z=125.000000000000 zloop= noSingles=0 format=ascii
+                           file=vd_Q1_dispsup.txt filename=vd_Q1_dispsup.txt
+                           require=PDGid==-13 referenceParticle=0
+                           coordinates=Centerline
+box          Drift1        height=57.8 width=57.8 length=10 maxStep=0.5
+                           material=Vacuum color=0.6,0.6,0.6 kill=0
+zntuple                    z=135.000000000000 zloop= noSingles=0 format=ascii
+                           file=vd_D1_dispsup.txt filename=vd_D1_dispsup.txt
+                           require=PDGid==-13 referenceParticle=0
+                           coordinates=Centerline
+box          Drift1_outer  height=59.8 width=59.8 length=8 maxStep=0.5
+                           material=Vacuum color=1,0,0 kill=0
+boolean      Drift1_wall   maxStep=0.5 material=Vacuum color=1,1,1 kill=1
+                           op=subtraction x=0 y=0 z=0 rotation=
+place   Drift1_wall copies=1 x=0.0 y=0.0 z=130.0 
 
-World size (before incrementing by 201.357 mm): 603.3 H  603.3 W  22150.4 L
+World size (before incrementing by 201.357 mm): 67.8 H  67.8 W  268.0 L
 
 PARAMETERS:
-          VDRad=281.6283447677115
-            Zcl=11075.2
-       beamfile=particles_after_bupt.txt
+Drift1_kill_height=59.799654
+Drift1_kill_length=8
+Drift1_kill_width=59.799654
+            Zcl=134
+       beamfile=particles_after_firstwedgeupt.txt
      deltaChord=3.0
 deltaIntersection=0.1
    deltaOneStep=0.01
@@ -153,207 +108,72 @@ deltaIntersection=0.1
          epsMin=2.5e-7
  eventTimeLimit=30
     fieldVoxels=400,400,400
-      fodo_grad=5.932
       histoFile=g4beamline
     histoUpdate=0
-              i=9
-        maxStep=100.0
- maxStepInWedge=0.1
+        maxStep=0.5
     minRangeCut=1
         minStep=0.01
-     nparticles=12000
-        outfile=particles_after_driftm
+     nparticles=2000
+        outname=particles_after_q.txt
  steppingFormat=N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
 steppingVerbose=0
-         viewer=best,1
+         viewer=none
  wallClockLimit=-1
+ wall_clearance=1.0
   worldMaterial=Vacuum
      zTolerance=2.0
          zbegin=0.0
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QF1 parent= relZ=-37.5 globZ=-37.5
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QF1 parent= relZ=37.5 globZ=37.5
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QD1 parent= relZ=512.5 globZ=512.5
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QD1 parent= relZ=587.5 globZ=587.5
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QF1 parent= relZ=1062.5 globZ=1062.5
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QF1 parent= relZ=1137.5 globZ=1137.5
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QD1 parent= relZ=1612.5 globZ=1612.5
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QD1 parent= relZ=1687.5 globZ=1687.5
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QF1 parent= relZ=2162.5 globZ=2162.5
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QF1 parent= relZ=2237.5 globZ=2237.5
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QD1 parent= relZ=2712.5 globZ=2712.5
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QD1 parent= relZ=2787.5 globZ=2787.5
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QF1 parent= relZ=3262.5 globZ=3262.5
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QF1 parent= relZ=3337.5 globZ=3337.5
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QD1 parent= relZ=3812.5 globZ=3812.5
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QD1 parent= relZ=3887.5 globZ=3887.5
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QF1 parent= relZ=4362.5 globZ=4362.5
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QF1 parent= relZ=4437.5 globZ=4437.5
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QD1 parent= relZ=4912.5 globZ=4912.5
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QD1 parent= relZ=4987.5 globZ=4987.5
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QF1 parent= relZ=5462.5 globZ=5462.5
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QF1 parent= relZ=5537.5 globZ=5537.5
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QD1 parent= relZ=6012.5 globZ=6012.5
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QD1 parent= relZ=6087.5 globZ=6087.5
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QF1 parent= relZ=6562.5 globZ=6562.5
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QF1 parent= relZ=6637.5 globZ=6637.5
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QD1 parent= relZ=7112.5 globZ=7112.5
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QD1 parent= relZ=7187.5 globZ=7187.5
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QF1 parent= relZ=7662.5 globZ=7662.5
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QF1 parent= relZ=7737.5 globZ=7737.5
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QD1 parent= relZ=8212.5 globZ=8212.5
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QD1 parent= relZ=8287.5 globZ=8287.5
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QF1 parent= relZ=8762.5 globZ=8762.5
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QF1 parent= relZ=8837.5 globZ=8837.5
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QD1 parent= relZ=9312.5 globZ=9312.5
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QD1 parent= relZ=9387.5 globZ=9387.5
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QF1 parent= relZ=9862.5 globZ=9862.5
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QF1 parent= relZ=9937.5 globZ=9937.5
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QD1 parent= relZ=10412.5 globZ=10412.5
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QD1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QD1 parent= relZ=10487.5 globZ=10487.5
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QF1 parent= relZ=10962.5 globZ=10962.5
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume QF1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct QF1 parent= relZ=11037.5 globZ=11037.5
-Checking overlaps for volume particles_after_driftm:0 (G4Tubs) ... OK! 
-BLCMDvirtualdetector::Construct particles_after_driftm parent= relZ=11075.1 globZ=11075.1
+Checking overlaps for volume Q1:0 (G4Tubs) ... OK! 
+Checking overlaps for volume Q1:0 (G4Tubs) ... OK! 
+BLCMDgenericquad::Construct Q1 parent= relZ=75.0 globZ=75.0
+Checking overlaps for volume Drift1_wall:0 (G4SubtractionSolid) ... OK! 
+BLCMDboolean::Construct Drift1_wall parent= relZ=130.0 globZ=130.0
+	zmin=126.0 zmax=134.0
 ### Adding tracking cuts for neutron  TimeCut(ns)= 10000  KinEnergyCut(MeV)= 0
 
 Geometry test nPoints=100 tolerance=0.002 mm:
 Testing geometry for children of group 'World':
 Total geometry errors = 0  0 seconds
 
-================== Prepare Visualization ==================
+================== Prepare Tracking Beam ==================
 Stochastic processes are enabled.
-Available UI session types: [ Qt, tcsh, csh ]
-QStandardPaths: wrong permissions on runtime directory /mnt/wslg/runtime-dir, 0777 instead of 0700
-Visualization Manager instantiating with verbosity "warnings (3)"...
-Visualization Manager initialising...
-Registering graphics systems...
+================== Begin Tracking Beam ===============
+Event 1 Completed  1 events  realTime=1 sec  1.0 ev/sec
+Event 2 Completed  2 events  realTime=1 sec  2.0 ev/sec
+Event 3 Completed  3 events  realTime=1 sec  3.0 ev/sec
+Event 4 Completed  4 events  realTime=1 sec  4.0 ev/sec
+Event 5 Completed  5 events  realTime=1 sec  5.0 ev/sec
+Event 6 Completed  6 events  realTime=1 sec  6.0 ev/sec
+Event 7 Completed  7 events  realTime=1 sec  7.0 ev/sec
+Event 8 Completed  8 events  realTime=1 sec  8.0 ev/sec
+Event 9 Completed  9 events  realTime=1 sec  9.0 ev/sec
+Event 10 Completed  10 events  realTime=1 sec  10.0 ev/sec
+Event 20 Completed  20 events  realTime=1 sec  20.0 ev/sec
+Event 30 Completed  30 events  realTime=1 sec  30.0 ev/sec
+Event 40 Completed  40 events  realTime=1 sec  40.0 ev/sec
+Event 50 Completed  50 events  realTime=1 sec  50.0 ev/sec
+Event 60 Completed  60 events  realTime=1 sec  60.0 ev/sec
+Event 70 Completed  70 events  realTime=1 sec  70.0 ev/sec
+Event 80 Completed  80 events  realTime=1 sec  80.0 ev/sec
+Event 90 Completed  90 events  realTime=1 sec  90.0 ev/sec
+Event 100 Completed  100 events  realTime=1 sec  100.0 ev/sec
+Event 200 Completed  200 events  realTime=1 sec  200.0 ev/sec
+Event 300 Completed  300 events  realTime=1 sec  300.0 ev/sec
+Event 400 Completed  400 events  realTime=1 sec  400.0 ev/sec
+Event 500 Completed  500 events  realTime=1 sec  500.0 ev/sec
+Event 600 Completed  600 events  realTime=1 sec  600.0 ev/sec
+Event 700 Completed  700 events  realTime=1 sec  700.0 ev/sec
+Event 800 Completed  800 events  realTime=1 sec  800.0 ev/sec
+Event 900 Completed  900 events  realTime=1 sec  900.0 ev/sec
+Event 1000 Completed  1000 events  realTime=1 sec  1000.0 ev/sec
+Event 2000 Completed  2000 events  realTime=1 sec  2000.0 ev/sec
+Run complete  2000 Events  1 seconds
+NTuple Z0                  2000 entries
+NTuple Z125                1455 entries
+NTuple Z135                1373 entries
+NTuple AllTracks            481 entries
 
-You have successfully registered the following graphics systems.
-Registered graphics systems are:
-  ASCIITree (ATree)
-  DAWNFILE (DAWNFILE)
-  G4HepRepFile (HepRepFile)
-  RayTracer (RayTracer)
-  VRML2FILE (VRML2FILE)
-  gMocrenFile (gMocrenFile)
-  OpenGLImmediateQt (OGLIQt, OGLI)
-  OpenGLStoredQt (OGLSQt, OGL, OGLS)
-  OpenGLImmediateX (OGLIX, OGLIQt_FALLBACK)
-  OpenGLStoredX (OGLSX, OGLSQt_FALLBACK)
-  RayTracerX (RayTracerX)
-
-Registering model factories...
-
-You have successfully registered the following model factories.
-Registered model factories:
-  generic
-  drawByAttribute
-  drawByCharge
-  drawByOriginVolume
-  drawByParticleID
-  drawByEncounteredVolume
-
-Registered models:
-  None
-
-Registered filter factories:
-  attributeFilter
-  chargeFilter
-  originVolumeFilter
-  particleFilter
-  encounteredVolumeFilter
-
-Registered filters:
-  None
-
-You have successfully registered the following user vis actions.
-Run Duration User Vis Actions: none
-End of Event User Vis Actions: none
-End of Run User Vis Actions: none
-
-Some /vis commands (optionally) take a string to specify colour.
-"/vis/list" to see available colours.
+Exceptions: 0 Fatal, 0 Events Aborted, 0 Stuck Tracks (stopped), 0 Warnings
+g4beamline: simulation complete
+SynRad:  Incoherent Synchrotron Radiation
+Good description for long magnets at all energies.

@@ -36,7 +36,7 @@ particlecolor e-=1,0.5,0    # orange
 
 ######################### DEFINE INPUT BEAM
 
-  param nparticles=2000
+  param nparticles=12000
 
   param -unset beamfile=particles_after_q2upt.txt
   param -unset outname=particles_after_b
@@ -53,20 +53,20 @@ particlecolor e-=1,0.5,0    # orange
 
 # --- First dipole (B1)
 genericsectorbend B1 \
-    angle=2.8279765685591904 \
-    DipoleField=0.7649829877717931 \
-    fieldCenterRadius=626.6419684833963 fieldInnerRadius=626.6419684833963-50 fieldOuterRadius=626.6419684833963+50 \
+    angle=1.809992408752441 \
+    DipoleField=1.5086250722408294 \
+    fieldCenterRadius=951.7103314399719 fieldInnerRadius=951.7103314399719-50 fieldOuterRadius=951.7103314399719+50 \
     fieldHeight=100 \
-    ironInnerRadius=626.6419684833963-50-1 ironOuterRadius=626.6419684833963+50+1 \
+    ironInnerRadius=951.7103314399719-50-1 ironOuterRadius=951.7103314399719+50+1 \
     ironHeight=100+10 \
     maxStep=0.5 \
     fieldMaterial=Vacuum fieldColor=0,0,1 \
     ironMaterial=Fe ironColor=0.6,0.6,0.6 \
     kill=1
-place B1 z=1.6258032097996211
-corner B1_exit z=1.6258032097996211 rotation=Y2.8279765685591904
+place B1 z=1.1178924202919003
+corner B1_exit z=1.1178924202919003 rotation=Y1.809992408752441
 
-place VD front=1 rename=$outname format=ascii x=0.3919909017644596 z=32.65528560461061
+place VD front=1 rename=$outname format=ascii x=0.32816708475263967 z=31.282732970097165
 
 #-------------------------------
 # FIELD MAP OUTPUT

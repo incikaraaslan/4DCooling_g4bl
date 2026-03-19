@@ -8,7 +8,7 @@ k_qf1= 19;
 k_qd1=-19;
 FODO: sequence, l=1.1;
     MF0: marker, at=0;
-    QF1h: Quadrupole, K1=k_qf1, L=0.075, AT=0.0375;
+    QF1h: Quadrupole, K1=k_qf1, L=0.075, AT:=0.0375+ds; !This ds can be a variable if you specify in the match.
     QD1h: Quadrupole, K1=k_qd1, L=0.075, AT=0.5125;
     MD: Marker, AT=0.55;
     QD1h: QD1h, AT=0.5875;
@@ -25,6 +25,7 @@ USE, sequence=FODO;
 
 MATCH, sequence=FODO;
 
+    vary, name=ds, step=1e-5; ! now ds is a variable, specify low and upper value for this -- manual
     vary, name=k_qf1, step=1e-5;
     vary, name=k_qd1, step=1e-5;
 
