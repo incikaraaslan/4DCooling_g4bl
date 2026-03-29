@@ -36,7 +36,7 @@ particlecolor e-=1,0.5,0    # orange
 
 ######################### DEFINE INPUT BEAM
 
-  param nparticles=2000
+  param nparticles=3000
 
   param -unset beamfile=particles_after_bupt.txt
   param -unset outname=particles_after_q2.txt

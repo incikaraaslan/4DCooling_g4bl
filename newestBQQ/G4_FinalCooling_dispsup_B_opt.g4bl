@@ -36,7 +36,7 @@ particlecolor e-=1,0.5,0    # orange
 
 ######################### DEFINE INPUT BEAM
 
-  param nparticles=12000
+  param nparticles=3000
 
   param -unset beamfile=particles_after_firstwedgeupt.txt
   param -unset outname=particles_after_b
@@ -53,22 +53,22 @@ particlecolor e-=1,0.5,0    # orange
 
 # --- First dipole (B1)
 genericsectorbend B1 \
-    angle=4.771074398875273 \
-    DipoleField=0.1000000000000004 \
-    fieldCenterRadius=2000.0 fieldInnerRadius=2000.0-50 fieldOuterRadius=2000.0+50 \
+    angle=1.37663546 \
+    DipoleField=-1.5 \
+    fieldCenterRadius=1871.85672 fieldInnerRadius=1871.85672-50 fieldOuterRadius=1871.85672+50 \
     fieldHeight=100 \
-    ironInnerRadius=2000.0-50-1 ironOuterRadius=2000.0+50+1 \
+    ironInnerRadius=1871.85672-50-1 ironOuterRadius=1871.85672+50+1 \
     ironHeight=100+10 \
     maxStep=0.5 \
     fieldMaterial=Vacuum fieldColor=0,0,1 \
     ironMaterial=Fe ironColor=0.6,0.6,0.6 \
     kill=1
-place B1 z=22.698010089281183
-corner B1_exit z=22.698010089281183 rotation=Y4.771074398875273
+place B1 z=15.5732126
+corner B1_exit z=15.5732126 rotation=Y1.37663546
 
-place VD front=1 rename=$outname format=ascii x=20.616837572921998 z=189.3399243252467
+place VD front=1 rename=$outname format=ascii x=14.972556513810524 z=60.64797965422808
 
 #-------------------------------
 # FIELD MAP OUTPUT
 #-------------------------------
-printfield type=grid file=field_cellB.dat field=By X0=0 Y0=0 Z0=0 nX=1 dX=1 nY=1 dY=1 nZ=1000 dZ=0.5
+# printfield type=grid file=field_cellB.dat field=By X0=0 Y0=0 Z0=0 nX=1 dX=1 nY=1 dY=1 nZ=1000 dZ=0.5

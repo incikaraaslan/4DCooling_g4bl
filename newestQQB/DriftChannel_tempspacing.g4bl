@@ -1,0 +1,159 @@
+
+# Modified Quadrupole Channel for Drift
+
+# Created by: Inci Karaaslan
+# Updated: February 17, 2026
+
+# COLORS:  100 red, 010 green, 111 white, 110 yellow, 001 blue, 101 magenta, 011 cyan
+
+######################### DEFINE PHYSICS MODEL
+
+param zbegin=0.0
+start initialZ=$zbegin  y=0.000   x=0.00   z=0.00    radiusCut=120
+param steppingFormat=N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
+param fieldVoxels=400,400,400 
+param -unset maxStep=0.5
+param -unset maxStepInWedge=0.1
+
+param -unset minRangeCut=1
+
+physics QGSP_BERT doStochastics=1 spinTracking=1 synchrotronRadiation=1 minRangeCut=$minRangeCut # disable=Decay
+# physics FTFP_BERT doStochastics=1 spinTracking=1 synchrotronRadiation=1 # disable=Decay
+
+trackcuts keep=mu+
+param fieldVoxels=50,50,400
+
+particlecolor proton=1,1,1 
+particlecolor pi+=0,1,0 
+particlecolor mu+=1,0.5,0   # orange
+particlecolor mu-=0,1,0   # green
+particlecolor e+=1,0,0      # red
+particlecolor gamma=0,0,1   # blue
+particlecolor e-=1,0.5,0    # orange
+
+######################### DEFINE INPUT BEAM
+
+param -unset nparticles=12000
+param -unset beamfile=particles_after_bupt.txt
+param VDRad=281.6283447677115
+param -unset outname=particles_after_dq2
+beam ascii filename=$beamfile nEvents=$nparticles beamZ=0
+trace nTrace=1 format=ascii oneNTuple=1  
+virtualdetector VD    radius=$VDRad    length=0.2  color=1,1,1 format=asciiExtended coordinates=centerline  
+
+#########################
+# MAGNET DEFINITIONS
+#########################
+
+
+            genericquad Q1 \
+            fieldLength=150.000 \
+            ironLength=150.000 \
+            apertureRadius=281.6283447677115 \
+            ironRadius=286.6283447677115 \
+            gradient={Q1_gradient}
+            
+            genericquad Q2 \
+            fieldLength=150.000 \
+            ironLength=150.000 \
+            apertureRadius=281.6283447677115 \
+            ironRadius=286.6283447677115 \
+            gradient={Q2_gradient}
+            
+            genericquad Q3 \
+            fieldLength=150.000 \
+            ironLength=150.000 \
+            apertureRadius=281.6283447677115 \
+            ironRadius=286.6283447677115 \
+            gradient={Q3_gradient}
+            
+            genericquad Q4 \
+            fieldLength=150.000 \
+            ironLength=150.000 \
+            apertureRadius=281.6283447677115 \
+            ironRadius=286.6283447677115 \
+            gradient={Q4_gradient}
+            
+            genericquad QF1H \
+            fieldLength=150.000 \
+            ironLength=150.000 \
+            apertureRadius=281.6283447677115 \
+            ironRadius=286.6283447677115 \
+            gradient={QF_gradient}
+            
+            genericquad QD1H \
+            fieldLength=150.000 \
+            ironLength=150.000 \
+            apertureRadius=281.6283447677115 \
+            ironRadius=286.6283447677115 \
+            gradient={QD_gradient}
+            
+            genericquad Q5 \
+            fieldLength=150.000 \
+            ironLength=150.000 \
+            apertureRadius=281.6283447677115 \
+            ironRadius=286.6283447677115 \
+            gradient={Q5_gradient}
+            
+            genericquad Q6 \
+            fieldLength=150.000 \
+            ironLength=150.000 \
+            apertureRadius=281.6283447677115 \
+            ironRadius=286.6283447677115 \
+            gradient={Q6_gradient}
+            
+            genericquad Q7 \
+            fieldLength=150.000 \
+            ironLength=150.000 \
+            apertureRadius=281.6283447677115 \
+            ironRadius=286.6283447677115 \
+            gradient={Q7_gradient}
+            
+            genericquad Q8 \
+            fieldLength=150.000 \
+            ironLength=150.000 \
+            apertureRadius=281.6283447677115 \
+            ironRadius=286.6283447677115 \
+            gradient={Q8_gradient}
+            
+
+#########################
+# PLACEMENT
+#########################
+
+place Q1 z={Q1_z}
+place Q2 z={Q2_z}
+place Q3 z={Q3_z}
+place Q4 z={Q4_z} 
+place QF1H z={QF0_z} 
+place QD1H z={QD0_z} 
+place QF1H z={QF1_z}
+place QD1H z={QD1_z}
+place QF1H z={QF2_z}
+place QD1H z={QD2_z}
+place QF1H z={QF3_z}
+place QD1H z={QD3_z}
+place QF1H z={QF4_z}
+place QD1H z={QD4_z}
+place QF1H z={QF5_z}
+place QD1H z={QD5_z}
+place QF1H z={QF6_z}
+place QD1H z={QD6_z}
+place QF1H z={QF7_z}
+place QD1H z={QD7_z}
+place QF1H z={QF8_z}
+place QD1H z={QD8_z}
+place QF1H z={QF9_z}
+place QD1H z={QD9_z}
+place QF1H z={QF10_z}
+place Q5 z={Q5_z} 
+place Q6 z={Q6_z} 
+place Q7 z={Q7_z}
+place Q8 z={Q8_z}
+
+
+#########################
+# OUTPUT
+#########################
+
+place VD front=1 rename=$outname format=ascii z=16000

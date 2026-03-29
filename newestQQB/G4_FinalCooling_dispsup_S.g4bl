@@ -1,0 +1,67 @@
+# Simulates Final Cooling Dispersion Suppressor Sextupole
+
+# Created by: Inci Karaaslan
+# Updated: January 30, 2026
+
+# COLORS:  100 red, 010 green, 111 white, 110 yellow, 001 blue, 101 magenta, 011 cyan
+
+# VERSION HISTORY
+
+# v304: Creates distributions at entrance of Q20 and Q21
+
+######################### DEFINE PHYSICS MODEL
+ 
+# randomseed time
+  
+param zbegin=0.0
+start initialZ=$zbegin  y=0.000   x=0.00   z=0.00    radiusCut=300
+param steppingFormat=N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
+param fieldVoxels=400,400,400 
+param maxStep=0.5
+
+param -unset minRangeCut=1
+
+physics QGSP_BERT doStochastics=1 spinTracking=1 synchrotronRadiation=1 minRangeCut=$minRangeCut # disable=Decay
+# physics FTFP_BERT doStochastics=1 spinTracking=1 synchrotronRadiation=1 # disable=Decay
+
+trackcuts keep=mu+
+
+particlecolor proton=1,1,1 
+particlecolor pi+=0,1,0 
+particlecolor mu+=1,0.5,0   # orange
+particlecolor mu-=0,1,0   # green
+particlecolor e+=1,0,0      # red
+particlecolor gamma=0,0,1   # blue
+particlecolor e-=1,0.5,0    # orange
+
+######################### DEFINE INPUT BEAM
+
+  param nparticles=2000 #8669
+
+  param -unset beamfile=particles_after_q2upt.txt
+  param -unset outname=particles_after_s.txt
+  trace nTrace=1 format=ascii oneNTuple=1
+  beam ascii filename=$beamfile nEvents=$nparticles beamZ=0  
+                                   
+######################### DEFINE ELEMENTS
+
+#-------------------------------
+# MAGNETS (DISPERSION SUPPRESSOR SETUP)
+#-------------------------------
+
+# --- Sextupole (S)
+multipole S1 \
+    sextupole={S1_strength} \
+    fieldLength={S1_length} \
+    ironLength={S1_length} \
+    ironRadius={S1_radius}+{thickness} \
+    apertureRadius={S1_radius} \
+    ironMaterial=Fe fieldMaterial=Vacuum \
+    ironColor=0.8,0.4,0.8 \
+    kill=1 \
+    maxStep=0.5 \
+    fringe=0
+
+place S1 z={S1_z}
+
+zntuple vd_S1 z={S1_end} file=$outname format=ascii require=PDGid==-13

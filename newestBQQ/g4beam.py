@@ -324,6 +324,24 @@ def remove_dispersion(df):
     df["Py"] = df["Py"] - yDp * delta * total_momentum
     return df
 
+def remove_rel_dispersion(df, axis=1):
+    """Simulates distribution after dispersion is removed"""
+    df = df.copy(deep=True)
+    total_momentum = p_total(df)  # MeV/c
+    mean_total_momentum = np.mean(total_momentum)
+    delta = (total_momentum - mean_total_momentum) / mean_total_momentum
+
+    x_params, y_params, _ = calc_all_params(df)
+    _, _, _, _, xD, xDp = x_params
+    _, _, _, _, yD, yDp = y_params
+    if axis == 1: # ONLY get rid of y dispersion
+        df["y"] = df["y"] - yD * delta * 1000
+        df["Py"] = df["Py"] - yDp * delta * total_momentum
+    
+    elif axis == 0: # ONLY get rid of x dispersion
+        df["x"] = df["x"] - xD * delta * 1000
+        df["Px"] = df["Px"] - xDp * delta * total_momentum
+    return df
 
 def z_prop(df, z):
     betas = rel_beta(df["Pz"])

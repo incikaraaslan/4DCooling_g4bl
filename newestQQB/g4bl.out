@@ -4,7 +4,7 @@ G4ENSDFSTATEDATA=/home/incik/Geant4Data/G4ENSDFSTATE2.3
 G4PARTICLEXSDATA=/home/incik/Geant4Data/G4PARTICLEXS4.0
 G4LEVELGAMMADATA=/home/incik/Geant4Data/PhotonEvaporation5.7
 G4RADIOACTIVEDATA=/home/incik/Geant4Data/RadioactiveDecay5.6
-G4beamline Process ID 31881
+G4beamline Process ID 3851
 
 *************************************************************
  g4beamline version: 3.08                        (Aug 11 2022)
@@ -26,6 +26,7 @@ G4beamline Process ID 31881
                              WWW : http://geant4.org/
 **************************************************************
 
+param        viewer        best,1
 geometry                   nPoints=100 printGeometry=0 visual=0
                            tolerance=0.002
 param        zbegin        0.0
@@ -54,53 +55,44 @@ particlecolor              e+=1,0,0
 particlecolor              gamma=0,0,1
 particlecolor              e-=1,0.5,0
 param        nparticles    2000
-param        beamfile      particles_after_firstwedgeupt.txt
-param        outname       particles_after_q.txt
+param        beamfile      particles_after_supt.txt
+param        outname       particles_after_b
+param        VDRad         100.0
+beam    ASCII   nEvents=2000 firstEvent=-1 lastEvent=2147483647 beamZ=0.0 maxR=1000000.0 renumber=0 weight=1.000000 
+		filename=particles_after_supt.txt format=BLTrackFile 
+		
 trace                      nTrace=1 format=asciiTrace oneNTuple=1
                            primaryOnly=0 traceTune=1 filename=AllTracks
                            file=AllTracks require= coordinates=Centerline
-beam    ASCII   nEvents=2000 firstEvent=-1 lastEvent=2147483647 beamZ=0.0 maxR=1000000.0 renumber=0 weight=1.000000 
-		filename=particles_after_firstwedgeupt.txt format=BLTrackFile 
-		
-param        Drift1_kill_width 59.799654
-param        Drift1_kill_height 59.799654
-param        wall_clearance 1.0
-param        Drift1_kill_length 8
-zntuple                    z=0.0 zloop= noSingles=0 format=ascii
-                           file=vd_start_dispsup.txt
-                           filename=vd_start_dispsup.txt require=PDGid==-13
-                           referenceParticle=0 coordinates=Centerline
-genericquad  Q1            fieldLength=100 ironLength=100 ironRadius=33.9
-                           apertureRadius=28.9 poleTipRadius=0 coilRadius=0
-                           coilHalfwidth=0 coilHalfWidth=0 gradient=-68.82
-                           maxStep=0.5 ironMaterial=Fe fieldMaterial=Vacuum
-                           ironColor=0.4,0.8,0.4 kill=1 fringe=0
-                           fringeFactor=1 openAperture=0
-place   Q1      copies=1 x=0.0 y=0.0 z=75.0 
-zntuple                    z=125.000000000000 zloop= noSingles=0 format=ascii
-                           file=vd_Q1_dispsup.txt filename=vd_Q1_dispsup.txt
-                           require=PDGid==-13 referenceParticle=0
-                           coordinates=Centerline
-box          Drift1        height=57.8 width=57.8 length=10 maxStep=0.5
-                           material=Vacuum color=0.6,0.6,0.6 kill=0
-zntuple                    z=135.000000000000 zloop= noSingles=0 format=ascii
-                           file=vd_D1_dispsup.txt filename=vd_D1_dispsup.txt
-                           require=PDGid==-13 referenceParticle=0
-                           coordinates=Centerline
-box          Drift1_outer  height=59.8 width=59.8 length=8 maxStep=0.5
-                           material=Vacuum color=1,0,0 kill=0
-boolean      Drift1_wall   maxStep=0.5 material=Vacuum color=1,1,1 kill=1
-                           op=subtraction x=0 y=0 z=0 rotation=
-place   Drift1_wall copies=1 x=0.0 y=0.0 z=130.0 
+virtualdetector VD         radius=100 innerRadius=0 height=200 width=200
+                           length=0.2 maxStep=0.5 material= color=1,1,1
+                           noSingles=0 format=asciiextended filename= file=
+                           require= referenceParticle=0 coordinates=centerline
+                           kill=0
+genericsectorbend B1       angle=1 fieldCenterRadius=2009
+                           fieldInnerRadius=1959 fieldOuterRadius=2059
+                           fieldHeight=100 ironInnerRadius=1958
+                           ironOuterRadius=2060 ironHeight=110
+                           fieldMaterial=Vacuum fieldColor=0,0,1
+                           ironMaterial=Fe ironColor=0.6,0.6,0.6 maxStep=0.5
+                           kill=1 SolenoidalField=0 DipoleField=1.798
+                           QuadrupoleField=0 SkewQuadrupoleField=0
+                           SextupoleField=0 SkewSextupoleField=0
+                           OctupoleField=0 SkewOctupoleField=0 fringe=0
+                           fringeFactor=1
+place   B1      copies=1 x=0.0 y=0.0 z=1.4 
+corner       B1_exit       z=1.391 rotation=Y1.0 radiusCut=300 radius=0
+                           height=0 width=0 length=1 maxStep=0.5
+                           material=Vacuum color=
+place   VD      copies=1 x=1.0 y=0.0 z=36.7 rename='particles_after_b'
+                format=ascii
 
-World size (before incrementing by 201.357 mm): 67.8 H  67.8 W  268.0 L
+World size (before incrementing by 201.357 mm): 200.0 H  4018.9 W  77.0 L
 
 PARAMETERS:
-Drift1_kill_height=59.799654
-Drift1_kill_length=8
-Drift1_kill_width=59.799654
-            Zcl=134
-       beamfile=particles_after_firstwedgeupt.txt
+          VDRad=100.0
+            Zcl=36.7627
+       beamfile=particles_after_supt.txt
      deltaChord=3.0
 deltaIntersection=0.1
    deltaOneStep=0.01
@@ -114,66 +106,143 @@ deltaIntersection=0.1
     minRangeCut=1
         minStep=0.01
      nparticles=2000
-        outname=particles_after_q.txt
+        outname=particles_after_b
  steppingFormat=N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
 steppingVerbose=0
-         viewer=none
+         viewer=best,1
  wallClockLimit=-1
- wall_clearance=1.0
   worldMaterial=Vacuum
      zTolerance=2.0
          zbegin=0.0
-Checking overlaps for volume Q1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume Q1:0 (G4Tubs) ... OK! 
-BLCMDgenericquad::Construct Q1 parent= relZ=75.0 globZ=75.0
-Checking overlaps for volume Drift1_wall:0 (G4SubtractionSolid) ... OK! 
-BLCMDboolean::Construct Drift1_wall parent= relZ=130.0 globZ=130.0
-	zmin=126.0 zmax=134.0
-### Adding tracking cuts for neutron  TimeCut(ns)= 10000  KinEnergyCut(MeV)= 0
+Checking overlaps for volume B1:0 (G4Tubs) ... OK! 
+Checking overlaps for volume B1:0 (G4SubtractionSolid) ... OK! 
+BLCMDgenericsectorbend::Construct B1 parent= relZ=1.4 globZ=1.4
+**************************************************************************
+*** G4Exception: GeomVol1002
+***    severity: Warning
+***   issued by: G4PVPlacement::CheckOverlaps()
+*** description: Overlap with volume already placed !
+          Overlap is detected for volume particles_after_b:0 (G4Tubs) with B1:0 (G4Tubs)
+          overlap at local point (-2058.57,-36.0342,-10.928) by 678.472 nm  (max of 20 cases)
+NOTE: Reached maximum fixed number -1- of overlaps reports for this volume !
+**************************************************************************
+BLCMDvirtualdetector::Construct particles_after_b parent= relZ=36.6 globZ=36.6
+Checking overlaps for volume particles_after_b:0 (G4Tubs) ... ### Adding tracking cuts for neutron  TimeCut(ns)= 10000  KinEnergyCut(MeV)= 0
 
 Geometry test nPoints=100 tolerance=0.002 mm:
 Testing geometry for children of group 'World':
+BLCMDgenericsectorbend does not participate in the geometry test
 Total geometry errors = 0  0 seconds
 
-================== Prepare Tracking Beam ==================
+================== Prepare Visualization ==================
 Stochastic processes are enabled.
-================== Begin Tracking Beam ===============
-Event 1 Completed  1 events  realTime=1 sec  1.0 ev/sec
-Event 2 Completed  2 events  realTime=1 sec  2.0 ev/sec
-Event 3 Completed  3 events  realTime=1 sec  3.0 ev/sec
-Event 4 Completed  4 events  realTime=1 sec  4.0 ev/sec
-Event 5 Completed  5 events  realTime=1 sec  5.0 ev/sec
-Event 6 Completed  6 events  realTime=1 sec  6.0 ev/sec
-Event 7 Completed  7 events  realTime=1 sec  7.0 ev/sec
-Event 8 Completed  8 events  realTime=1 sec  8.0 ev/sec
-Event 9 Completed  9 events  realTime=1 sec  9.0 ev/sec
-Event 10 Completed  10 events  realTime=1 sec  10.0 ev/sec
-Event 20 Completed  20 events  realTime=1 sec  20.0 ev/sec
-Event 30 Completed  30 events  realTime=1 sec  30.0 ev/sec
-Event 40 Completed  40 events  realTime=1 sec  40.0 ev/sec
-Event 50 Completed  50 events  realTime=1 sec  50.0 ev/sec
-Event 60 Completed  60 events  realTime=1 sec  60.0 ev/sec
-Event 70 Completed  70 events  realTime=1 sec  70.0 ev/sec
-Event 80 Completed  80 events  realTime=1 sec  80.0 ev/sec
-Event 90 Completed  90 events  realTime=1 sec  90.0 ev/sec
-Event 100 Completed  100 events  realTime=1 sec  100.0 ev/sec
-Event 200 Completed  200 events  realTime=1 sec  200.0 ev/sec
-Event 300 Completed  300 events  realTime=1 sec  300.0 ev/sec
-Event 400 Completed  400 events  realTime=1 sec  400.0 ev/sec
-Event 500 Completed  500 events  realTime=1 sec  500.0 ev/sec
-Event 600 Completed  600 events  realTime=1 sec  600.0 ev/sec
-Event 700 Completed  700 events  realTime=1 sec  700.0 ev/sec
-Event 800 Completed  800 events  realTime=1 sec  800.0 ev/sec
-Event 900 Completed  900 events  realTime=1 sec  900.0 ev/sec
-Event 1000 Completed  1000 events  realTime=1 sec  1000.0 ev/sec
-Event 2000 Completed  2000 events  realTime=1 sec  2000.0 ev/sec
-Run complete  2000 Events  1 seconds
-NTuple Z0                  2000 entries
-NTuple Z125                1455 entries
-NTuple Z135                1373 entries
-NTuple AllTracks            481 entries
+Available UI session types: [ Qt, tcsh, csh ]
+QStandardPaths: wrong permissions on runtime directory /mnt/wslg/runtime-dir, 0777 instead of 0700
+Visualization Manager instantiating with verbosity "warnings (3)"...
+Visualization Manager initialising...
+Registering graphics systems...
 
-Exceptions: 0 Fatal, 0 Events Aborted, 0 Stuck Tracks (stopped), 0 Warnings
-g4beamline: simulation complete
+You have successfully registered the following graphics systems.
+Registered graphics systems are:
+  ASCIITree (ATree)
+  DAWNFILE (DAWNFILE)
+  G4HepRepFile (HepRepFile)
+  RayTracer (RayTracer)
+  VRML2FILE (VRML2FILE)
+  gMocrenFile (gMocrenFile)
+  OpenGLImmediateQt (OGLIQt, OGLI)
+  OpenGLStoredQt (OGLSQt, OGL, OGLS)
+  OpenGLImmediateX (OGLIX, OGLIQt_FALLBACK)
+  OpenGLStoredX (OGLSX, OGLSQt_FALLBACK)
+  RayTracerX (RayTracerX)
+
+Registering model factories...
+
+You have successfully registered the following model factories.
+Registered model factories:
+  generic
+  drawByAttribute
+  drawByCharge
+  drawByOriginVolume
+  drawByParticleID
+  drawByEncounteredVolume
+
+Registered models:
+  None
+
+Registered filter factories:
+  attributeFilter
+  chargeFilter
+  originVolumeFilter
+  particleFilter
+  encounteredVolumeFilter
+
+Registered filters:
+  None
+
+You have successfully registered the following user vis actions.
+Run Duration User Vis Actions: none
+End of Event User Vis Actions: none
+End of Run User Vis Actions: none
+
+Some /vis commands (optionally) take a string to specify colour.
+"/vis/list" to see available colours.
+
+Selected visualization viewer: Qt
+BLVisManager init: /vis/open OGLSQt
+BLVisManager init: /vis/viewer/set/auxiliaryEdge true
+BLVisManager init: /vis/viewer/set/style surface
+BLVisManager init: /vis/viewer/set/viewpointThetaPhi 0 0 deg
+BLVisManager init: /vis/drawVolume
+BLVisManager init: /tracking/storeTrajectory 1
+BLVisManager init: /vis/scene/add/trajectories
+/tracking/storeTrajectory 1
+Attributes available for modeling and filtering with
+  "/vis/modeling/trajectories/create/drawByAttribute" and
+  "/vis/filtering/trajectories/create/attributeFilter" commands:
+G4TrajectoriesModel:
+  Event ID (EventID): G4int
+  Run ID (RunID): G4int
+G4Trajectory:
+  Charge (Ch): unit: e+ (G4double)
+  Track ID (ID): G4int
+  Initial kinetic energy (IKE): G4BestUnit (G4double)
+  Initial momentum magnitude (IMag): G4BestUnit (G4double)
+  Initial momentum (IMom): G4BestUnit (G4ThreeVector)
+  No. of points (NTP): G4int
+  PDG Encoding (PDG): G4int
+  Parent ID (PID): G4int
+  Particle Name (PN): G4String
+G4TrajectoryPoint:
+  Position (Pos): G4BestUnit (G4ThreeVector)
+WARNING: Trajectory storing has been requested.  This action may be
+  reversed with "/tracking/storeTrajectory 0".
+BLVisManager init: /vis/scene/endOfEventAction accumulate -1
+WARNING: The vis manager will keep an unlimited number of events.
+  This may use a lot of memory.
+  It may be changed with, e.g., "/vis/scene/endOfEventAction accumulate 10".
+BLVisManager init: /vis/viewer/set/hiddenMarker true
+
+WARNING: No extent set for user vis action "DrawMarkers".
+WARNING: User Vis Action "DrawMarkers" extent is null.
+ Changing export format to "jpg"
+**************************************************************************
+*** G4Exception: EM Field Extends Outside World
+***    severity: Warning
+***   issued by: BLGlobalField
+*** description: May give inaccurate tracking near world boundary.
+***     EventID: 1     TrackID: 1   mu+  KE=27.74 MeV
+**************************************************************************
 SynRad:  Incoherent Synchrotron Radiation
 Good description for long magnets at all energies.
+100 events have been kept for refreshing and/or reviewing.
+  "/vis/reviewKeptEvents" to review them one by one.
+  "/vis/enable", then "/vis/viewer/flush" or "/vis/viewer/rebuild" to see them accumulated.
+
+Graphics systems deleted.
+Visualization Manager deleting...
+
+Exceptions: 0 Fatal, 0 Events Aborted, 0 Stuck Tracks (stopped), 2 Warnings
+      1 times: EM Field Extends Outside World
+      1 times: GeomVol1002
+g4beamline: simulation complete

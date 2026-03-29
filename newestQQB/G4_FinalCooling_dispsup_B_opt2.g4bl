@@ -53,20 +53,20 @@ particlecolor e-=1,0.5,0    # orange
 
 # --- First dipole (B1)
 genericsectorbend B1 \
-    angle=2.507187855300213 \
-    DipoleField=2.1450427538494843 \
-    fieldCenterRadius=624.2606450916089 fieldInnerRadius=624.2606450916089-50 fieldOuterRadius=624.2606450916089+50 \
+    angle=1.0 \
+    DipoleField=3.0 \
+    fieldCenterRadius=100.0 fieldInnerRadius=100.0-50 fieldOuterRadius=100.0+50 \
     fieldHeight=100 \
-    ironInnerRadius=624.2606450916089-50-1 ironOuterRadius=624.2606450916089+50+1 \
+    ironInnerRadius=100.0-50-1 ironOuterRadius=100.0+50+1 \
     ironHeight=100+10 \
     maxStep=0.5 \
     fieldMaterial=Vacuum fieldColor=0,0,1 \
     ironMaterial=Fe ironColor=0.6,0.6,0.6 \
     kill=1
-place B1 z=1.0558078355623386
-corner B1_exit z=1.0558078355623386 rotation=Y2.507187855300213
+place B1 z=2.940452840179184
+corner B1_exit z=2.940452840179184 rotation=Y1.0
 
-place VD front=1 rename=$outname format=ascii x=-0.038071961193587356 z=28.472631539098668
+place VD front=1 rename=$outname format=ascii x=2.504126065260487 z=4.7857820921735135
 
 #-------------------------------
 # FIELD MAP OUTPUT

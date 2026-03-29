@@ -36,9 +36,9 @@ particlecolor e-=1,0.5,0    # orange
 
 ######################### DEFINE INPUT BEAM
 
-  param nparticles=12000
+  param nparticles=2000
 
-  param -unset beamfile=particles_after_q2upt.txt
+  param -unset beamfile=particles_after_supt.txt
   param -unset outname=particles_after_b
   param VDRad=100.0
   beam ascii filename=$beamfile nEvents=$nparticles beamZ=0
@@ -71,4 +71,4 @@ place VD front=1 rename=$outname format=ascii x={B1_x_end} z={B1_z_end}
 #-------------------------------
 # FIELD MAP OUTPUT
 #-------------------------------
-printfield type=grid file=field_cellB.dat field=By X0=0 Y0=0 Z0=0 nX=1 dX=1 nY=1 dY=1 nZ=1000 dZ=0.5
+# printfield type=grid file=field_cellB.dat field=By X0=0 Y0=0 Z0=0 nX=1 dX=1 nY=1 dY=1 nZ=1000 dZ=0.5
