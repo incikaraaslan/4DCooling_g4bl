@@ -4,7 +4,7 @@ G4ENSDFSTATEDATA=/home/incik/Geant4Data/G4ENSDFSTATE2.3
 G4PARTICLEXSDATA=/home/incik/Geant4Data/G4PARTICLEXS4.0
 G4LEVELGAMMADATA=/home/incik/Geant4Data/PhotonEvaporation5.7
 G4RADIOACTIVEDATA=/home/incik/Geant4Data/RadioactiveDecay5.6
-G4beamline Process ID 15669
+G4beamline Process ID 16522
 
 *************************************************************
  g4beamline version: 3.08                        (Aug 11 2022)
@@ -69,29 +69,28 @@ virtualdetector VD         radius=100 innerRadius=0 height=200 width=200
                            noSingles=0 format=asciiextended filename= file=
                            require= referenceParticle=0 coordinates=centerline
                            kill=0
-genericsectorbend B1       angle=8.426 fieldCenterRadius=1150
-                           fieldInnerRadius=1100 fieldOuterRadius=1200
-                           fieldHeight=100 ironInnerRadius=1099
-                           ironOuterRadius=1201 ironHeight=110
+genericsectorbend B1       angle=21.75 fieldCenterRadius=1717
+                           fieldInnerRadius=1667 fieldOuterRadius=1767
+                           fieldHeight=100 ironInnerRadius=1666
+                           ironOuterRadius=1768 ironHeight=110
                            fieldMaterial=Vacuum fieldColor=0,0,1
                            ironMaterial=Fe ironColor=0.6,0.6,0.6 maxStep=0.5
-                           kill=1 SolenoidalField=0 DipoleField=0.7568
+                           kill=1 SolenoidalField=0 DipoleField=1.641
                            QuadrupoleField=0 SkewQuadrupoleField=0
                            SextupoleField=0 SkewSextupoleField=0
                            OctupoleField=0 SkewOctupoleField=0 fringe=0
                            fringeFactor=1
-place   B1      copies=1 x=0.0 y=0.0 z=5.5 
-corner       B1_exit       z=5.495 rotation=Y8.425899156433408 radiusCut=300
-                           radius=0 height=0 width=0 length=1 maxStep=0.5
-                           material=Vacuum color=
-place   VD      copies=1 x=1.8 y=0.0 z=174.8 rename='particles_after_b'
+place   B1      copies=1 x=0.0 y=0.0 z=7.9 
+cornerarc                  z=7.942 centerRadius=1717 angle=21.75 rotation=
+                           radiusCut=0
+place   VD      copies=1 x=0.0 y=0.0 z=659.8 rename='particles_after_b'
                 format=ascii
 
-World size (before incrementing by 201.357 mm): 200.0 H  2299.5 W  374.9 L
+World size (before incrementing by 201.357 mm): 200.0 H  3433.9 W  1362.7 L
 
 PARAMETERS:
           VDRad=100.0
-            Zcl=174.876
+            Zcl=659.861
        beamfile=particles_after_firstwedgeupt.txt
      deltaChord=3.0
 deltaIntersection=0.1
@@ -116,10 +115,18 @@ steppingVerbose=0
          zbegin=0.0
 Checking overlaps for volume B1:0 (G4Tubs) ... OK! 
 Checking overlaps for volume B1:0 (G4SubtractionSolid) ... OK! 
-BLCMDgenericsectorbend::Construct B1 parent= relZ=5.5 globZ=5.5
-Checking overlaps for volume particles_after_b:0 (G4Tubs) ... OK! 
-BLCMDvirtualdetector::Construct particles_after_b parent= relZ=172.7 globZ=166.9
-### Adding tracking cuts for neutron  TimeCut(ns)= 10000  KinEnergyCut(MeV)= 0
+BLCMDgenericsectorbend::Construct B1 parent= relZ=7.9 globZ=7.9
+**************************************************************************
+*** G4Exception: GeomVol1002
+***    severity: Warning
+***   issued by: G4PVPlacement::CheckOverlaps()
+*** description: Overlap with volume already placed !
+          Overlap is detected for volume particles_after_b:0 (G4Tubs) with B1:0 (G4Tubs)
+          overlap at local point (-1640.81,-654.57,44.0279) by 102.891 um  (max of 170 cases)
+NOTE: Reached maximum fixed number -1- of overlaps reports for this volume !
+**************************************************************************
+BLCMDvirtualdetector::Construct particles_after_b parent= relZ=644.2 globZ=553.1
+Checking overlaps for volume particles_after_b:0 (G4Tubs) ... ### Adding tracking cuts for neutron  TimeCut(ns)= 10000  KinEnergyCut(MeV)= 0
 
 Geometry test nPoints=100 tolerance=0.002 mm:
 Testing geometry for children of group 'World':
@@ -230,10 +237,13 @@ Good description for long magnets at all energies.
 100 events have been kept for refreshing and/or reviewing.
   "/vis/reviewKeptEvents" to review them one by one.
   "/vis/enable", then "/vis/viewer/flush" or "/vis/viewer/rebuild" to see them accumulated.
+WARNING: Viewpoint direction is very close to the up vector direction.
+  Change the up vector or "/vis/viewer/set/rotationStyle freeRotation".
 
 Graphics systems deleted.
 Visualization Manager deleting...
 
-Exceptions: 0 Fatal, 0 Events Aborted, 0 Stuck Tracks (stopped), 1 Warnings
+Exceptions: 0 Fatal, 0 Events Aborted, 0 Stuck Tracks (stopped), 2 Warnings
       1 times: EM Field Extends Outside World
+      1 times: GeomVol1002
 g4beamline: simulation complete
