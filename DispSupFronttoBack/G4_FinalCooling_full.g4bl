@@ -76,21 +76,21 @@ param -unset noWedge=0  # 1 to completely remove the wedge
 
 if $noWedge==0
 if $wedgeAxis==1
-    place LHextrDS3 x=0 y=$absoffset3 z=$wedge_z rotation=Z180,Y90,X00
-    place LHextrUS3 x=0 y=$absoffset3 z=$wedge_z+0 rotation=Z180,Y90,X00
+    # place LHextrDS3 x=0 y=$absoffset3 z=$wedge_z rotation=Z180,Y90,X00
+    # place LHextrUS3 x=0 y=$absoffset3 z=$wedge_z+0 rotation=Z180,Y90,X00
 else
-    place LHextrDS3 x=$absoffset3 y=0 z=$wedge_z rotation=Z90,Y00,X90
-    place LHextrUS3 x=$absoffset3 y=0 z=$wedge_z+0 rotation=Z90,Y00,X90
+    # place LHextrDS3 x=$absoffset3 y=0 z=$wedge_z rotation=Z90,Y00,X90
+    # place LHextrUS3 x=$absoffset3 y=0 z=$wedge_z+0 rotation=Z90,Y00,X90
 endif
 endif
 
-place VD front=1 rename=particles_after_first_wedge z=$absLEN3+1
+#place VD front=1 rename=particles_after_first_wedge z=$absLEN3+1
 
 ######################### DEFINE QUADS
 
 param wedgeend=$absLEN3+1
-param Drift1_kill_width=59.056592552349+2
-param Drift1_kill_height=59.056592552349+2
+param Drift1_kill_width=209.056592552349+2
+param Drift1_kill_height=209.056592552349+2
 param wall_clearance=1.0   # mm
 param Drift1_kill_length=43.950950397025-2*$wall_clearance
 
@@ -100,8 +100,8 @@ genericquad Q1 \
     gradient=-2.556388749170 \
     fieldLength=100.000000000000 \
     ironLength=100.000000000000 \
-    ironRadius=29.528296276175+5.000000000000 \
-    apertureRadius=29.528296276175 \
+    ironRadius=129.528296276175+5.000000000000 \
+    apertureRadius=129.528296276175 \
     maxStep=0.5 \
     ironMaterial=Fe fieldMaterial=Vacuum \
     ironColor=0.4,0.8,0.4 \
@@ -112,7 +112,7 @@ place Q1 z=75.000000000000
 zntuple vd_Q1 z=125.000000000000 file=vd_Q1_dispsup.txt format=ascii require=PDGid==-13
 
 # --- Drift 1 between Q1 and Q2
-box Drift1 width=59.056592552349 height=59.056592552349 length=43.950950397025 material=Vacuum color=0.6,0.6,0.6
+box Drift1 width=209.056592552349 height=209.056592552349 length=43.950950397025 material=Vacuum color=0.6,0.6,0.6
 # place Drift1 z=146.975475198512
 zntuple vd_D1 z=168.950950397025 file=vd_D1_dispsup.txt format=ascii require=PDGid==-13
 
@@ -120,15 +120,15 @@ zntuple vd_D1 z=168.950950397025 file=vd_D1_dispsup.txt format=ascii require=PDG
 box Drift1_outer width=$Drift1_kill_width height=$Drift1_kill_height length=$Drift1_kill_length material=Vacuum color=1,0,0
 
 boolean op=subtraction Drift1_wall Drift1_outer Drift1 kill=1
-place Drift1_wall z=146.975475198512
+#place Drift1_wall z=146.975475198512
 
 # --- Quadrupole (Q2)
 genericquad Q2 \
     gradient=28.581621109048 \
     fieldLength=100.000000000000 \
     ironLength=100.000000000000 \
-    ironRadius=29.528296276175+5.000000000000 \
-    apertureRadius=29.528296276175 \
+    ironRadius=129.528296276175+5.000000000000 \
+    apertureRadius=129.528296276175 \
     maxStep=0.5 \
     ironMaterial=Fe fieldMaterial=Vacuum \
     ironColor=0.4,0.8,0.4 \
@@ -143,20 +143,20 @@ param quadsend=268.950950397025
 
 # --- First dipole (B1)
 genericsectorbend B1 \
-    angle=2.0011147001062293 \
+    angle=12.0011147001062293 \
     DipoleField=0.6279613082360005 \
-    fieldCenterRadius=1041.8267524076596 fieldInnerRadius=1041.8267524076596-50 fieldOuterRadius=1041.8267524076596+50 \
-    fieldHeight=100 \
-    ironInnerRadius=1041.8267524076596-50-1 ironOuterRadius=1041.8267524076596+50+1 \
-    ironHeight=100+10 \
+    fieldCenterRadius=1041.8267524076596 fieldInnerRadius=1041.8267524076596-80 fieldOuterRadius=1041.8267524076596+80 \
+    fieldHeight=200 \
+    ironInnerRadius=1041.8267524076596-80-1 ironOuterRadius=1041.8267524076596+80+1 \
+    ironHeight=200+10 \
     maxStep=0.5 \
     fieldMaterial=Vacuum fieldColor=0,0,1 \
     ironMaterial=Fe ironColor=0.6,0.6,0.6 \
     kill=1
-place B1 z=1.2787283970491108+$quadsend
+place B1 z=16.2787283970491108+$quadsend
 corner B1_exit z=1.2787283970491108+$quadsend rotation=Y2.0011147001062293
 
-place VD front=1 rename=vd_B1_dispsup format=ascii x=0.4056217696285588 z=37.76561146111276+$quadsend
+# place VD front=1 rename=vd_B1_dispsup format=ascii x=0.4056217696285588 z=37.76561146111276+$quadsend
 
 
 

@@ -47,6 +47,7 @@ particlecolor e-=1,0.5,0    # orange
                                    
 ######################### DEFINE ELEMENTS
 
+
 #-------------------------------
 # MAGNETS (DISPERSION SUPPRESSOR SETUP)
 #-------------------------------
@@ -63,10 +64,12 @@ genericsectorbend B1 \
     fieldMaterial=Vacuum fieldColor=0,0,1 \
     ironMaterial=Fe ironColor=0.6,0.6,0.6 \
     kill=1
+  
 place B1 z={B1_z}
-cornerarc B1_exit z={B1_z} centerRadius={B1_radius} angle={B1_angle} #z={B1_z} rotation=Y{B1_angle}
+cornerarc B1_exit z={B1_z} centerRadius={B1_radius} angle={B1_angle} radiusCut=300
 
-place VD front=1 rename=$outname format=ascii x={B1_x_end} z={B1_z_end}
+
+place VD front=1 rename=$outname format=ascii z={B1_z_end} coordinates=centerline
 
 #-------------------------------
 # FIELD MAP OUTPUT

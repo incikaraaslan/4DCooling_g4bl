@@ -1,0 +1,106 @@
+# Simulates Final Cooling Dispersion Suppressor Quadrupole
+
+# Created by: Inci Karaaslan
+# Updated: January 30, 2026
+
+# COLORS:  100 red, 010 green, 111 white, 110 yellow, 001 blue, 101 magenta, 011 cyan
+
+# VERSION HISTORY
+
+# v304: Creates distributions at entrance of Q20 and Q21
+
+######################### DEFINE PHYSICS MODEL
+ 
+# randomseed time
+  
+param zbegin=0.0
+start initialZ=$zbegin  y=0.000   x=0.00   z=0.00    radiusCut=300
+param steppingFormat=N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
+param fieldVoxels=400,400,400 
+param maxStep=0.5
+
+param -unset minRangeCut=1
+
+physics QGSP_BERT doStochastics=1 spinTracking=1 synchrotronRadiation=1 minRangeCut=$minRangeCut # disable=Decay
+# physics FTFP_BERT doStochastics=1 spinTracking=1 synchrotronRadiation=1 # disable=Decay
+
+trackcuts keep=mu+
+
+particlecolor proton=1,1,1 
+particlecolor pi+=0,1,0 
+particlecolor mu+=1,0.5,0   # orange
+particlecolor mu-=0,1,0   # green
+particlecolor e+=1,0,0      # red
+particlecolor gamma=0,0,1   # blue
+particlecolor e-=1,0.5,0    # orange
+
+######################### DEFINE INPUT BEAM
+
+  param nparticles=3000
+
+  param -unset beamfile=particles_after_bupt.txt
+  param -unset outname=particles_after_q2.txt
+  trace nTrace=1 format=ascii oneNTuple=1
+  beam ascii filename=$beamfile nEvents=$nparticles beamZ=0  
+                                   
+######################### DEFINE ELEMENTS
+
+param Drift1_kill_width=499.690000000000+2
+param Drift1_kill_height=499.690000000000+2
+param wall_clearance=1.0   # mm
+param Drift1_kill_length=27.410790864768-2*$wall_clearance
+
+#-------------------------------
+# MAGNETS (DISPERSION SUPPRESSOR SETUP)
+#-------------------------------
+
+zntuple vd_start z=0.0 file=vd_start_dispsup.txt format=ascii require=PDGid==-13
+
+
+# --- Quadrupole (Q1)
+genericquad Q1 \
+    gradient=-2.903876837677 \
+    fieldLength=100.000000000000 \
+    ironLength=100.000000000000 \
+    ironRadius=249.845000000000+5.000000000000 \
+    apertureRadius=249.845000000000 \
+    maxStep=0.5 \
+    ironMaterial=Fe fieldMaterial=Vacuum \
+    ironColor=0.4,0.8,0.4 \
+    kill=1 \
+    fringe=0
+
+place Q1 z=110.891386775125
+zntuple vd_Q1 z=160.891386775125 file=vd_Q1_dispsup.txt format=ascii require=PDGid==-13
+
+# --- Drift 1 between Q1 and Q2
+box Drift1 width=499.690000000000 height=499.690000000000 length=27.410790864768 material=Vacuum color=0.6,0.6,0.6
+# place Drift1 z=174.596782207508
+zntuple vd_D1 z=188.302177639892 file=vd_D1_dispsup.txt format=ascii require=PDGid==-13
+
+# --- Killing walls for Drift 1
+box Drift1_outer width=$Drift1_kill_width height=$Drift1_kill_height length=$Drift1_kill_length material=Vacuum color=1,0,0
+
+boolean op=subtraction Drift1_wall Drift1_outer Drift1 kill=1
+place Drift1_wall z=174.596782207508
+
+# --- Quadrupole (Q2)
+genericquad Q2 \
+    gradient=-20.012407692770 \
+    fieldLength=100.000000000000 \
+    ironLength=100.000000000000 \
+    ironRadius=249.845000000000+5.000000000000 \
+    apertureRadius=249.845000000000 \
+    maxStep=0.5 \
+    ironMaterial=Fe fieldMaterial=Vacuum \
+    ironColor=0.4,0.8,0.4 \
+    kill=1 \
+    fringe=0
+
+place Q2 z=238.302177639892
+zntuple vd_Q2 z=288.302177639892 file=$outname format=ascii require=PDGid==-13
+
+#-------------------------------
+# FIELD MAP OUTPUT
+#-------------------------------
+# printfield type=grid file=field_cellQ2.dat field=By X0=0 Y0=0 Z0=0 nX=1 dX=1 nY=1 dY=1 nZ=246 dZ=5

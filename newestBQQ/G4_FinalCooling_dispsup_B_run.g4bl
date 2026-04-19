@@ -47,26 +47,29 @@ particlecolor e-=1,0.5,0    # orange
                                    
 ######################### DEFINE ELEMENTS
 
+
 #-------------------------------
 # MAGNETS (DISPERSION SUPPRESSOR SETUP)
 #-------------------------------
 
 # --- First dipole (B1)
 genericsectorbend B1 \
-    angle=10.131386560870299 \
-    DipoleField=-1.9342387239206504 \
-    fieldCenterRadius=429.43560650749816 fieldInnerRadius=429.43560650749816-50 fieldOuterRadius=429.43560650749816+50 \
+    angle=10.28776863 \
+    DipoleField=-2.08641405 \
+    fieldCenterRadius=440.3050025 fieldInnerRadius=440.3050025-50 fieldOuterRadius=440.3050025+50 \
     fieldHeight=100 \
-    ironInnerRadius=429.43560650749816-50-1 ironOuterRadius=429.43560650749816+50+1 \
+    ironInnerRadius=440.3050025-50-1 ironOuterRadius=440.3050025+50+1 \
     ironHeight=100+10 \
     maxStep=0.5 \
     fieldMaterial=Vacuum fieldColor=0,0,1 \
     ironMaterial=Fe ironColor=0.6,0.6,0.6 \
     kill=1
-place B1 z=9.594830132116982
-cornerarc B1_exit z=9.594830132116982 centerRadius=429.43560650749816 angle=10.131386560870299 #z=9.594830132116982 rotation=Y10.131386560870299
+  
+place B1 z=9.43318948
+cornerarc B1_exit z=9.43318948 centerRadius=440.3050025 angle=10.28776863 radiusCut=300
 
-place VD front=1 rename=$outname format=ascii x=0.0 z=85.53023356852265
+
+place VD front=1 rename=$outname format=ascii z=88.492345858478 coordinates=centerline
 
 #-------------------------------
 # FIELD MAP OUTPUT

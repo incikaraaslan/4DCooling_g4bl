@@ -4,7 +4,7 @@ G4ENSDFSTATEDATA=/home/incik/Geant4Data/G4ENSDFSTATE2.3
 G4PARTICLEXSDATA=/home/incik/Geant4Data/G4PARTICLEXS4.0
 G4LEVELGAMMADATA=/home/incik/Geant4Data/PhotonEvaporation5.7
 G4RADIOACTIVEDATA=/home/incik/Geant4Data/RadioactiveDecay5.6
-G4beamline Process ID 3851
+G4beamline Process ID 26815
 
 *************************************************************
  g4beamline version: 3.08                        (Aug 11 2022)
@@ -54,45 +54,41 @@ particlecolor              mu-=0,1,0
 particlecolor              e+=1,0,0
 particlecolor              gamma=0,0,1
 particlecolor              e-=1,0.5,0
-param        nparticles    2000
-param        beamfile      particles_after_supt.txt
+param        nparticles    3000
+param        beamfile      particles_after_q2upt.txt
 param        outname       particles_after_b
 param        VDRad         100.0
-beam    ASCII   nEvents=2000 firstEvent=-1 lastEvent=2147483647 beamZ=0.0 maxR=1000000.0 renumber=0 weight=1.000000 
-		filename=particles_after_supt.txt format=BLTrackFile 
+beam    ASCII   nEvents=3000 firstEvent=-1 lastEvent=2147483647 beamZ=0.0 maxR=1000000.0 renumber=0 weight=1.000000 
+		filename=particles_after_q2upt.txt format=BLTrackFile 
 		
-trace                      nTrace=1 format=asciiTrace oneNTuple=1
-                           primaryOnly=0 traceTune=1 filename=AllTracks
-                           file=AllTracks require= coordinates=Centerline
 virtualdetector VD         radius=100 innerRadius=0 height=200 width=200
                            length=0.2 maxStep=0.5 material= color=1,1,1
                            noSingles=0 format=asciiextended filename= file=
                            require= referenceParticle=0 coordinates=centerline
                            kill=0
-genericsectorbend B1       angle=1 fieldCenterRadius=2009
-                           fieldInnerRadius=1959 fieldOuterRadius=2059
-                           fieldHeight=100 ironInnerRadius=1958
-                           ironOuterRadius=2060 ironHeight=110
+genericsectorbend B1       angle=1.505 fieldCenterRadius=519.9
+                           fieldInnerRadius=469.9 fieldOuterRadius=569.9
+                           fieldHeight=100 ironInnerRadius=468.9
+                           ironOuterRadius=570.9 ironHeight=110
                            fieldMaterial=Vacuum fieldColor=0,0,1
                            ironMaterial=Fe ironColor=0.6,0.6,0.6 maxStep=0.5
-                           kill=1 SolenoidalField=0 DipoleField=1.798
+                           kill=1 SolenoidalField=0 DipoleField=2.006
                            QuadrupoleField=0 SkewQuadrupoleField=0
                            SextupoleField=0 SkewSextupoleField=0
                            OctupoleField=0 SkewOctupoleField=0 fringe=0
                            fringeFactor=1
-place   B1      copies=1 x=0.0 y=0.0 z=1.4 
-corner       B1_exit       z=1.391 rotation=Y1.0 radiusCut=300 radius=0
-                           height=0 width=0 length=1 maxStep=0.5
-                           material=Vacuum color=
-place   VD      copies=1 x=1.0 y=0.0 z=36.7 rename='particles_after_b'
+place   B1      copies=1 x=0.0 y=0.0 z=1.2 
+cornerarc                  z=1.17 centerRadius=519.9 angle=1.505 rotation=
+                           radiusCut=1000
+place   VD      copies=1 x=0.0 y=0.0 z=14.9 rename='particles_after_b'
                 format=ascii
 
-World size (before incrementing by 201.357 mm): 200.0 H  4018.9 W  77.0 L
+World size (before incrementing by 201.357 mm): 200.0 H  1039.7 W  35.3 L
 
 PARAMETERS:
           VDRad=100.0
-            Zcl=36.7627
-       beamfile=particles_after_supt.txt
+            Zcl=15.0283
+       beamfile=particles_after_q2upt.txt
      deltaChord=3.0
 deltaIntersection=0.1
    deltaOneStep=0.01
@@ -105,7 +101,7 @@ deltaIntersection=0.1
         maxStep=0.5
     minRangeCut=1
         minStep=0.01
-     nparticles=2000
+     nparticles=3000
         outname=particles_after_b
  steppingFormat=N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
 steppingVerbose=0
@@ -116,17 +112,17 @@ steppingVerbose=0
          zbegin=0.0
 Checking overlaps for volume B1:0 (G4Tubs) ... OK! 
 Checking overlaps for volume B1:0 (G4SubtractionSolid) ... OK! 
-BLCMDgenericsectorbend::Construct B1 parent= relZ=1.4 globZ=1.4
+BLCMDgenericsectorbend::Construct B1 parent= relZ=1.2 globZ=1.2
 **************************************************************************
 *** G4Exception: GeomVol1002
 ***    severity: Warning
 ***   issued by: G4PVPlacement::CheckOverlaps()
 *** description: Overlap with volume already placed !
           Overlap is detected for volume particles_after_b:0 (G4Tubs) with B1:0 (G4Tubs)
-          overlap at local point (-2058.57,-36.0342,-10.928) by 678.472 nm  (max of 20 cases)
+          overlap at local point (-569.491,-14.9655,-0.12933) by 109.585 um  (max of 148 cases)
 NOTE: Reached maximum fixed number -1- of overlaps reports for this volume !
 **************************************************************************
-BLCMDvirtualdetector::Construct particles_after_b parent= relZ=36.6 globZ=36.6
+BLCMDvirtualdetector::Construct particles_after_b parent= relZ=14.9 globZ=14.9
 Checking overlaps for volume particles_after_b:0 (G4Tubs) ... ### Adding tracking cuts for neutron  TimeCut(ns)= 10000  KinEnergyCut(MeV)= 0
 
 Geometry test nPoints=100 tolerance=0.002 mm:
@@ -226,23 +222,10 @@ BLVisManager init: /vis/viewer/set/hiddenMarker true
 WARNING: No extent set for user vis action "DrawMarkers".
 WARNING: User Vis Action "DrawMarkers" extent is null.
  Changing export format to "jpg"
-**************************************************************************
-*** G4Exception: EM Field Extends Outside World
-***    severity: Warning
-***   issued by: BLGlobalField
-*** description: May give inaccurate tracking near world boundary.
-***     EventID: 1     TrackID: 1   mu+  KE=27.74 MeV
-**************************************************************************
-SynRad:  Incoherent Synchrotron Radiation
-Good description for long magnets at all energies.
-100 events have been kept for refreshing and/or reviewing.
-  "/vis/reviewKeptEvents" to review them one by one.
-  "/vis/enable", then "/vis/viewer/flush" or "/vis/viewer/rebuild" to see them accumulated.
 
 Graphics systems deleted.
 Visualization Manager deleting...
 
-Exceptions: 0 Fatal, 0 Events Aborted, 0 Stuck Tracks (stopped), 2 Warnings
-      1 times: EM Field Extends Outside World
+Exceptions: 0 Fatal, 0 Events Aborted, 0 Stuck Tracks (stopped), 1 Warnings
       1 times: GeomVol1002
 g4beamline: simulation complete

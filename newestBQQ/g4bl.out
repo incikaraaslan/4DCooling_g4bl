@@ -4,7 +4,7 @@ G4ENSDFSTATEDATA=/home/incik/Geant4Data/G4ENSDFSTATE2.3
 G4PARTICLEXSDATA=/home/incik/Geant4Data/G4PARTICLEXS4.0
 G4LEVELGAMMADATA=/home/incik/Geant4Data/PhotonEvaporation5.7
 G4RADIOACTIVEDATA=/home/incik/Geant4Data/RadioactiveDecay5.6
-G4beamline Process ID 16522
+G4beamline Process ID 20292
 
 *************************************************************
  g4beamline version: 3.08                        (Aug 11 2022)
@@ -44,9 +44,9 @@ physics      QGSP_BERT     disable= inactivate= deactivate= doStochastics=1
                            fluct=1 minRangeCut=1 list=0 gammaToMuPair=0
                            spinTracking=1 synchrotronRadiation=1
                            synchrotronRadiationMuon=0 maxTime=1e+06
-trackcuts                  kill= keep=mu+ killSecondaries=0 kineticEnergyCut=0
-                           kineticEnergyMax=1.798e+308 maxTime=1e+06
-                           keepPrimaries=0 steppingVerbose=0
+trackcuts                  kill= keep=mu-,mu+ killSecondaries=0
+                           kineticEnergyCut=0 kineticEnergyMax=1.798e+308
+                           maxTime=1e+06 keepPrimaries=0 steppingVerbose=0
 particlecolor              proton=1,1,1
 particlecolor              pi+=0,1,0
 particlecolor              mu+=1,0.5,0
@@ -54,44 +54,60 @@ particlecolor              mu-=0,1,0
 particlecolor              e+=1,0,0
 particlecolor              gamma=0,0,1
 particlecolor              e-=1,0.5,0
-param        nparticles    3000
-param        beamfile      particles_after_firstwedgeupt.txt
-param        outname       particles_after_b
-param        VDRad         100.0
-beam    ASCII   nEvents=3000 firstEvent=-1 lastEvent=2147483647 beamZ=0.0 maxR=1000000.0 renumber=0 weight=1.000000 
-		filename=particles_after_firstwedgeupt.txt format=BLTrackFile 
+param        nparticles    12000
+param        beamfile      particles_before.txt
+beam    ASCII   nEvents=12000 firstEvent=-1 lastEvent=2147483647 beamZ=0.0 maxR=1000000.0 renumber=0 weight=1.000000 
+		filename=particles_before.txt format=BLTrackFile 
 		
-trace                      nTrace=1 format=asciiTrace oneNTuple=1
-                           primaryOnly=0 traceTune=1 filename=AllTracks
-                           file=AllTracks require= coordinates=Centerline
-virtualdetector VD         radius=100 innerRadius=0 height=200 width=200
+material Diamond1 Mixture: 1.00*C
+                density=3.510 temperature=273 pressure=1.0
+param        pi            3.141592654
+param        degrad        0.017453293
+param        abshgt        11.212121838821835
+param        abswidth      100
+param        absLEN3       24
+param        abshalfangle3 47.2
+param        absoffset3    3.2780759424524413
+param        wedge_z       12
+extrusion    LHextrDS3     length=100 vertices=0,0;
+                           -24/2,24/2/tan(47.2*0.017453293);
+                           -24/2,11.212121838821835; 0,11.212121838821835
+                           scale1=1 scale2=1 maxStep=0.1 material=Diamond1
+                           color=1,0,1 kill=0 vertexes=0,0;
+                           -24/2,24/2/tan(47.2*0.017453293);
+                           -24/2,11.212121838821835; 0,11.212121838821835
+extrusion    LHextrUS3     length=100 vertices=0,0; 0,11.212121838821835;
+                           24/2,11.212121838821835;
+                           24/2,24/2/tan(47.2*0.017453293) scale1=1 scale2=1
+                           maxStep=0.1 material=Diamond1 color=1,0,1 kill=0
+                           vertexes=0,0; 0,11.212121838821835;
+                           24/2,11.212121838821835;
+                           24/2,24/2/tan(47.2*0.017453293)
+param        VDRad         60.0
+virtualdetector VD         radius=60 innerRadius=0 height=120 width=120
                            length=0.2 maxStep=0.5 material= color=1,1,1
                            noSingles=0 format=asciiextended filename= file=
                            require= referenceParticle=0 coordinates=centerline
                            kill=0
-genericsectorbend B1       angle=21.75 fieldCenterRadius=1717
-                           fieldInnerRadius=1667 fieldOuterRadius=1767
-                           fieldHeight=100 ironInnerRadius=1666
-                           ironOuterRadius=1768 ironHeight=110
-                           fieldMaterial=Vacuum fieldColor=0,0,1
-                           ironMaterial=Fe ironColor=0.6,0.6,0.6 maxStep=0.5
-                           kill=1 SolenoidalField=0 DipoleField=1.641
-                           QuadrupoleField=0 SkewQuadrupoleField=0
-                           SextupoleField=0 SkewSextupoleField=0
-                           OctupoleField=0 SkewOctupoleField=0 fringe=0
-                           fringeFactor=1
-place   B1      copies=1 x=0.0 y=0.0 z=7.9 
-cornerarc                  z=7.942 centerRadius=1717 angle=21.75 rotation=
-                           radiusCut=0
-place   VD      copies=1 x=0.0 y=0.0 z=659.8 rename='particles_after_b'
-                format=ascii
+param        wedgeAxis     0
+param        noWedge       0
+place   LHextrDS3 copies=1 x=3.3 y=0.0 z=12.0 rotation='Z90,Y00,X90'
+place   LHextrUS3 copies=1 x=3.3 y=0.0 z=12.0 rotation='Z90,Y00,X90'
+param        outname       particles_after
+place   VD      copies=1 x=0.0 y=0.0 z=25.1 rename='particles_after'
 
-World size (before incrementing by 201.357 mm): 200.0 H  3433.9 W  1362.7 L
+World size (before incrementing by 201.357 mm): 120.0 H  120.0 W  50.4 L
 
 PARAMETERS:
-          VDRad=100.0
-            Zcl=659.861
-       beamfile=particles_after_firstwedgeupt.txt
+          VDRad=60.0
+            Zcl=25.2
+        absLEN3=24
+  abshalfangle3=47.2
+         abshgt=11.212121838821835
+     absoffset3=3.2780759424524413
+       abswidth=100
+       beamfile=particles_before.txt
+         degrad=0.017453293
      deltaChord=3.0
 deltaIntersection=0.1
    deltaOneStep=0.01
@@ -104,33 +120,31 @@ deltaIntersection=0.1
         maxStep=0.5
     minRangeCut=1
         minStep=0.01
-     nparticles=3000
-        outname=particles_after_b
+        noWedge=0
+     nparticles=12000
+        outname=particles_after
+             pi=3.141592654
  steppingFormat=N,GLOBAL,CL,STEP,VOL,PROCESS,P,KE,POLAR,B
 steppingVerbose=0
          viewer=best,1
  wallClockLimit=-1
+      wedgeAxis=0
+        wedge_z=12
   worldMaterial=Vacuum
      zTolerance=2.0
          zbegin=0.0
-Checking overlaps for volume B1:0 (G4Tubs) ... OK! 
-Checking overlaps for volume B1:0 (G4SubtractionSolid) ... OK! 
-BLCMDgenericsectorbend::Construct B1 parent= relZ=7.9 globZ=7.9
-**************************************************************************
-*** G4Exception: GeomVol1002
-***    severity: Warning
-***   issued by: G4PVPlacement::CheckOverlaps()
-*** description: Overlap with volume already placed !
-          Overlap is detected for volume particles_after_b:0 (G4Tubs) with B1:0 (G4Tubs)
-          overlap at local point (-1640.81,-654.57,44.0279) by 102.891 um  (max of 170 cases)
-NOTE: Reached maximum fixed number -1- of overlaps reports for this volume !
-**************************************************************************
-BLCMDvirtualdetector::Construct particles_after_b parent= relZ=644.2 globZ=553.1
-Checking overlaps for volume particles_after_b:0 (G4Tubs) ... ### Adding tracking cuts for neutron  TimeCut(ns)= 10000  KinEnergyCut(MeV)= 0
-
+Checking overlaps for volume LHextrDS3:0 (G4ExtrudedSolid) ... OK! 
+BLCMDextrusion::Construct LHextrDS3 parent= relZ=12.0 globZ=12.0
+	zmin=-38.0 zmax=62.0 kill=0
+Checking overlaps for volume LHextrUS3:0 (G4ExtrudedSolid) ... OK! 
+BLCMDextrusion::Construct LHextrUS3 parent= relZ=12.0 globZ=12.0
+	zmin=-38.0 zmax=62.0 kill=0
+Checking overlaps for volume particles_after:0 (G4Tubs) ... OK! 
+BLCMDvirtualdetector::Construct particles_after parent= relZ=25.1 globZ=25.1
+### Adding tracking cuts for neutron  TimeCut(ns)= 10000  KinEnergyCut(MeV)= 0
+BLTrackFile: cannot open 'particles_before.txt' in mode 'r'
 Geometry test nPoints=100 tolerance=0.002 mm:
 Testing geometry for children of group 'World':
-BLCMDgenericsectorbend does not participate in the geometry test
 Total geometry errors = 0  0 seconds
 
 ================== Prepare Visualization ==================
@@ -225,25 +239,9 @@ BLVisManager init: /vis/viewer/set/hiddenMarker true
 WARNING: No extent set for user vis action "DrawMarkers".
 WARNING: User Vis Action "DrawMarkers" extent is null.
  Changing export format to "jpg"
-**************************************************************************
-*** G4Exception: EM Field Extends Outside World
-***    severity: Warning
-***   issued by: BLGlobalField
-*** description: May give inaccurate tracking near world boundary.
-***     EventID: 1     TrackID: 1   mu+  KE=26.83 MeV
-**************************************************************************
-SynRad:  Incoherent Synchrotron Radiation
-Good description for long magnets at all energies.
-100 events have been kept for refreshing and/or reviewing.
-  "/vis/reviewKeptEvents" to review them one by one.
-  "/vis/enable", then "/vis/viewer/flush" or "/vis/viewer/rebuild" to see them accumulated.
-WARNING: Viewpoint direction is very close to the up vector direction.
-  Change the up vector or "/vis/viewer/set/rotationStyle freeRotation".
 
 Graphics systems deleted.
 Visualization Manager deleting...
 
-Exceptions: 0 Fatal, 0 Events Aborted, 0 Stuck Tracks (stopped), 2 Warnings
-      1 times: EM Field Extends Outside World
-      1 times: GeomVol1002
+Exceptions: 0 Fatal, 0 Events Aborted, 0 Stuck Tracks (stopped), 0 Warnings
 g4beamline: simulation complete

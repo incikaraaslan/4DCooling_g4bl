@@ -46,13 +46,13 @@ for filename_input in tqdm(filename_inputs, desc="Processing files"):
     data = data[:5000]
     color = colors[count]
     if count == 0:
-        label = "Initial Input Beam (Pre-Wedge)"
+        label = "Pre-Wedge Output"
     elif count == 1:
-        label = "First Wedge Output"
+        label = "Post-Wedge Output"
     elif count == 2:
-        label = "B Output"
-    elif count == 3:
         label = "QQ Output"
+    elif count == 3:
+        label = "B Output"
     elif count == 4:
         label = "Drift Channel + Phase Rotation Output"
     else:

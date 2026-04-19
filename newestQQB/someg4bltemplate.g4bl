@@ -51,70 +51,70 @@ virtualdetector VD    radius=$VDRad    length=0.2  color=1,1,1 format=asciiExten
             ironLength=150.000 \
             apertureRadius=281.6283447677115 \
             ironRadius=286.6283447677115 \
-            gradient=-5.377255
+            gradient=-5.377255 ironColor=0,0,1
             
             genericquad Q2 \
             fieldLength=150.000 \
             ironLength=150.000 \
             apertureRadius=281.6283447677115 \
             ironRadius=286.6283447677115 \
-            gradient=5.524701
+            gradient=5.524701 ironColor=0,0,1
             
             genericquad Q3 \
             fieldLength=150.000 \
             ironLength=150.000 \
             apertureRadius=281.6283447677115 \
             ironRadius=286.6283447677115 \
-            gradient=-4.077421
+            gradient=-4.077421 ironColor=0,0,1
             
             genericquad Q4 \
             fieldLength=150.000 \
             ironLength=150.000 \
             apertureRadius=281.6283447677115 \
             ironRadius=286.6283447677115 \
-            gradient=4.278042
+            gradient=4.278042 ironColor=0,0,1
             
             genericquad QF1H \
             fieldLength=150.000 \
             ironLength=150.000 \
             apertureRadius=281.6283447677115 \
             ironRadius=286.6283447677115 \
-            gradient=5.620076
+            gradient=5.620076 ironColor=0,0,1
             
             genericquad QD1H \
             fieldLength=150.000 \
             ironLength=150.000 \
             apertureRadius=281.6283447677115 \
             ironRadius=286.6283447677115 \
-            gradient=-5.620076
+            gradient=-5.620076 ironColor=0,0,1
             
             genericquad Q5 \
             fieldLength=150.000 \
             ironLength=150.000 \
             apertureRadius=281.6283447677115 \
             ironRadius=286.6283447677115 \
-            gradient=22.373338
+            gradient=22.373338 ironColor=0,0,1
             
             genericquad Q6 \
             fieldLength=150.000 \
             ironLength=150.000 \
             apertureRadius=281.6283447677115 \
             ironRadius=286.6283447677115 \
-            gradient=-10.040843
+            gradient=-10.040843 ironColor=0,0,1
             
             genericquad Q7 \
             fieldLength=150.000 \
             ironLength=150.000 \
             apertureRadius=281.6283447677115 \
             ironRadius=286.6283447677115 \
-            gradient=6.398172
+            gradient=6.398172 ironColor=0,0,1
             
             genericquad Q8 \
             fieldLength=150.000 \
             ironLength=150.000 \
             apertureRadius=281.6283447677115 \
             ironRadius=286.6283447677115 \
-            gradient=-6.014378
+            gradient=-6.014378 ironColor=0,0,1
             
 
 #########################
@@ -156,4 +156,4 @@ place Q8 z=15600.000
 # OUTPUT
 #########################
 
-place VD front=1 rename=$outname format=ascii z=16000
+# place VD front=1 rename=$outname format=ascii z=16000

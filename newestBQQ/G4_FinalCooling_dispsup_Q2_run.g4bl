@@ -45,10 +45,10 @@ particlecolor e-=1,0.5,0    # orange
                                    
 ######################### DEFINE ELEMENTS
 
-param Drift1_kill_width=856.034848000014+2
-param Drift1_kill_height=856.034848000014+2
+param Drift1_kill_width=927.381072000003+2
+param Drift1_kill_height=927.381072000003+2
 param wall_clearance=1.0   # mm
-param Drift1_kill_length=32.717804722062-2*$wall_clearance
+param Drift1_kill_length=33.145227012600-2*$wall_clearance
 
 #-------------------------------
 # MAGNETS (DISPERSION SUPPRESSOR SETUP)
@@ -59,46 +59,46 @@ zntuple vd_start z=0.0 file=vd_start_dispsup.txt format=ascii require=PDGid==-13
 
 # --- Quadrupole (Q1)
 genericquad Q1 \
-    gradient=39.252475895880 \
+    gradient=40.107037554283 \
     fieldLength=100.000000000000 \
     ironLength=100.000000000000 \
-    ironRadius=428.017424000007+5.000000000000 \
-    apertureRadius=428.017424000007 \
+    ironRadius=463.690536000001+5.000000000000 \
+    apertureRadius=463.690536000001 \
     maxStep=0.5 \
     ironMaterial=Fe fieldMaterial=Vacuum \
     ironColor=0.4,0.8,0.4 \
     kill=1 \
     fringe=0
 
-place Q1 z=84.010465109557
-zntuple vd_Q1 z=134.010465109557 file=vd_Q1_dispsup.txt format=ascii require=PDGid==-13
+place Q1 z=85.066770162940
+zntuple vd_Q1 z=135.066770162940 file=vd_Q1_dispsup.txt format=ascii require=PDGid==-13
 
 # --- Drift 1 between Q1 and Q2
-box Drift1 width=856.034848000014 height=856.034848000014 length=32.717804722062 material=Vacuum color=0.6,0.6,0.6
-# place Drift1 z=150.369367470588
-zntuple vd_D1 z=166.728269831619 file=vd_D1_dispsup.txt format=ascii require=PDGid==-13
+box Drift1 width=927.381072000003 height=927.381072000003 length=33.145227012600 material=Vacuum color=0.6,0.6,0.6
+# place Drift1 z=151.639383669240
+zntuple vd_D1 z=168.211997175541 file=vd_D1_dispsup.txt format=ascii require=PDGid==-13
 
 # --- Killing walls for Drift 1
 box Drift1_outer width=$Drift1_kill_width height=$Drift1_kill_height length=$Drift1_kill_length material=Vacuum color=1,0,0
 
 boolean op=subtraction Drift1_wall Drift1_outer Drift1 kill=1
-place Drift1_wall z=150.369367470588
+place Drift1_wall z=151.639383669240
 
 # --- Quadrupole (Q2)
 genericquad Q2 \
-    gradient=-119.402108130307 \
+    gradient=-115.701458283530 \
     fieldLength=100.000000000000 \
     ironLength=100.000000000000 \
-    ironRadius=428.017424000007+5.000000000000 \
-    apertureRadius=428.017424000007 \
+    ironRadius=463.690536000001+5.000000000000 \
+    apertureRadius=463.690536000001 \
     maxStep=0.5 \
     ironMaterial=Fe fieldMaterial=Vacuum \
     ironColor=0.4,0.8,0.4 \
     kill=1 \
     fringe=0
 
-place Q2 z=216.728269831619
-zntuple vd_Q2 z=266.728269831619 file=$outname format=ascii require=PDGid==-13
+place Q2 z=218.211997175541
+zntuple vd_Q2 z=268.211997175541 file=$outname format=ascii require=PDGid==-13
 
 #-------------------------------
 # FIELD MAP OUTPUT
